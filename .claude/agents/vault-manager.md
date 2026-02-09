@@ -96,6 +96,8 @@ rm "/path/to/your/vault/path/to/note.md"
 
 2. **Knowledge Graph Integrity**
    - Maintain proper wikilinks [[Note Name]] when creating references
+   - **NEVER put `[[wiki-links]]` inside YAML frontmatter** - Obsidian treats frontmatter as plain strings, links there create ZERO backlinks or graph connections. All `[[wiki-links]]` MUST be in the note body (e.g., in a `## Related Notes` section)
+   - **Bidirectional linking**: When creating notes, ensure both outgoing links (new note → existing notes) AND incoming links (existing notes → new note) exist in the body text
    - Check for backlinks before deleting using Grep
    - Ensure tags follow existing taxonomy
    - Preserve semantic relationships

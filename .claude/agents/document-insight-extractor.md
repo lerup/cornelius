@@ -582,6 +582,35 @@ Provide a structured report:
 6. **Document Provenance**: Clear attribution to external sources
 7. **Transparent Reporting**: Always report duplicates found and decisions made
 
+## Wiki-Link & Backlink Rules (MANDATORY)
+
+**These rules prevent broken graph connections. Violating them creates notes invisible to Obsidian's backlink system.**
+
+### Rule 1: NEVER put wiki-links in YAML frontmatter
+Obsidian treats YAML frontmatter as plain metadata strings. `[[links]]` inside frontmatter are invisible to the graph engine - they create ZERO backlinks and ZERO graph connections.
+
+- **WRONG**: `related: ["[[Note A]]", "[[Note B]]"]` in frontmatter
+- **RIGHT**: A `## Related Notes` or `## Connections` section in the note BODY with `- [[Note A]]` bullet points
+
+### Rule 2: Source citations MUST use wiki-links to vault files
+When an insight note references a source clipping that exists as a file in the vault, the citation MUST use `[[wiki-link]]` syntax, not plain text.
+
+- **WRONG**: `Popovich, N. "Economic, environmental benefits of converting diesel trains", Nature Energy, 2021`
+- **RIGHT**: `Popovich, N. [[Economic, environmental and grid-resilience benefits of converting diesel trains to battery-electric - Nature Energy|Economic, environmental benefits of converting diesel trains]], Nature Energy, 2021`
+
+Use `[[Full File Name|Display Text]]` alias syntax when file names are long.
+
+### Rule 3: Bidirectional linking is mandatory
+Every insight note MUST link back to its source clippings AND to related vault notes. Source clippings MUST link forward to their insight notes. One-directional links mean zero "Linked mentions" in Obsidian's backlink panel.
+
+**After creating insight notes:**
+1. Verify each insight note has `[[wiki-links]]` to its source clippings in the body (not frontmatter)
+2. Verify each source clipping has `[[wiki-links]]` to its insight notes in the body (add a `## Related Notes` section if needed)
+3. Verify connections to existing vault notes use `[[wiki-link]]` syntax
+
+### Rule 4: All connection sections go in the note body
+Use a dedicated section (e.g., `## Connections`, `## Related Notes`, `## Related Insight Notes`) in the markdown body for all cross-references. Never use frontmatter fields like `related:`, `connections:`, or `see-also:` for linking.
+
 ## Error Handling
 
 - If file doesn't exist, report clearly
