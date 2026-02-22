@@ -127,18 +127,23 @@ If your vault doesn't already have a structure, create recommended folders:
 cd /Users/yourname/Documents/YourVault
 
 # Create core folders
-mkdir -p Inbox/Quick\ Captures
-mkdir -p Inbox/Content\ Extractions
-mkdir -p Sources/Books
-mkdir -p Sources/Articles
-mkdir -p Permanent
-mkdir -p MOCs
-mkdir -p Output/Articles
-mkdir -p Output/Frameworks
-mkdir -p Output/Insights
-mkdir -p Meta/Changelogs
-mkdir -p Meta/Templates
-mkdir -p "AI Extracted Notes"
+mkdir -p 00-Inbox
+mkdir -p 01-Sources/Books
+mkdir -p 01-Sources/Clippings
+mkdir -p 01-Sources/Research
+mkdir -p 02-Thinking/Notes
+mkdir -p "02-Thinking/Investment Memos"
+mkdir -p "02-Thinking/Portfolio Memos"
+mkdir -p 03-Reference/Companies
+mkdir -p 03-Reference/People
+mkdir -p 03-Reference/Meetings
+mkdir -p 04-Output/Articles
+mkdir -p "04-Output/Draft Posts"
+mkdir -p 05-System/Changelogs
+mkdir -p 05-System/Dashboards
+mkdir -p 05-System/Templates
+mkdir -p 05-System/Projects
+mkdir -p 06-Tasks
 ```
 
 Or create them in Obsidian's UI.
@@ -254,8 +259,8 @@ If any command fails, see [Troubleshooting](#troubleshooting) below.
    npm install -g @lishenxydlgzs/simple-files-vectorstore
    ```
 
-3. **Create templates** in `Meta/Templates/`:
-   - Permanent note template
+3. **Create templates** in `05-System/Templates/`:
+   - Thinking note template
    - Source note template
    - MOC template
 
@@ -276,7 +281,7 @@ If any command fails, see [Troubleshooting](#troubleshooting) below.
    - `/analyze-kb` - Generate structure report
 
 3. **Create first notes**:
-   - Add a note to `Permanent/`
+   - Add a note to `02-Thinking/Notes/`
    - Try `/find-connections` on it
    - Review the connection suggestions
 

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Where We Stand - Inflection Team Talk</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@page { size: 1920px 1080px; margin: 0; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, 'Helvetica Neue', sans-serif; background: #e8e8e8; color: #000; }
+.slide { width: 1920px; height: 1080px; position: relative; overflow: hidden; page-break-after: always; page-break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+@media screen { body { padding: 40px; } .slide { margin: 0 auto 40px auto; box-shadow: 0 2px 40px rgba(0,0,0,0.08); } }
+@media print { body { padding: 0; background: #fff; } .slide { margin: 0; box-shadow: none; } }
+
+/* Backgrounds */
+.bg-white { background: #ffffff; }
+.bg-light { background: #f5f5f5; }
+.bg-grey { background: #e8e8e8; }
+.bg-black { background: #000000; color: #fff; }
+.bg-verdant { background: #B3BCB5; }
+.bg-verdant-light { background: rgba(179,188,181,0.12); }
+.bg-azure-light { background: rgba(180,186,204,0.12); }
+
+/* Layout */
+.pad { padding: 100px; }
+.pad-lg { padding: 120px; }
+.flex { display: flex; }
+.col { flex-direction: column; }
+.center { align-items: center; justify-content: center; }
+.gap-60 { gap: 60px; }
+.gap-48 { gap: 48px; }
+.gap-40 { gap: 40px; }
+.gap-32 { gap: 32px; }
+.gap-24 { gap: 24px; }
+.gap-16 { gap: 16px; }
+.gap-12 { gap: 12px; }
+.gap-8 { gap: 8px; }
+.grow { flex: 1; }
+
+/* Colors */
+.c-black { color: #000; }
+.c-dark { color: #222; }
+.c-grey { color: #808080; }
+.c-light-grey { color: #aaa; }
+.c-white { color: #fff; }
+.c-verdant { color: #B3BCB5; }
+.c-verdant-dark { color: #8a9a8d; }
+.c-azure { color: #B4BACC; }
+.c-azure-dark { color: #8a90a8; }
+
+/* Typography */
+.t-hero { font-size: 88px; font-weight: 500; letter-spacing: -3px; line-height: 1.05; }
+.t-large { font-size: 56px; font-weight: 500; letter-spacing: -2px; line-height: 1.2; }
+.t-headline { font-size: 38px; font-weight: 500; letter-spacing: -1px; line-height: 1.3; }
+.t-sub { font-size: 24px; font-weight: 400; letter-spacing: -0.5px; line-height: 1.5; }
+.t-body { font-size: 18px; font-weight: 400; line-height: 1.7; }
+.t-body-lg { font-size: 21px; font-weight: 400; line-height: 1.6; }
+.t-label { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; }
+.t-small { font-size: 14px; font-weight: 400; }
+.t-medium { font-weight: 500; }
+.t-semi { font-weight: 600; }
+.t-bold { font-weight: 700; }
+.t-center { text-align: center; }
+
+/* Components */
+.card { background: #fff; border-radius: 4px; padding: 32px 36px; }
+.card-grey { background: #f0f0f0; }
+.card-verdant { background: rgba(179,188,181,0.15); }
+.card-azure { background: rgba(180,186,204,0.15); }
+
+.number-huge { font-size: 72px; font-weight: 700; letter-spacing: -2px; line-height: 1; }
+.number-large { font-size: 48px; font-weight: 700; letter-spacing: -1px; line-height: 1; }
+
+/* Footer */
+.slide-num { position: absolute; bottom: 40px; right: 100px; font-size: 12px; color: #808080; letter-spacing: 1px; }
+.logo-footer { position: absolute; bottom: 36px; left: 100px; }
+.logo-footer img { height: 26px; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: TITLE                                                -->
+<!-- ============================================================ -->
+<section class="slide bg-white flex col" style="padding: 100px;">
+  <div class="flex col" style="flex: 1; justify-content: center; max-width: 1200px;">
+    <div class="t-label c-grey" style="margin-bottom: 48px;">TEAM TALK  /  FEBRUARY 2026</div>
+    <div class="t-hero c-black">Where We Stand</div>
+    <div class="t-sub c-grey" style="max-width: 700px; margin-top: 32px;">A hard look at our position. No sugarcoating. No panic. Clear-eyed assessment from partner to partner.</div>
+  </div>
+  <div class="logo-footer">
+    <img src="logo-footer-black.svg" alt="inflection">
+  </div>
+  <div class="slide-num">01</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: THE NUMBERS                                          -->
+<!-- ============================================================ -->
+<section class="slide bg-light flex col" style="padding: 100px;">
+  <div class="t-label c-grey" style="margin-bottom: 16px;">THE HONEST NUMBERS</div>
+  <div class="t-headline c-black" style="margin-bottom: 60px;">Where our funds sit today</div>
+
+  <div class="flex gap-32" style="flex: 1;">
+    <!-- Fund I -->
+    <div class="card flex col gap-16" style="flex: 1;">
+      <div class="t-label" style="color: #8a9a8d;">FUND I  /  PILOT</div>
+      <div class="number-huge" style="color: #8a9a8d;">8x</div>
+      <div class="t-body c-grey">TVPI</div>
+      <div style="height: 1px; background: #e8e8e8;"></div>
+      <div class="flex gap-40">
+        <div>
+          <div class="t-small c-grey">DPI</div>
+          <div class="t-headline c-black" style="font-weight: 700;">3x</div>
+        </div>
+        <div>
+          <div class="t-small c-grey">Fund Size</div>
+          <div class="t-headline c-black" style="font-weight: 700;">$1.1M</div>
+        </div>
+      </div>
+      <div class="t-body c-grey" style="margin-top: 8px;">Exceptional returns. Real distributions. But LPs discount the fund size as "angel-scale, not institutional."</div>
+    </div>
+
+    <!-- Fund II -->
+    <div class="card flex col gap-16" style="flex: 1;">
+      <div class="t-label c-grey">FUND II  /  MERCURY</div>
+      <div class="number-huge c-grey">0.95x</div>
+      <div class="t-body c-grey">TVPI (current)</div>
+      <div style="height: 1px; background: #e8e8e8;"></div>
+      <div class="flex gap-40">
+        <div>
+          <div class="t-small c-grey">Bullish scenario</div>
+          <div class="t-headline c-black" style="font-weight: 700;">~1.3x</div>
+        </div>
+        <div>
+          <div class="t-small c-grey">Fund Size</div>
+          <div class="t-headline c-black" style="font-weight: 700;">$40M</div>
+        </div>
+      </div>
+      <div class="t-body c-grey" style="margin-top: 8px;">2022 vintage. Pre-seed/seed deep tech. Below water on marks. This is the number LPs see first.</div>
+    </div>
+
+    <!-- Fund III -->
+    <div class="card-azure card flex col gap-16" style="flex: 1;">
+      <div class="t-label c-azure-dark">FUND III  /  MARS</div>
+      <div class="number-huge c-azure-dark">$5M</div>
+      <div class="t-body c-grey">First Close</div>
+      <div style="height: 1px; background: #e0e2ea;"></div>
+      <div class="flex gap-40">
+        <div>
+          <div class="t-small c-grey">Target</div>
+          <div class="t-headline c-black" style="font-weight: 700;">$50M</div>
+        </div>
+        <div>
+          <div class="t-small c-grey">Soft Commits</div>
+          <div class="t-headline c-black" style="font-weight: 700;">~$2M</div>
+        </div>
+      </div>
+      <div class="t-body c-grey" style="margin-top: 8px;">Long way to go. 16 data room LPs ghosted. The fundraise is stalling.</div>
+    </div>
+  </div>
+
+  <div class="logo-footer">
+    <img src="logo-footer-black.svg" alt="inflection">
+  </div>
+  <div class="slide-num">02</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: CONTEXT                                              -->
+<!-- ============================================================ -->
+<section class="slide bg-white flex col" style="padding: 100px;">
+  <div class="t-label c-grey" style="margin-bottom: 16px;">CONTEXT</div>
+  <div class="t-headline c-black" style="margin-bottom: 56px; max-width: 1100px;">1.3x TVPI at year 4 is not a death sentence.<br>But it is not enough to raise on numbers alone.</div>
+
+  <div class="flex gap-40" style="flex: 1;">
+    <div class="flex col gap-24" style="flex: 1;">
+      <div class="card card-grey flex col gap-8" style="padding: 28px 32px;">
+        <div class="t-body-lg c-black t-semi">2022 is the worst vintage in a decade</div>
+        <div class="t-body c-grey">Valuations peaked, markets crashed, follow-on funding dried up. Every 2022 vintage fund is sitting on compressed marks. This is not unique to us.</div>
+      </div>
+      <div class="card card-grey flex col gap-8" style="padding: 28px 32px;">
+        <div class="t-body-lg c-black t-semi">Deep tech J-curve is longer</div>
+        <div class="t-body c-grey">SaaS marks up on revenue multiples. Deep tech marks up on technical milestones, government contracts, and large follow-on rounds. Our companies are pre-inflection, not failing.</div>
+      </div>
+      <div class="card card-grey flex col gap-8" style="padding: 28px 32px;">
+        <div class="t-body-lg c-black t-semi">Funds settle into terminal quartile at year 5-6</div>
+        <div class="t-body c-grey">Cambridge Associates data is clear: judging a deep tech fund at year 3-4 is like judging a marathon runner at mile 8.</div>
+      </div>
+    </div>
+
+    <div class="flex col gap-24" style="flex: 1;">
+      <div class="card flex col gap-8" style="padding: 28px 32px; border: 1px solid #ddd;">
+        <div class="t-body-lg c-black t-semi">But median does not raise a Fund III</div>
+        <div class="t-body c-grey">1.3x at year 4 is roughly median for the vintage. LPs want top quartile trajectory or a compelling story for why marks are about to inflect. We need to provide both.</div>
+      </div>
+      <div class="card card-verdant flex col gap-12" style="padding: 36px 40px;">
+        <div class="t-body-lg t-semi" style="color: #5a6b5d;">What actually matters</div>
+        <div class="t-sub c-black" style="line-height: 1.5;">It is not the absolute number. It is the <span class="t-bold">slope of the curve</span> and the <span class="t-bold">credibility of what comes next.</span></div>
+        <div class="t-body c-grey">If we show LPs that 0.95x is becoming 1.3x because specific companies received term sheets at validated external prices, that momentum signal is more persuasive than the number itself.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="logo-footer">
+    <img src="logo-footer-black.svg" alt="inflection">
+  </div>
+  <div class="slide-num">03</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: WHY LPS ARE GHOSTING                                 -->
+<!-- ============================================================ -->
+<section class="slide bg-light flex col" style="padding: 100px;">
+  <div class="t-label c-grey" style="margin-bottom: 16px;">DIAGNOSIS</div>
+  <div class="t-headline c-black" style="margin-bottom: 56px;">Why 16 out of 16 data room LPs went silent</div>
+
+  <div class="flex gap-48" style="flex: 1;">
+    <div class="flex col gap-40" style="flex: 1.2;">
+      <div style="display: flex; gap: 28px; align-items: flex-start;">
+        <div class="number-large c-grey" style="flex-shrink: 0; width: 48px;">1</div>
+        <div class="flex col gap-6">
+          <div class="t-sub c-black t-semi">Fund II gives them permission to wait</div>
+          <div class="t-body c-grey">LP opens data room, sees below-water marks, thinks: "I will wait for momentum." Ghosting is easier than saying "your numbers are not there yet."</div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 28px; align-items: flex-start;">
+        <div class="number-large c-grey" style="flex-shrink: 0; width: 48px;">2</div>
+        <div class="flex col gap-6">
+          <div class="t-sub c-black t-semi">No urgency mechanism in our materials</div>
+          <div class="t-body c-grey">Our pitch reads as standard deep tech thesis + team + portfolio. Nothing makes LPs feel they will miss something irreplaceable by waiting. We blend in when we should stand out.</div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 28px; align-items: flex-start;">
+        <div class="number-large c-grey" style="flex-shrink: 0; width: 48px;">3</div>
+        <div class="flex col gap-6">
+          <div class="t-sub c-black t-semi">Allocation bucket mismatch</div>
+          <div class="t-body c-grey">"European pre-seed deep tech" is not a standard allocation category. We are asking LPs to create a new bucket for us. That is a fundamentally harder sale than fitting into an existing one.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex: 0.8; display: flex; flex-direction: column; justify-content: center;">
+      <div class="card card-azure flex col gap-16" style="padding: 40px;">
+        <div class="t-body-lg c-black t-semi">The compounding effect</div>
+        <div class="t-body c-grey">No single factor is a dealbreaker. But combined, they create inertia. Performance gives permission to wait. Lack of differentiation gives no reason to act. Bucket mismatch removes the internal champion.</div>
+        <div style="height: 1px; background: #d8dae0;"></div>
+        <div class="t-body c-black t-semi">We need to break the compound. Attack all three simultaneously.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="logo-footer">
+    <img src="logo-footer-black.svg" alt="inflection">
+  </div>
+  <div class="slide-num">04</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: BEING HONEST                                         -->
+<!-- ============================================================ -->
+<section class="slide flex" style="padding: 0;">
+  <!-- Left: black panel -->
+  <div style="flex: 1; background: #000; padding: 100px 80px; display: flex; flex-direction: column; justify-content: center;">
+    <div class="t-label" style="color: #808080; margin-bottom: 48px;">BEING HONEST WITH YOU</div>
+    <div class="t-headline" style="color: #fff; line-height: 1.4; margin-bottom: 48px;">I am not sleeping well.<br>I am scared the team falls apart.<br>I owe you honesty.</div>
+    <div class="t-body-lg" style="color: #808080; max-width: 600px; line-height: 1.7;">
+      The org is fully capitalised until mid-2027. From there on we have to cut costs. This does not take into account management fees from Mars. The pressure is real. I am telling you this because I believe that transparency and agency are our super powers.
+    </div>
+  </div>
+  <!-- Right: white panel -->
+  <div style="flex: 1; background: #fff; padding: 100px 80px; display: flex; flex-direction: column; justify-content: center; gap: 40px;">
+    <div class="t-label c-grey" style="margin-bottom: 8px;">WHAT I HAVE BEEN WRESTLING WITH</div>
+
+    <div class="flex col gap-8">
+      <div class="t-body-lg c-black t-semi">The existential conflation</div>
+      <div class="t-body c-grey">When your life's work feels threatened, "this fundraise is hard" becomes "everything might fail." These are different problems. I am working to separate them.</div>
+    </div>
+
+    <div class="flex col gap-8">
+      <div class="t-body-lg c-black t-semi">The temptation to scatter</div>
+      <div class="t-body c-grey">Fear pushes toward consensus solutions - launch products, do consulting, hedge bets. That is the playbook investing we left to escape. I keep catching myself drifting toward it.</div>
+    </div>
+
+    <div class="flex col gap-8">
+      <div class="t-body-lg c-black t-semi" style="color: #5a6b5d;">The thing I know to be true</div>
+      <div class="t-body c-grey">We built something genuinely different. Fund I at 8x proved the model. The portfolio companies are real. The thesis is playing out. The packaging is wrong, not the substance.</div>
+    </div>
+  </div>
+  <div class="logo-footer" style="left: 80px;">
+    <img src="logo-footer-white.svg" alt="inflection">
+  </div>
+  <div class="slide-num" style="color: #808080;">05</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: ON AGENCY                                            -->
+<!-- ============================================================ -->
+<section class="slide bg-white flex col center" style="padding: 100px 140px;">
+  <div class="t-label c-grey" style="margin-bottom: 48px; align-self: flex-start;">ON AGENCY</div>
+  <div class="t-large c-black" style="margin-bottom: 56px; align-self: flex-start;">We can turn things around.<br>We thrive in adversity.</div>
+
+  <div class="card card-verdant" style="padding: 48px 56px; max-width: 1400px; width: 100%;">
+    <div class="t-label" style="color: #5a6b5d; margin-bottom: 24px;">FROM OUR FOUNDER JOB</div>
+    <div class="t-body-lg c-black" style="line-height: 1.8; font-style: italic;">
+      "Monday is the best day of the week. It's our chance to start fresh, to improve upon who we were last week. Today is a tougher Monday than usual: obviously, the situation with Brandon is challenging. But the most important question right now is this: <strong style="font-style: normal;">Who are we going to be in the face of adversity?</strong>
+    </div>
+    <div class="t-body-lg c-black" style="line-height: 1.8; font-style: italic; margin-top: 24px;">
+      For Hedy to fulfill its mission and achieve its vision, there's only one answer: we love adversity. We thrive in it. Adversity makes us stronger, sharper, and better. Like iron in a blast furnace, adversity burns away the weak points and forges steel.
+    </div>
+    <div class="t-body-lg c-black" style="line-height: 1.8; font-style: italic; margin-top: 24px;">
+      The status quo isn't good enough today. Who we were last week won't cut it anymore. <strong style="font-style: normal;">Activate your inner DARKMODE. Get better this week.</strong>"
+    </div>
+  </div>
+
+  <div class="logo-footer">
+    <img src="logo-footer-black.svg" alt="inflection">
+  </div>
+  <div class="slide-num">06</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: A REQUEST                                            -->
+<!-- ============================================================ -->
+<section class="slide bg-light flex col" style="padding: 100px;">
+  <div class="t-label c-grey" style="margin-bottom: 16px;">A REQUEST</div>
+  <div class="t-large c-black" style="margin-bottom: 60px; max-width: 1200px;">I am not asking you to stay out of loyalty.<br>I am asking you to stay out of conviction.</div>
+
+  <div class="flex gap-32" style="flex: 1;">
+    <div class="card flex col gap-12" style="flex: 1;">
+      <div class="t-sub c-black t-semi">Help manufacture catalysts</div>
+      <div class="t-body c-grey" style="line-height: 1.7;"><span class="c-black t-bold">Mercury:</span> We need 2-3 portfolio companies to hit visible milestones in the next 90 days. Term sheets, contracts, partnerships. This changes the fundraising narrative from "wait and see" to "momentum is building." Your relationships and support matter here.</div>
+      <div class="t-body c-grey" style="line-height: 1.7;"><span class="c-black t-bold">Mars:</span> We need to do 1-2 bold earliest stage investments at $1M each to build momentum with the Mars Fund.</div>
+    </div>
+
+    <div class="card flex col gap-12" style="flex: 1;">
+      <div class="t-sub c-black t-semi">Protect your energy</div>
+      <div class="t-body c-grey" style="line-height: 1.7;">We are a small team carrying a big mission. The next 12 months will not be easy. No side projects. No non-portfolio SPVs. No hedging through alternative revenues. No distractions. We give this a 100% shot.</div>
+    </div>
+  </div>
+
+  <div class="logo-footer">
+    <img src="logo-footer-black.svg" alt="inflection">
+  </div>
+  <div class="slide-num">07</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: THE PLAN                                             -->
+<!-- ============================================================ -->
+<section class="slide bg-white flex col" style="padding: 100px;">
+  <div class="t-label c-grey" style="margin-bottom: 16px;">THE PATH FORWARD</div>
+  <div class="t-headline c-black" style="margin-bottom: 48px;">Seven moves. In order. No shortcuts.</div>
+
+  <div class="flex gap-32" style="flex: 1;">
+    <!-- Left column -->
+    <div class="flex col gap-16" style="flex: 1;">
+      <div class="card card-grey flex gap-20" style="padding: 22px 28px;">
+        <div class="t-headline c-black t-bold" style="flex-shrink: 0; width: 36px;">1</div>
+        <div class="flex col gap-2" style="flex: 1;">
+          <div class="t-body-lg c-black t-semi">Fix the data room</div>
+          <div class="t-small c-grey">February. Get brutal feedback from Hutt and Isomer. What exactly triggers the "wait"?</div>
+        </div>
+        <div class="t-label c-grey" style="flex-shrink: 0; align-self: center;">NOW</div>
+      </div>
+
+      <div class="card card-grey flex gap-20" style="padding: 22px 28px;">
+        <div class="t-headline c-black t-bold" style="flex-shrink: 0; width: 36px;">2</div>
+        <div class="flex col gap-2" style="flex: 1;">
+          <div class="t-body-lg c-black t-semi">Lead with identity, not data</div>
+          <div class="t-small c-grey">Feb-March. Rewrite the pitch. Who we are first. Numbers validate the story.</div>
+        </div>
+        <div class="t-label c-grey" style="flex-shrink: 0; align-self: center;">FEB</div>
+      </div>
+
+      <div class="card card-grey flex gap-20" style="padding: 22px 28px;">
+        <div class="t-headline c-black t-bold" style="flex-shrink: 0; width: 36px;">3</div>
+        <div class="flex col gap-2" style="flex: 1;">
+          <div class="t-body-lg c-black t-semi">Manufacture portfolio catalysts</div>
+          <div class="t-small c-grey">March-Oct. Pick 2-3 Mercury companies closest to milestones. Focus all support there for 90 days. Do 2-3 Mars Fund investments of $1M each.</div>
+        </div>
+        <div class="t-label c-azure-dark" style="flex-shrink: 0; align-self: center;">MAR</div>
+      </div>
+
+      <div class="card card-grey flex gap-20" style="padding: 22px 28px;">
+        <div class="t-headline c-black t-bold" style="flex-shrink: 0; width: 36px;">4</div>
+        <div class="flex col gap-2" style="flex: 1;">
+          <div class="t-body-lg c-black t-semi">Launch follow-on SPVs</div>
+          <div class="t-small c-grey">Q2-Q3. When catalysts hit, offer LPs co-investment into our own companies. Not random deals.</div>
+        </div>
+        <div class="t-label c-azure-dark" style="flex-shrink: 0; align-self: center;">Q2</div>
+      </div>
+
+      <!-- Target outcome -->
+      <div class="card card-verdant flex col gap-8" style="padding: 24px 28px; margin-top: 8px;">
+        <div class="t-body t-semi" style="color: #5a6b5d;">Target outcome</div>
+        <div class="t-body c-grey">Second close at $15-20M by summer. Third close at $25-35M by year-end. Momentum narrative replaces "wait and see." To hit $50M+ we can extend the fundraising timeline into 2027 (subject to LPA).</div>
+      </div>
+    </div>
+
+    <!-- Right column -->
+    <div class="flex col gap-16" style="flex: 1;">
+      <div class="card card-grey flex gap-20" style="padding: 22px 28px;">
+        <div class="t-headline c-black t-bold" style="flex-shrink: 0; width: 36px;">5</div>
+        <div class="flex col gap-2" style="flex: 1;">
+          <div class="t-body-lg c-black t-semi">Kill the side projects</div>
+          <div class="t-small c-grey">Now. No marketplace. No consulting. Every hour goes to fundraising, portfolio, and deals.</div>
+        </div>
+        <div class="t-label c-grey" style="flex-shrink: 0; align-self: center;">NOW</div>
+      </div>
+
+      <div class="card card-grey flex gap-20" style="padding: 22px 28px;">
+        <div class="t-headline c-black t-bold" style="flex-shrink: 0; width: 36px;">6</div>
+        <div class="flex col gap-2" style="flex: 1;">
+          <div class="t-body-lg c-black t-semi">Re-engage ghosted LPs with momentum</div>
+          <div class="t-small c-grey">May. Push updated marks + new pitch to all 16 data room LPs. Different story, different energy.</div>
+        </div>
+        <div class="t-label c-azure-dark" style="flex-shrink: 0; align-self: center;">MAY</div>
+      </div>
+
+      <div class="card card-grey flex gap-20" style="padding: 22px 28px;">
+        <div class="t-headline c-black t-bold" style="flex-shrink: 0; width: 36px;">7</div>
+        <div class="flex col gap-2" style="flex: 1;">
+          <div class="t-body-lg c-black t-semi">Find peer GPs for mutual support</div>
+          <div class="t-small c-grey">Ongoing. 2-3 emerging managers in similar position. Isolation amplifies fear. Peer networks amplify clarity.</div>
+        </div>
+        <div class="t-label c-light-grey" style="flex-shrink: 0; align-self: center;">ONGOING</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="logo-footer">
+    <img src="logo-footer-black.svg" alt="inflection">
+  </div>
+  <div class="slide-num">08</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: TRANSPARENCY                                         -->
+<!-- ============================================================ -->
+<section class="slide bg-light flex col" style="padding: 100px;">
+  <div class="t-label c-grey" style="margin-bottom: 16px;">TRANSPARENCY</div>
+  <div class="t-headline c-black" style="margin-bottom: 48px;">Ideas we considered. And why we should question them.</div>
+
+  <div class="flex gap-32" style="flex: 1;">
+    <div class="card flex col gap-16" style="flex: 1; border: 1px solid #ddd;">
+      <div class="t-sub c-black t-semi">Defense procurement marketplace</div>
+      <div class="t-label c-grey">DISCUSS</div>
+      <div class="t-body c-grey" style="line-height: 1.7;">Building a marketplace is a full-time job for a dedicated team. Creates conflict of interest with portfolio companies. If it fails, we burned 12-18 months of bandwidth. If it works, LPs question whether we are a fund or an operator.</div>
+    </div>
+
+    <div class="card flex col gap-16" style="flex: 1; border: 1px solid #ddd;">
+      <div class="t-sub c-black t-semi">AI consulting for Mittelstand</div>
+      <div class="t-label c-grey">DISCUSS</div>
+      <div class="t-body c-grey" style="line-height: 1.7;">Consulting trades time for money at a linear rate. Zero convexity. Every hour consulting is an hour not fundraising. Signals to LPs that the fund cannot sustain itself. But it does generate short-term cash flow.</div>
+    </div>
+
+    <div class="card card-azure flex col gap-16" style="flex: 1;">
+      <div class="t-sub c-black t-semi">SPVs into elite companies</div>
+      <div class="t-label c-azure-dark">DISCUSS</div>
+      <div class="t-body c-grey" style="line-height: 1.7;">SPVs into companies we have no relationship with is a different skill set. Dilutes our brand. Hard to get allocation. But <span class="c-black t-semi">follow-on SPVs into our own portfolio</span> could validate our picks, give LPs a low-risk entry, and extend runway.</div>
+    </div>
+  </div>
+
+  <div class="logo-footer">
+    <img src="logo-footer-black.svg" alt="inflection">
+  </div>
+  <div class="slide-num">09</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: HONEY BADGER MINDSET                                -->
+<!-- ============================================================ -->
+<section class="slide bg-verdant flex center col" style="padding: 100px 140px;">
+  <div class="flex col gap-40" style="max-width: 1300px; text-align: center;">
+    <div class="t-label c-black">HONEY BADGER MINDSET</div>
+    <div class="t-large c-black" style="line-height: 1.25;">Fear whispers:<br><span style="color: #5a6b5d;">"Pivot to safety. Diversify. Hedge your bets."</span></div>
+    <div class="t-large c-black" style="line-height: 1.25;">That is what corporates would do.<br>We all left them to escape and build something meaningful.</div>
+    <div class="t-sub c-black" style="max-width: 1000px; margin: 0 auto; line-height: 1.6;">The honey badger move now is to attack. Double down on who we are, fix the packaging, manufacture the catalysts, and let the market validate what we already know about our portfolio.</div>
+  </div>
+  <div class="logo-footer">
+    <img src="logo-footer-black.svg" alt="inflection">
+  </div>
+  <div class="slide-num" style="color: #5a6b5d;">10</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: CLOSING                                             -->
+<!-- ============================================================ -->
+<section class="slide flex" style="padding: 0;">
+  <!-- Left: black panel -->
+  <div style="flex: 1; background: #000; padding: 100px 80px; display: flex; flex-direction: column; justify-content: center;">
+    <div class="t-label" style="color: #808080; margin-bottom: 48px;">CLOSING</div>
+    <div class="t-large" style="color: #fff; line-height: 1.2; margin-bottom: 40px;">This is not a crisis.<br>This is a test.</div>
+    <div class="t-body-lg" style="color: #808080; max-width: 600px; line-height: 1.7;">
+      The hardest transition in fund management is micro to institutional. The mortality rate is high. But so is our conviction. We have done hard things before. We will do this one together.
+    </div>
+  </div>
+  <!-- Right: white panel -->
+  <div style="flex: 1; background: #fff; padding: 100px 80px; display: flex; flex-direction: column; justify-content: center; gap: 48px;">
+    <div class="flex col gap-8">
+      <div class="t-sub c-black t-semi">We are not dying</div>
+      <div class="t-body c-grey">We have runway, committed LPs, a proven thesis, and a portfolio that is pre-inflection, not failing.</div>
+    </div>
+    <div class="flex col gap-8">
+      <div class="t-sub c-black t-semi">The substance is right</div>
+      <div class="t-body c-grey">8x Fund I. Sovereign compute thesis playing out. Defense pivot ahead of market. The packaging is wrong, not the product.</div>
+    </div>
+    <div class="flex col gap-8">
+      <div class="t-sub c-black t-semi">We go forward together</div>
+      <div class="t-body c-grey">No information asymmetry. Same numbers, same pressure, same mission. For us this is a life's work. That has not changed.</div>
+    </div>
+    <div style="margin-top: 24px;">
+      <div class="t-headline c-black" style="font-weight: 600;">inflection</div>
+      <div class="t-body c-grey" style="margin-top: 4px;">February 2026</div>
+    </div>
+  </div>
+  <div class="logo-footer" style="left: 80px;">
+    <img src="logo-footer-white.svg" alt="inflection">
+  </div>
+  <div class="slide-num" style="color: #808080;">11</div>
+</section>
+
+</body>
+</html>

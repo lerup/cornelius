@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hard Futures - Capability Flow</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #FFFFFF;
+    color: #000000;
+    padding: 56px 48px 40px;
+    letter-spacing: -0.3px;
+  }
+
+  .container {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #E0E0E0;
+  }
+
+  .header-left h1 {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.8px;
+    color: #000000;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .header-left p {
+    font-size: 13px;
+    font-weight: 400;
+    color: #808080;
+    letter-spacing: 0.5px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .stat {
+    text-align: right;
+  }
+
+  .stat-value {
+    font-size: 22px;
+    font-weight: 600;
+    color: #000000;
+    letter-spacing: -0.5px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    font-weight: 400;
+    color: #808080;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 32px;
+    background: #D0D0D0;
+  }
+
+  /* Direction label */
+  .direction {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .direction-line {
+    height: 1px;
+    flex-grow: 1;
+    background: linear-gradient(to right, #E0E0E0, #808080, #E0E0E0);
+  }
+
+  .direction-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: #808080;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Flow row */
+  .flow-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  /* Domain card */
+  .domain {
+    flex: 1;
+    position: relative;
+  }
+
+  .domain-inner {
+    background: #FAFAFA;
+    border: 1px solid #E0E0E0;
+    border-radius: 10px;
+    padding: 24px 16px 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* === INFLECTION INVOLVEMENT STATES === */
+
+  /* Future / Horizon - dashed border, dimmed */
+  .domain.state-future .domain-inner {
+    border: 1px dashed #CCCCCC;
+    opacity: 0.55;
+  }
+
+  /* Origin - green left accent, full presence */
+  .domain.state-origin .domain-inner {
+    border-left: 3px solid #7A8A7D;
+  }
+
+  /* Expansion - green left accent, thinner */
+  .domain.state-expansion .domain-inner {
+    border-left: 2px solid #A0ADA3;
+  }
+
+  /* Year badge */
+  .year-badge {
+    position: absolute;
+    top: -10px;
+    right: 14px;
+    background: #FFFFFF;
+    padding: 2px 8px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 3px;
+  }
+
+  .year-badge.badge-origin {
+    color: #6B7A6E;
+    border: 1px solid #B3BCB5;
+  }
+
+  .year-badge.badge-expansion {
+    color: #8A9A8D;
+    border: 1px solid rgba(179, 188, 181, 0.5);
+  }
+
+  .year-badge.badge-future {
+    color: #AAAAAA;
+    border: 1px solid #CCCCCC;
+  }
+
+  /* Domain header */
+  .domain-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: #808080;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .state-origin .domain-label {
+    color: #6B7A6E;
+  }
+
+  .state-expansion .domain-label {
+    color: #8A9A8D;
+  }
+
+  .domain-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+  }
+
+  .domain-desc {
+    font-size: 11px;
+    font-weight: 400;
+    color: #808080;
+    line-height: 1.45;
+    margin-bottom: 16px;
+  }
+
+  /* Divider */
+  .card-divider {
+    height: 1px;
+    background: #E8E8E8;
+    margin-bottom: 12px;
+  }
+
+  /* Capabilities */
+  .capabilities {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-grow: 1;
+  }
+
+  .capability {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    padding: 7px 10px;
+    background: #FFFFFF;
+    border: 1px solid #EBEBEB;
+    border-radius: 5px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #333333;
+    line-height: 1.3;
+    letter-spacing: -0.1px;
+  }
+
+  .cap-num {
+    font-size: 9px;
+    font-weight: 600;
+    color: #666666;
+    font-variant-numeric: tabular-nums;
+    min-width: 14px;
+    flex-shrink: 0;
+  }
+
+  .state-origin .cap-num {
+    color: #6B7A6E;
+  }
+
+  .state-expansion .cap-num {
+    color: #8A9A8D;
+  }
+
+  /* Arrow connector */
+  .arrow-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    min-width: 32px;
+  }
+
+  .arrow-connector svg {
+    width: 20px;
+    height: 20px;
+    opacity: 0.35;
+  }
+
+  /* Portfolio row */
+  .portfolio-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin-top: 16px;
+  }
+
+  .portfolio-empty {
+    flex: 1;
+  }
+
+  .portfolio-spacer {
+    width: 32px;
+    min-width: 32px;
+  }
+
+  .portfolio-item {
+    flex: 1;
+    text-align: center;
+    padding: 4px 0;
+  }
+
+  .portfolio-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+  }
+
+  .portfolio-item.origin .portfolio-label {
+    color: #6B7A6E;
+  }
+
+  .portfolio-item.expansion .portfolio-label {
+    color: #8A9A8D;
+  }
+
+  .portfolio-names {
+    font-size: 11px;
+    font-weight: 500;
+    color: #555555;
+  }
+
+  /* Legend bar */
+  .legend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid #E8E8E8;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .legend-swatch {
+    width: 16px;
+    height: 3px;
+    border-radius: 1px;
+  }
+
+  .legend-swatch.sw-origin {
+    background: #6B7A6E;
+  }
+
+  .legend-swatch.sw-expansion {
+    background: #A0ADA3;
+  }
+
+  .legend-swatch.sw-future {
+    width: 16px;
+    height: 0;
+    border-top: 1.5px dashed #BBBBBB;
+  }
+
+  .legend-text {
+    font-size: 10px;
+    font-weight: 400;
+    color: #808080;
+    letter-spacing: 0.3px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #E8E8E8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-brand {
+    font-size: 10px;
+    font-weight: 600;
+    color: #808080;
+    letter-spacing: 2.5px;
+    text-transform: lowercase;
+  }
+
+  .footer-note {
+    font-size: 10px;
+    font-weight: 400;
+    color: #AAAAAA;
+    letter-spacing: 0.3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>We build portfolios as systems along the value chain</h1>
+      <p>We expand organically as we learn something new from each investment</p>
+    </div>
+  </div>
+
+  <!-- Direction -->
+  <div class="direction">
+    <div class="direction-line"></div>
+    <div class="direction-label">Foundation &rarr; Application</div>
+    <div class="direction-line"></div>
+  </div>
+
+  <!-- Flow -->
+  <div class="flow-row">
+
+    <!-- MATTER -->
+    <div class="domain state-future">
+      <div class="domain-inner">
+        <span class="year-badge badge-future">Horizon</span>
+        <div class="domain-label">I</div>
+        <div class="domain-name">Matter</div>
+        <div class="domain-desc">Raw materials, advanced materials, and fabrication.</div>
+        <div class="card-divider"></div>
+        <div class="capabilities">
+          <div class="capability"><span class="cap-num">01</span>Critical Minerals</div>
+          <div class="capability"><span class="cap-num">02</span>Advanced Materials</div>
+          <div class="capability"><span class="cap-num">03</span>Manufacturing</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-connector">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M5 12H19M19 12L14 7M19 12L14 17" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- ENERGY -->
+    <div class="domain state-future">
+      <div class="domain-inner">
+        <span class="year-badge badge-future">Horizon</span>
+        <div class="domain-label">II</div>
+        <div class="domain-name">Energy</div>
+        <div class="domain-desc">Generation, storage, and grid resilience.</div>
+        <div class="card-divider"></div>
+        <div class="capabilities">
+          <div class="capability"><span class="cap-num">04</span>Nuclear & Alt. Energy</div>
+          <div class="capability"><span class="cap-num">05</span>Energy Storage</div>
+          <div class="capability"><span class="cap-num">06</span>Grid Resilience</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-connector">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M5 12H19M19 12L14 7M19 12L14 17" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- SENSE -->
+    <div class="domain state-expansion">
+      <div class="domain-inner">
+        <span class="year-badge badge-expansion">Since 2022</span>
+        <div class="domain-label">III</div>
+        <div class="domain-name">Sense</div>
+        <div class="domain-desc">Perceiving the world across all operating environments.</div>
+        <div class="card-divider"></div>
+        <div class="capabilities">
+          <div class="capability"><span class="cap-num">07</span>Quantum Sensing</div>
+          <div class="capability"><span class="cap-num">08</span>Subsurface</div>
+          <div class="capability"><span class="cap-num">09</span>Maritime</div>
+          <div class="capability"><span class="cap-num">10</span>Stratosphere</div>
+          <div class="capability"><span class="cap-num">11</span>Space</div>
+          <div class="capability"><span class="cap-num">12</span>Biological</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-connector">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M5 12H19M19 12L14 7M19 12L14 17" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- COMPUTE -->
+    <div class="domain state-origin">
+      <div class="domain-inner">
+        <span class="year-badge badge-origin">Est. 2019</span>
+        <div class="domain-label">IV</div>
+        <div class="domain-name">Compute</div>
+        <div class="domain-desc">Processing, securing, and distributing intelligence.</div>
+        <div class="card-divider"></div>
+        <div class="capabilities">
+          <div class="capability"><span class="cap-num">13</span>Neuromorphic & Alt. Compute</div>
+          <div class="capability"><span class="cap-num">14</span>Trusted / Verifiable Compute</div>
+          <div class="capability"><span class="cap-num">15</span>Edge / Hybrid Cloud</div>
+          <div class="capability"><span class="cap-num">16</span>Cybersecurity</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-connector">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M5 12H19M19 12L14 7M19 12L14 17" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- ACT -->
+    <div class="domain state-expansion">
+      <div class="domain-inner">
+        <span class="year-badge badge-expansion">Since 2022</span>
+        <div class="domain-label">V</div>
+        <div class="domain-name">Act</div>
+        <div class="domain-desc">Projecting capability into the physical world.</div>
+        <div class="card-divider"></div>
+        <div class="capabilities">
+          <div class="capability"><span class="cap-num">17</span>Autonomous Systems</div>
+          <div class="capability"><span class="cap-num">18</span>EM Spectrum Control</div>
+          <div class="capability"><span class="cap-num">19</span>Hypersonics</div>
+          <div class="capability"><span class="cap-num">20</span>Space Access & Servicing</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Portfolio Companies -->
+  <div class="portfolio-row">
+    <div class="portfolio-empty"></div>
+    <div class="portfolio-spacer"></div>
+    <div class="portfolio-empty"></div>
+    <div class="portfolio-spacer"></div>
+    <div class="portfolio-item expansion">
+      <div class="portfolio-label">PORTFOLIO</div>
+      <div class="portfolio-names">Radical · Foundational · Deep Earth</div>
+    </div>
+    <div class="portfolio-spacer"></div>
+    <div class="portfolio-item origin">
+      <div class="portfolio-label">PORTFOLIO</div>
+      <div class="portfolio-names">Fabric · Ubitium · Hedy · Anytype · Flashbots</div>
+    </div>
+    <div class="portfolio-spacer"></div>
+    <div class="portfolio-item expansion">
+      <div class="portfolio-label">PORTFOLIO</div>
+      <div class="portfolio-names">Ark · NAD · Levtek · Lodestar</div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-swatch sw-origin"></div>
+      <div class="legend-text">Inflection origin (2019)</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch sw-expansion"></div>
+      <div class="legend-text">Active expansion (2022)</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch sw-future"></div>
+      <div class="legend-text">Future horizon</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-brand">inflection</div>
+    <div class="footer-note">Each layer depends on the ones below it. The stack reveals where strategic risk concentrates.</div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Radial Network - Supply Chain Intelligence</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #08090f; font-family: 'Inter', -apple-system, system-ui, sans-serif; overflow: hidden; }
+canvas { display: block; }
+#tooltip {
+  position: absolute; display: none; padding: 14px 18px;
+  background: rgba(8,9,15,0.96); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px; color: #e0e0e0; font-size: 13px;
+  pointer-events: none; backdrop-filter: blur(12px); max-width: 300px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+#tooltip .name { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
+#tooltip .layer { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.5; margin-bottom: 8px; }
+#tooltip .connections { font-size: 12px; opacity: 0.7; line-height: 1.5; }
+#title { position: absolute; top: 28px; left: 28px; }
+#title h1 { color: #fff; font-size: 22px; font-weight: 600; letter-spacing: -0.5px; }
+#title p { color: #555; font-size: 12px; margin-top: 4px; }
+#legend {
+  position: absolute; bottom: 28px; right: 28px;
+  background: rgba(8,9,15,0.9); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 16px 20px; backdrop-filter: blur(10px);
+}
+#legend h3 { color: #888; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+.leg-item { display: flex; align-items: center; margin-bottom: 8px; }
+.leg-ring { width: 24px; height: 24px; border-radius: 50%; border: 2px solid; margin-right: 10px; opacity: 0.5; }
+.leg-label { color: #999; font-size: 11px; }
+#search {
+  position: absolute; top: 28px; right: 28px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; padding: 8px 14px; color: #fff; font-size: 13px;
+  font-family: Inter, sans-serif; outline: none; width: 200px;
+  transition: border-color 0.2s;
+}
+#search:focus { border-color: rgba(255,255,255,0.3); }
+#search::placeholder { color: #555; }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<div id="tooltip"></div>
+<div id="title">
+  <h1>Supply Chain Radial Map</h1>
+  <p>Concentric rings = supply chain layers. Hover to trace dependencies.</p>
+</div>
+<input id="search" type="text" placeholder="Search company..." oninput="searchCompany(this.value)">
+<div id="legend">
+  <h3>Supply Chain Layer</h3>
+  <div class="leg-item"><div class="leg-ring" style="border-color:#ff6b6b"></div><span class="leg-label">Raw Materials</span></div>
+  <div class="leg-item"><div class="leg-ring" style="border-color:#fbbf24"></div><span class="leg-label">Components</span></div>
+  <div class="leg-item"><div class="leg-ring" style="border-color:#4ecdc4"></div><span class="leg-label">Subsystems</span></div>
+  <div class="leg-item"><div class="leg-ring" style="border-color:#a78bfa"></div><span class="leg-label">Platforms</span></div>
+  <div class="leg-item"><div class="leg-ring" style="border-color:#f472b6"></div><span class="leg-label">Integration</span></div>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const tooltip = document.getElementById('tooltip');
+let W, H, dpr;
+
+function resize() {
+  dpr = window.devicePixelRatio || 1;
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  layoutNodes();
+}
+
+const LAYER_COLORS = ['#ff6b6b','#fbbf24','#4ecdc4','#a78bfa','#f472b6'];
+const LAYER_NAMES = ['Raw Materials','Components','Subsystems','Platforms','Integration'];
+const LAYER_RADII = [0.15, 0.28, 0.42, 0.58, 0.74];
+
+const nodes = [
+  // Layer 0 - Raw Materials
+  { id: 0, name: 'Vulcan Energy', layer: 0, sector: 'Lithium', desc: 'Zero-carbon lithium. Karlsruhe.' },
+  { id: 1, name: 'Talga Group', layer: 0, sector: 'Graphite', desc: 'Natural graphite anode. Sweden.' },
+  { id: 2, name: 'Horizon Arctic', layer: 0, sector: 'Rare Earths', desc: 'Arctic rare earth extraction.' },
+  { id: 3, name: 'Deep Earth', layer: 0, sector: 'Intelligence', desc: 'Subsurface AI. Portfolio.' },
+  { id: 4, name: 'Cornish Lithium', layer: 0, sector: 'Lithium', desc: 'Geothermal lithium. Cornwall.' },
+
+  // Layer 1 - Components
+  { id: 5, name: 'Northvolt', layer: 1, sector: 'Batteries', desc: 'European battery cells. Stockholm.' },
+  { id: 6, name: 'Kalray', layer: 1, sector: 'Processors', desc: 'Manycore edge chips. Grenoble.' },
+  { id: 7, name: 'Ubitium', layer: 1, sector: 'Processors', desc: 'Universal processor. Portfolio.' },
+  { id: 8, name: 'SiPearl', layer: 1, sector: 'Processors', desc: 'European HPC chips. France.' },
+  { id: 9, name: 'Pasqal', layer: 1, sector: 'Quantum', desc: 'Neutral-atom quantum. Paris.' },
+  { id: 10, name: 'OQC', layer: 1, sector: 'Quantum', desc: 'Superconducting qubits. London.' },
+  { id: 11, name: 'Fabric', layer: 1, sector: 'Crypto HW', desc: 'Cryptographic compute. Portfolio.' },
+  { id: 12, name: 'Zeiss SMT', layer: 1, sector: 'Optics', desc: 'EUV optics. Oberkochen.' },
+  { id: 13, name: 'Trumpf', layer: 1, sector: 'Lasers', desc: 'Industrial + EUV lasers. Ditzingen.' },
+
+  // Layer 2 - Subsystems
+  { id: 14, name: 'ASML', layer: 2, sector: 'Lithography', desc: 'EUV monopoly. Veldhoven.' },
+  { id: 15, name: 'Mynaric', layer: 2, sector: 'LaserCom', desc: 'Laser terminals. Munich.' },
+  { id: 16, name: 'Exotrail', layer: 2, sector: 'Propulsion', desc: 'Electric propulsion. Paris.' },
+  { id: 17, name: 'Hedy', layer: 2, sector: 'Security', desc: 'Network security. Portfolio.' },
+  { id: 18, name: 'Tune Insight', layer: 2, sector: 'Privacy', desc: 'Federated analytics. Portfolio.' },
+  { id: 19, name: 'Cornami', layer: 2, sector: 'FHE', desc: 'Homomorphic encryption. EU R&D.' },
+  { id: 20, name: 'Ascend Elements', layer: 2, sector: 'Recycling', desc: 'Battery recycling. EU ops.' },
+
+  // Layer 3 - Platforms
+  { id: 21, name: 'Helsing', layer: 3, sector: 'Defense AI', desc: 'AI defense systems. Munich.' },
+  { id: 22, name: 'Ark', layer: 3, sector: 'Drones', desc: 'Autonomous fleet control. Portfolio.' },
+  { id: 23, name: 'Isar Aerospace', layer: 3, sector: 'Launch', desc: 'Small-sat launch. Munich.' },
+  { id: 24, name: 'Destinus', layer: 3, sector: 'Hypersonic', desc: 'Hydrogen hypersonic. Payerne.' },
+  { id: 25, name: 'Radical', layer: 3, sector: 'HAPS', desc: 'Stratospheric platforms. Portfolio.' },
+  { id: 26, name: 'Newcleo', layer: 3, sector: 'Nuclear', desc: 'Lead-cooled reactors. London/Turin.' },
+  { id: 27, name: 'Seaborg', layer: 3, sector: 'Nuclear', desc: 'Molten salt reactors. Copenhagen.' },
+  { id: 28, name: 'Rolls-Royce SMR', layer: 3, sector: 'Nuclear', desc: 'Small modular reactors. UK.' },
+
+  // Layer 4 - Integration
+  { id: 29, name: 'HENSOLDT', layer: 4, sector: 'Sensors', desc: 'Defense sensor solutions. Munich.' },
+  { id: 30, name: 'Foundational', layer: 4, sector: 'SSA', desc: 'Space domain awareness. Portfolio.' },
+  { id: 31, name: 'Lodestar', layer: 4, sector: 'ISAM', desc: 'In-space assembly. Portfolio.' },
+  { id: 32, name: 'D-Orbit', layer: 4, sector: 'Logistics', desc: 'Space logistics. Como.' },
+  { id: 33, name: 'Blackshark.ai', layer: 4, sector: '3D Models', desc: 'AI world models. Graz.' },
+  { id: 34, name: 'Preligens', layer: 4, sector: 'GEOINT', desc: 'Satellite image AI. Paris.' },
+  { id: 35, name: 'Senken', layer: 4, sector: 'Carbon', desc: 'Carbon marketplace. Portfolio.' },
+];
+
+// Edges: upstream → downstream (supply chain flow)
+const edges = [
+  // Raw → Components
+  { s: 0, t: 5, type: 'supply' }, { s: 1, t: 5, type: 'supply' }, { s: 4, t: 5, type: 'supply' },
+  { s: 2, t: 8, type: 'supply' }, { s: 3, t: 0, type: 'intel' }, { s: 3, t: 2, type: 'intel' },
+  // Components → Subsystems
+  { s: 12, t: 14, type: 'supply' }, { s: 13, t: 14, type: 'supply' }, { s: 13, t: 15, type: 'tech' },
+  { s: 8, t: 14, type: 'design' }, { s: 6, t: 17, type: 'tech' }, { s: 7, t: 17, type: 'tech' },
+  { s: 11, t: 19, type: 'tech' }, { s: 11, t: 18, type: 'tech' },
+  { s: 9, t: 19, type: 'tech' }, { s: 10, t: 19, type: 'tech' },
+  { s: 5, t: 20, type: 'supply' },
+  // Subsystems → Platforms
+  { s: 15, t: 22, type: 'supply' }, { s: 15, t: 25, type: 'supply' },
+  { s: 16, t: 23, type: 'supply' }, { s: 16, t: 31, type: 'supply' },
+  { s: 17, t: 21, type: 'tech' }, { s: 17, t: 22, type: 'tech' },
+  { s: 14, t: 8, type: 'equip' }, { s: 14, t: 7, type: 'equip' },
+  { s: 18, t: 21, type: 'tech' },
+  { s: 20, t: 5, type: 'recycle' },
+  // Platforms → Integration
+  { s: 21, t: 29, type: 'supply' }, { s: 21, t: 33, type: 'tech' }, { s: 21, t: 34, type: 'tech' },
+  { s: 22, t: 29, type: 'supply' }, { s: 22, t: 30, type: 'tech' },
+  { s: 23, t: 30, type: 'supply' }, { s: 23, t: 32, type: 'supply' },
+  { s: 25, t: 30, type: 'tech' }, { s: 25, t: 35, type: 'tech' },
+  { s: 24, t: 32, type: 'tech' },
+  { s: 26, t: 28, type: 'compete' }, { s: 27, t: 28, type: 'compete' },
+  // Cross-layer
+  { s: 3, t: 35, type: 'intel' },
+  { s: 11, t: 21, type: 'tech' },
+  { s: 7, t: 22, type: 'tech' },
+];
+
+function layoutNodes() {
+  const cx = W / 2, cy = H / 2;
+  const minDim = Math.min(W, H);
+
+  for (let layer = 0; layer < 5; layer++) {
+    const layerNodes = nodes.filter(n => n.layer === layer);
+    const r = LAYER_RADII[layer] * minDim * 0.48;
+    layerNodes.forEach((n, i) => {
+      const angle = (i / layerNodes.length) * Math.PI * 2 - Math.PI / 2;
+      n.x = cx + Math.cos(angle) * r;
+      n.y = cy + Math.sin(angle) * r;
+      n.angle = angle;
+      n.radius = r;
+      n.color = LAYER_COLORS[layer];
+      n.baseSize = 6 + (layer * 1.5);
+    });
+  }
+}
+
+resize();
+window.addEventListener('resize', resize);
+
+let hoveredNode = null;
+let searchTerm = '';
+let time = 0;
+
+// Particle system for edges
+class FlowParticle {
+  constructor(edge) {
+    this.edge = edge;
+    this.t = Math.random();
+    this.speed = 0.003 + Math.random() * 0.004;
+    this.size = 1 + Math.random() * 1.5;
+  }
+  update() {
+    this.t += this.speed;
+    if (this.t > 1) this.t -= 1;
+  }
+  getPos() {
+    const a = nodes[this.edge.s], b = nodes[this.edge.t];
+    // Curved path via control point
+    const midX = (a.x + b.x) / 2;
+    const midY = (a.y + b.y) / 2;
+    const cx = W/2, cy = H/2;
+    const cpX = midX + (midX - cx) * 0.15;
+    const cpY = midY + (midY - cy) * 0.15;
+    const t = this.t;
+    const mt = 1 - t;
+    return {
+      x: mt*mt*a.x + 2*mt*t*cpX + t*t*b.x,
+      y: mt*mt*a.y + 2*mt*t*cpY + t*t*b.y
+    };
+  }
+}
+
+let flowParticles = [];
+edges.forEach(e => {
+  for (let i = 0; i < 3; i++) flowParticles.push(new FlowParticle(e));
+});
+
+canvas.addEventListener('mousemove', e => {
+  const mx = e.clientX, my = e.clientY;
+  hoveredNode = null;
+  for (const n of nodes) {
+    const dx = mx - n.x, dy = my - n.y;
+    if (dx*dx + dy*dy < (n.baseSize+8)*(n.baseSize+8)) {
+      hoveredNode = n; break;
+    }
+  }
+  if (hoveredNode) {
+    const connectedIds = new Set();
+    edges.forEach(e => {
+      if (e.s === hoveredNode.id) connectedIds.add(e.t);
+      if (e.t === hoveredNode.id) connectedIds.add(e.s);
+    });
+    const upstream = [...connectedIds].filter(id => nodes[id].layer < hoveredNode.layer).map(id => nodes[id].name);
+    const downstream = [...connectedIds].filter(id => nodes[id].layer > hoveredNode.layer).map(id => nodes[id].name);
+    const peers = [...connectedIds].filter(id => nodes[id].layer === hoveredNode.layer).map(id => nodes[id].name);
+
+    let connHtml = '';
+    if (upstream.length) connHtml += `<div style="margin-top:4px"><span style="color:#4ecdc4">Upstream:</span> ${upstream.join(', ')}</div>`;
+    if (downstream.length) connHtml += `<div style="margin-top:2px"><span style="color:#f472b6">Downstream:</span> ${downstream.join(', ')}</div>`;
+    if (peers.length) connHtml += `<div style="margin-top:2px"><span style="color:#fbbf24">Peers:</span> ${peers.join(', ')}</div>`;
+
+    tooltip.style.display = 'block';
+    tooltip.style.left = (e.clientX + 16) + 'px';
+    tooltip.style.top = (e.clientY - 10) + 'px';
+    tooltip.innerHTML = `<div class="name" style="color:${hoveredNode.color}">${hoveredNode.name}</div>
+      <div class="layer">${LAYER_NAMES[hoveredNode.layer]} - ${hoveredNode.sector}</div>
+      <div style="font-size:12px;opacity:0.8;margin-bottom:4px">${hoveredNode.desc}</div>
+      <div class="connections">${connHtml || '<span style="opacity:0.4">No mapped connections</span>'}</div>`;
+    canvas.style.cursor = 'pointer';
+  } else {
+    tooltip.style.display = 'none';
+    canvas.style.cursor = 'default';
+  }
+});
+
+function searchCompany(term) {
+  searchTerm = term.toLowerCase();
+}
+
+function getConnectedSet(nodeId) {
+  const connected = new Set([nodeId]);
+  edges.forEach(e => {
+    if (e.s === nodeId) connected.add(e.t);
+    if (e.t === nodeId) connected.add(e.s);
+  });
+  return connected;
+}
+
+function draw() {
+  time += 0.016;
+  ctx.clearRect(0, 0, W, H);
+  const cx = W/2, cy = H/2;
+  const minDim = Math.min(W, H);
+
+  // Draw concentric ring guides
+  for (let i = 0; i < 5; i++) {
+    const r = LAYER_RADII[i] * minDim * 0.48;
+    ctx.strokeStyle = LAYER_COLORS[i];
+    ctx.globalAlpha = 0.06;
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.stroke();
+
+    // Ring label
+    ctx.globalAlpha = 0.12;
+    ctx.fillStyle = LAYER_COLORS[i];
+    ctx.font = '9px Inter, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(LAYER_NAMES[i].toUpperCase(), cx + r + 6, cy - 4);
+  }
+  ctx.globalAlpha = 1;
+
+  const connectedSet = hoveredNode ? getConnectedSet(hoveredNode.id) : null;
+  const searchMatch = searchTerm ? nodes.find(n => n.name.toLowerCase().includes(searchTerm)) : null;
+  const highlightSet = searchMatch ? getConnectedSet(searchMatch.id) : connectedSet;
+  const focusNode = searchMatch || hoveredNode;
+
+  // Draw edges
+  edges.forEach(e => {
+    const a = nodes[e.s], b = nodes[e.t];
+    const isHighlighted = focusNode && (e.s === focusNode.id || e.t === focusNode.id);
+    const dimmed = focusNode && !isHighlighted;
+
+    const midX = (a.x + b.x) / 2;
+    const midY = (a.y + b.y) / 2;
+    const cpX = midX + (midX - cx) * 0.15;
+    const cpY = midY + (midY - cy) * 0.15;
+
+    ctx.globalAlpha = dimmed ? 0.03 : (isHighlighted ? 0.5 : 0.1);
+    ctx.strokeStyle = isHighlighted ? (a.layer < b.layer ? a.color : b.color) : '#ffffff';
+    ctx.lineWidth = isHighlighted ? 2 : 0.5;
+    ctx.beginPath();
+    ctx.moveTo(a.x, a.y);
+    ctx.quadraticCurveTo(cpX, cpY, b.x, b.y);
+    ctx.stroke();
+
+    // Direction arrow for highlighted edges
+    if (isHighlighted) {
+      const t = 0.7;
+      const mt = 1-t;
+      const px = mt*mt*a.x + 2*mt*t*cpX + t*t*b.x;
+      const py = mt*mt*a.y + 2*mt*t*cpY + t*t*b.y;
+      ctx.fillStyle = a.layer < b.layer ? a.color : b.color;
+      ctx.globalAlpha = 0.6;
+      ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
+    }
+  });
+  ctx.globalAlpha = 1;
+
+  // Update and draw flow particles
+  flowParticles.forEach(p => {
+    p.update();
+    const isHighlighted = focusNode && (p.edge.s === focusNode.id || p.edge.t === focusNode.id);
+    if (focusNode && !isHighlighted) return;
+
+    const pos = p.getPos();
+    ctx.globalAlpha = isHighlighted ? 0.9 : 0.2;
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, isHighlighted ? p.size * 1.5 : p.size, 0, Math.PI*2);
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+
+  // Draw nodes
+  nodes.forEach(n => {
+    const inHighlight = highlightSet ? highlightSet.has(n.id) : true;
+    const isFocus = focusNode && focusNode.id === n.id;
+    const isSearchMatch = searchMatch && searchMatch.id === n.id;
+    const dimmed = highlightSet && !inHighlight;
+
+    const size = n.baseSize * (isFocus ? 1.4 : 1);
+
+    // Glow
+    if (!dimmed) {
+      const glow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, size * 4);
+      glow.addColorStop(0, n.color + (isFocus ? '40' : '15'));
+      glow.addColorStop(1, 'transparent');
+      ctx.fillStyle = glow;
+      ctx.beginPath(); ctx.arc(n.x, n.y, size*4, 0, Math.PI*2); ctx.fill();
+    }
+
+    // Node body
+    ctx.globalAlpha = dimmed ? 0.1 : 1;
+    ctx.fillStyle = n.color;
+    ctx.shadowColor = n.color;
+    ctx.shadowBlur = isFocus ? 16 : 6;
+    ctx.beginPath(); ctx.arc(n.x, n.y, size, 0, Math.PI*2); ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Pulse ring
+    if (isFocus || isSearchMatch) {
+      ctx.strokeStyle = n.color;
+      ctx.lineWidth = 1.5;
+      const pulse = size + 5 + Math.sin(time*3)*3;
+      ctx.globalAlpha = 0.4 + Math.sin(time*3)*0.2;
+      ctx.beginPath(); ctx.arc(n.x, n.y, pulse, 0, Math.PI*2); ctx.stroke();
+    }
+
+    // Label
+    const showLabel = !dimmed && (isFocus || inHighlight || !focusNode);
+    if (showLabel) {
+      ctx.globalAlpha = dimmed ? 0.05 : (isFocus ? 1 : 0.7);
+      ctx.fillStyle = '#fff';
+      ctx.font = `${isFocus ? '12' : '10'}px Inter, -apple-system, sans-serif`;
+      ctx.textAlign = 'center';
+
+      // Position label outside the ring
+      const labelAngle = Math.atan2(n.y - cy, n.x - cx);
+      const labelDist = size + 12;
+      const lx = n.x + Math.cos(labelAngle) * labelDist;
+      const ly = n.y + Math.sin(labelAngle) * labelDist;
+      ctx.fillText(n.name, lx, ly + 3);
+    }
+    ctx.globalAlpha = 1;
+  });
+
+  // Center marker
+  ctx.fillStyle = 'rgba(255,255,255,0.04)';
+  ctx.beginPath(); ctx.arc(cx, cy, 8, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.arc(cx, cy, 8, 0, Math.PI*2); ctx.stroke();
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>

@@ -13,8 +13,8 @@ Follow these steps:
    ```
 3. Use `Glob` to explore directory structure:
    - All notes: `Brain/**/*.md`
-   - Permanent notes: `Brain/02-Permanent/*.md`
-   - MOCs: `Brain/03-MOCs/*.md`
+   - Permanent notes: `Brain/02-Thinking/*.md`
+   - MOCs: `Brain/03-Reference/*.md`
    - Sources: `Brain/01-Sources/**/*.md`
 4. Read key hub notes from major clusters using `Read` tool (Dopamine, Self/Buddhism, Decision-Making, Flow, etc.)
 5. Use `mcp__smart-connections__get_similar_notes` to identify highly connected notes

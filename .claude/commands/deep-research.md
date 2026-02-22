@@ -23,7 +23,7 @@ Execute a complete 3-phase autonomous research pipeline:
 2. **EXTRACT** - Pull unique insights from research findings
 3. **CONNECT** - Map connections to existing knowledge base
 
-**Critical Requirement:** ALL extracted insights MUST be stored in Document Insights folder structure to keep separate from main Brain.
+**Critical Requirement:** ALL extracted insights MUST be stored in 01-Sources/Research folder structure to keep separate from main Brain.
 
 ---
 
@@ -158,7 +158,7 @@ Format: `YYYY-MM-DD [Topic Description]`
 
 Example: `2025-11-20 Neuroscience of Habits and Behavior Change`
 
-**Path:** `./Brain/Document Insights/[Session-Folder]/`
+**Path:** `./Brain/01-Sources/Research/[Session-Folder]/`
 
 ### Launch Document Insight Extractor
 
@@ -213,14 +213,14 @@ EXTRACTION GUIDELINES:
 
 CRITICAL:
 - ALWAYS search for duplicates before creating notes
-- Store ALL extracted notes in: ./Brain/Document Insights/[Session-Folder]/
+- Store ALL extracted notes in: ./Brain/01-Sources/Research/[Session-Folder]/
 - Create comprehensive changelog documenting extraction process
 ```
 
 ### Monitor Extraction Output
 
 After extraction completes:
-1. Verify insights stored in correct Document Insights session folder
+1. Verify insights stored in correct 01-Sources/Research session folder
 2. Check changelog was created
 3. Note count of unique insights extracted
 4. Confirm deduplication was performed
@@ -253,7 +253,7 @@ Use Task tool with subagent_type='connection-finder':
 Discover connections between newly extracted insights and existing knowledge base.
 
 STARTING POINTS:
-All notes in session folder: ./Brain/Document Insights/[Session-Folder]/
+All notes in session folder: ./Brain/01-Sources/Research/[Session-Folder]/
 
 Or specify individual notes if doing targeted passes.
 
@@ -289,7 +289,7 @@ CONNECTION DISCOVERY GOALS:
    - Identify bridge notes connecting multiple domains
    - Highlight consilience zones and synthesis opportunities
    - Create dated changelog: CHANGELOG - Connection Discovery Session YYYY-MM-DD.md
-   - Store changelog in: ./Brain/05-Meta/Changelogs/
+   - Store changelog in: ./Brain/05-System/Changelogs/
    - Update master changelog: ./Brain/CHANGELOG.md
    - Suggest concrete article topics or framework extensions
 
@@ -299,7 +299,7 @@ Begin comprehensive connection mapping.
 ### Monitor Connection Discovery
 
 After connection-finder completes:
-1. Verify changelog created in `/Brain/05-Meta/Changelogs/`
+1. Verify changelog created in `/Brain/05-System/Changelogs/`
 2. Check master CHANGELOG.md was updated
 3. Note key findings: consilience zones, synthesis opportunities
 4. Identify high-priority article topics
@@ -336,7 +336,7 @@ Generate a comprehensive session report including:
 ---
 
 ## Phase 2: Insight Extraction
-**Session Folder:** /Brain/Document Insights/[Session-Folder]/
+**Session Folder:** /Brain/01-Sources/Research/[Session-Folder]/
 
 **Extraction Results:**
 - Unique insights extracted: [N]
@@ -503,7 +503,7 @@ Generate a comprehensive session report including:
 
 ### Documentation
 - **Comprehensive changelogs:** Document every phase
-- **Clear file organization:** Session folders in Document Insights
+- **Clear file organization:** Session folders in 01-Sources/Research
 - **Master log updates:** Keep CHANGELOG.md current
 - **Audit trail:** Future-you should understand what happened and why
 
@@ -514,13 +514,16 @@ Generate a comprehensive session report including:
 1. **Parse input** → Determine directed vs. autonomous mode
 2. **Select topics** → Either use provided topics or analyze knowledge base for gaps
 3. **Get timestamp** → For session folder naming
-4. **Research phase** → Launch research-specialist agent(s)
-5. **Extraction phase** → Launch document-insight-extractor for each report
+4. **Research phase** → Launch research-specialist agent(s) → saves raw report to `./resources/`
+5. **Extraction phase** → Launch document-insight-extractor for each report → saves insights to vault
 6. **Connection phase** → Launch connection-finder agent(s)
-7. **Generate summary** → Comprehensive session report
-8. **Provide recommendations** → Actionable next steps for content creation
+7. **Cleanup phase** → Delete raw research reports from `./resources/` (insights are now in vault)
+8. **Generate summary** → Comprehensive session report
+9. **Provide recommendations** → Actionable next steps for content creation
 
-**Key Principle:** Fully autonomous execution. No human intervention required between phases. All insights stored in Document Insights folder structure to maintain separation from main Brain.
+**Key Principle:** Fully autonomous execution. No human intervention required between phases. All insights stored in 01-Sources/Research folder structure to maintain separation from main Brain.
+
+**Cleanup Principle:** Raw research reports in `./resources/` are working material. Once insights are extracted into the vault, delete the raw reports. The vault holds the distilled value; keeping raw reports causes folder bloat with no retrieval benefit.
 
 ---
 

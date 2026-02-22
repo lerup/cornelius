@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 810" width="1440" height="810">
+  <defs>
+    <style>
+      text { font-family: 'Inter', 'Helvetica Neue', sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1440" height="810" fill="#FFFFFF"/>
+
+  <!-- Header -->
+  <g id="header">
+    <text x="80" y="118" font-size="48" font-weight="700" fill="#000000" letter-spacing="-1.5">Non-Fungible Founders</text>
+    <text x="80" y="148" font-size="18" font-weight="400" fill="#808080" letter-spacing="-0.2">Their entire lives converge on a single problem</text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- CARD 1: Mad Scientist (x=80)                 -->
+  <!-- ============================================ -->
+  <g id="card-mad-scientist">
+    <rect x="80" y="200" width="296" height="500" rx="2" fill="none" stroke="#E0E0E0" stroke-width="1"/>
+    <rect x="80" y="200" width="296" height="2" fill="#000000"/>
+
+    <text x="108" y="240" font-size="11" font-weight="600" fill="#808080" letter-spacing="2">01</text>
+    <text x="108" y="270" font-size="24" font-weight="700" fill="#000000" letter-spacing="-0.5">Mad Scientist</text>
+
+    <text x="108" font-size="13" font-weight="400" fill="#808080">
+      <tspan x="108" y="298">Decades on one problem before anyone</tspan>
+      <tspan x="108" y="318">saw a market. The company is the</tspan>
+      <tspan x="108" y="338">culmination, not the beginning.</tspan>
+    </text>
+
+    <!-- Example 1: Tune Insight -->
+    <line x1="108" y1="490" x2="348" y2="490" stroke="#E8E8E8" stroke-width="1"/>
+    <text x="108" y="508" font-size="12" font-weight="600" fill="#000000" letter-spacing="1">TUNE INSIGHT</text>
+    <text x="108" font-size="12" font-weight="400" fill="#808080">
+      <tspan x="108" y="528">15 years in applied cryptography.</tspan>
+      <tspan x="108" y="545">50+ papers. 5 patents. Then a company.</tspan>
+    </text>
+
+    <!-- Example 2: Ubitium -->
+    <line x1="108" y1="572" x2="348" y2="572" stroke="#E8E8E8" stroke-width="1"/>
+    <text x="108" y="590" font-size="12" font-weight="600" fill="#000000" letter-spacing="1">UBITIUM</text>
+    <text x="108" font-size="12" font-weight="400" fill="#808080">
+      <tspan x="108" y="610">Invented leading FPGA architectures.</tspan>
+      <tspan x="108" y="627">200+ patents. The world wasn't ready.</tspan>
+      <tspan x="108" y="644">Now it is.</tspan>
+    </text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- CARD 2: Polymath (x=408)                     -->
+  <!-- ============================================ -->
+  <g id="card-polymath">
+    <rect x="408" y="200" width="296" height="500" rx="2" fill="none" stroke="#E0E0E0" stroke-width="1"/>
+    <rect x="408" y="200" width="296" height="2" fill="#000000"/>
+
+    <text x="436" y="240" font-size="11" font-weight="600" fill="#808080" letter-spacing="2">02</text>
+    <text x="436" y="270" font-size="24" font-weight="700" fill="#000000" letter-spacing="-0.5">Polymath</text>
+
+    <text x="436" font-size="13" font-weight="400" fill="#808080">
+      <tspan x="436" y="298">Backgrounds that make no sense on</tspan>
+      <tspan x="436" y="318">paper but create unique pattern</tspan>
+      <tspan x="436" y="338">recognition in practice.</tspan>
+    </text>
+
+    <!-- Example 1: Hedy -->
+    <line x1="436" y1="490" x2="676" y2="490" stroke="#E8E8E8" stroke-width="1"/>
+    <text x="436" y="508" font-size="12" font-weight="600" fill="#000000" letter-spacing="1">HEDY</text>
+    <text x="436" font-size="12" font-weight="400" fill="#808080">
+      <tspan x="436" y="528">Philosophy grad. Special Forces</tspan>
+      <tspan x="436" y="545">veteran. Fortune 500 CTO.</tspan>
+      <tspan x="436" y="562">One founding team.</tspan>
+    </text>
+
+    <!-- Example 2: Deep Earth -->
+    <line x1="436" y1="589" x2="676" y2="589" stroke="#E8E8E8" stroke-width="1"/>
+    <text x="436" y="607" font-size="12" font-weight="600" fill="#000000" letter-spacing="1">DEEP EARTH</text>
+    <text x="436" font-size="12" font-weight="400" fill="#808080">
+      <tspan x="436" y="627">Ex engineer at SpaceX, Marvel Fusion</tspan>
+      <tspan x="436" y="644">and Tesla. Teamed up with Google</tspan>
+      <tspan x="436" y="661">Maps product lead to map what is</tspan>
+      <tspan x="436" y="678">beneath us.</tspan>
+    </text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- CARD 3: Rebel (x=736)                        -->
+  <!-- ============================================ -->
+  <g id="card-rebel">
+    <rect x="736" y="200" width="296" height="500" rx="2" fill="none" stroke="#E0E0E0" stroke-width="1"/>
+    <rect x="736" y="200" width="296" height="2" fill="#000000"/>
+
+    <text x="764" y="240" font-size="11" font-weight="600" fill="#808080" letter-spacing="2">03</text>
+    <text x="764" y="270" font-size="24" font-weight="700" fill="#000000" letter-spacing="-0.5">Rebel</text>
+
+    <text x="764" font-size="13" font-weight="400" fill="#808080">
+      <tspan x="764" y="298">Outgrew institutions before</tspan>
+      <tspan x="764" y="318">graduating. Built from first</tspan>
+      <tspan x="764" y="338">principles because nobody taught</tspan>
+      <tspan x="764" y="358">them the rules.</tspan>
+    </text>
+
+    <!-- Example 1: Fabric -->
+    <line x1="764" y1="490" x2="1004" y2="490" stroke="#E8E8E8" stroke-width="1"/>
+    <text x="764" y="508" font-size="12" font-weight="600" fill="#000000" letter-spacing="1">FABRIC</text>
+    <text x="764" font-size="12" font-weight="400" fill="#808080">
+      <tspan x="764" y="528">Bitcoin mining at 15. Math Olympiad</tspan>
+      <tspan x="764" y="545">winner. MIT dropout. 6 patents</tspan>
+      <tspan x="764" y="562">before 30.</tspan>
+    </text>
+
+    <!-- Example 2: Lodestar -->
+    <line x1="764" y1="589" x2="1004" y2="589" stroke="#E8E8E8" stroke-width="1"/>
+    <text x="764" y="607" font-size="12" font-weight="600" fill="#000000" letter-spacing="1">LODESTAR</text>
+    <text x="764" font-size="12" font-weight="400" fill="#808080">
+      <tspan x="764" y="627">Won the Hyperloop Competition.</tspan>
+      <tspan x="764" y="644">Then built robotic arms for space.</tspan>
+    </text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- CARD 4: Wartime Builder (x=1064)             -->
+  <!-- ============================================ -->
+  <g id="card-wartime-builder">
+    <rect x="1064" y="200" width="296" height="500" rx="2" fill="none" stroke="#E0E0E0" stroke-width="1"/>
+    <rect x="1064" y="200" width="296" height="2" fill="#000000"/>
+
+    <text x="1092" y="240" font-size="11" font-weight="600" fill="#808080" letter-spacing="2">04</text>
+    <text x="1092" y="270" font-size="24" font-weight="700" fill="#000000" letter-spacing="-0.5">Wartime Builder</text>
+
+    <text x="1092" font-size="13" font-weight="400" fill="#808080">
+      <tspan x="1092" y="298">Built under impossible constraints.</tspan>
+      <tspan x="1092" y="318">Speed and resilience aren't strategy</tspan>
+      <tspan x="1092" y="338">- they're survival.</tspan>
+    </text>
+
+    <!-- Example 1: ARK -->
+    <line x1="1092" y1="490" x2="1332" y2="490" stroke="#E8E8E8" stroke-width="1"/>
+    <text x="1092" y="508" font-size="12" font-weight="600" fill="#000000" letter-spacing="1">ARK</text>
+    <text x="1092" font-size="12" font-weight="400" fill="#808080">
+      <tspan x="1092" y="528">44 engineers in a warzone.</tspan>
+      <tspan x="1092" y="545">Bootstrapped with personal savings.</tspan>
+      <tspan x="1092" y="562">Extreme velocity.</tspan>
+    </text>
+
+    <!-- Example 2: Foundational -->
+    <line x1="1092" y1="589" x2="1332" y2="589" stroke="#E8E8E8" stroke-width="1"/>
+    <text x="1092" y="607" font-size="12" font-weight="600" fill="#000000" letter-spacing="1">FOUNDATIONAL</text>
+    <text x="1092" font-size="12" font-weight="400" fill="#808080">
+      <tspan x="1092" y="627">Built an optics and space laser</tspan>
+      <tspan x="1092" y="644">R&amp;D hub for 7 years. $5M in revenue.</tspan>
+      <tspan x="1092" y="661">18 people. Then productised into</tspan>
+      <tspan x="1092" y="678">a company.</tspan>
+    </text>
+  </g>
+
+  <!-- Footer -->
+  <g id="footer">
+    <line x1="80" y1="740" x2="1360" y2="740" stroke="#E0E0E0" stroke-width="1"/>
+    <text x="80" y="766" font-size="13" font-weight="600" fill="#000000" letter-spacing="-0.5">inflection<tspan fill="#808080" font-weight="700">&#169;</tspan></text>
+    <text x="1360" y="766" font-size="11" font-weight="400" fill="#808080" letter-spacing="0.5" text-anchor="end">CONFIDENTIAL</text>
+  </g>
+
+</svg>

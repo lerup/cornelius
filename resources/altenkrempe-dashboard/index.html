@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Altenkrempe Investment Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #000000;
+      --white: #FFFFFF;
+      --grey: #808080;
+      --green: #B3BCB5;
+      --green-75: #C5CCC7;
+      --green-50: #D9DEDA;
+      --blue: #B4BACC;
+      --blue-75: #C7CCD9;
+      --blue-50: #D9DCE5;
+      --light-grey: #F7F7F7;
+      --border: #E5E5E5;
+      --sidebar-width: 340px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--white);
+      color: var(--black);
+      letter-spacing: -0.02em;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    /* HEADER */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 32px; border-bottom: 1px solid var(--border);
+      background: var(--white); position: sticky; top: 0; z-index: 100;
+    }
+    .logo-area { display: flex; align-items: center; gap: 24px; }
+    .logo-area svg { height: 28px; width: auto; }
+    .header-title { font-size: 15px; font-weight: 500; color: var(--grey); letter-spacing: -0.01em; }
+    .header-actions { display: flex; gap: 8px; }
+
+    .btn {
+      padding: 8px 16px; border: 1px solid var(--border); background: var(--white);
+      color: var(--black); font-family: inherit; font-size: 13px; font-weight: 500;
+      letter-spacing: -0.01em; cursor: pointer; transition: all 0.15s;
+    }
+    .btn:hover { background: var(--light-grey); }
+    .btn-active, .btn-active:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+    .btn-reset { border-color: var(--grey); color: var(--grey); }
+    .btn-reset:hover { background: var(--light-grey); color: var(--black); border-color: var(--black); }
+
+    /* LAYOUT */
+    .app { display: flex; min-height: calc(100vh - 61px); }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar-width); min-width: var(--sidebar-width);
+      border-right: 1px solid var(--border); overflow-y: auto;
+      height: calc(100vh - 61px); position: sticky; top: 61px; padding-bottom: 32px;
+    }
+    .input-section { border-bottom: 1px solid var(--border); }
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px; cursor: pointer; user-select: none;
+      font-weight: 600; font-size: 12px; text-transform: uppercase;
+      letter-spacing: 0.05em; color: var(--grey); transition: color 0.15s;
+    }
+    .section-header:hover { color: var(--black); }
+    .section-header .chevron { font-size: 10px; transition: transform 0.2s; }
+    .section-header.collapsed .chevron { transform: rotate(-90deg); }
+    .section-body { padding: 0 20px 16px; }
+    .section-body.hidden { display: none; }
+
+    .input-group { margin-bottom: 12px; }
+    .input-group label { display: block; font-size: 12px; font-weight: 500; color: var(--grey); margin-bottom: 4px; }
+    .input-with-unit {
+      display: flex; align-items: center; border: 1px solid var(--border);
+      overflow: hidden; transition: border-color 0.15s;
+    }
+    .input-with-unit:focus-within { border-color: var(--black); }
+    .input-with-unit .unit {
+      padding: 6px 10px; background: var(--light-grey); font-size: 12px;
+      color: var(--grey); font-weight: 500; min-width: 36px; text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .input-with-unit .unit-right { border-right: none; border-left: 1px solid var(--border); }
+    .input-with-unit input {
+      flex: 1; border: none; padding: 6px 10px; font-family: inherit;
+      font-size: 14px; font-weight: 500; outline: none; width: 100%;
+      font-variant-numeric: tabular-nums;
+    }
+    .helper-text { font-size: 11px; color: var(--grey); margin-top: 2px; font-variant-numeric: tabular-nums; }
+    .computed-values { margin-top: 12px; padding: 10px 12px; background: var(--light-grey); font-size: 12px; }
+    .computed-values .cv-row { display: flex; justify-content: space-between; padding: 2px 0; }
+    .computed-values .cv-label { color: var(--grey); }
+    .computed-values .cv-value { font-weight: 600; font-variant-numeric: tabular-nums; }
+    .scenarios-strip { padding: 12px 20px; display: flex; flex-wrap: wrap; gap: 6px; border-bottom: 1px solid var(--border); }
+    .scenarios-strip .btn { font-size: 11px; padding: 5px 10px; }
+
+    .radio-group { display: flex; gap: 16px; margin-bottom: 10px; }
+    .radio-group label { display: flex; align-items: center; gap: 4px; cursor: pointer; font-size: 12px; font-weight: 500; color: var(--grey); margin: 0; }
+    .radio-group input[type="radio"] { accent-color: var(--black); }
+    .checkbox-group { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+    .checkbox-group input[type="checkbox"] { accent-color: var(--black); }
+    .checkbox-group label { font-size: 11px; color: var(--grey); cursor: pointer; margin: 0; }
+
+    /* MAIN CONTENT */
+    .main-content { flex: 1; padding: 24px 32px; overflow-y: auto; }
+
+    /* WARNING */
+    .warning-banner {
+      display: none; padding: 12px 16px; background: #FFF3F3;
+      border: 1px solid #E5A0A0; margin-bottom: 24px; font-size: 13px; color: #9D0208;
+    }
+
+    /* METRICS */
+    .metrics-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-bottom: 32px; }
+    .metric-card { padding: 16px; border: 1px solid var(--border); }
+    .metric-card .metric-value {
+      font-size: 22px; font-weight: 700; letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums; line-height: 1.2;
+    }
+    .metric-card .metric-label {
+      font-size: 11px; font-weight: 500; color: var(--grey);
+      text-transform: uppercase; letter-spacing: 0.03em; margin-top: 4px;
+    }
+    .metric-positive { color: #2D6A4F; }
+    .metric-negative { color: #9D0208; }
+
+    /* CHARTS */
+    .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+    .chart-card { border: 1px solid var(--border); padding: 20px; }
+    .chart-card h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: var(--grey); margin-bottom: 16px; }
+    .chart-container { position: relative; height: 280px; }
+
+    /* TABLES */
+    .table-section { margin-bottom: 32px; }
+    .table-section h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: var(--grey); margin-bottom: 12px; }
+    .table-wrapper { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+    th { text-align: right; padding: 8px 12px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--grey); border-bottom: 2px solid var(--black); white-space: nowrap; }
+    th:first-child { text-align: left; }
+    td { text-align: right; padding: 8px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    td:first-child { text-align: left; font-weight: 600; }
+    tr:last-child td { border-bottom: 2px solid var(--black); }
+    .td-negative { color: #9D0208; }
+    .td-positive { color: #2D6A4F; }
+    .td-bold { font-weight: 700; }
+
+    /* DEFAULTS */
+    .defaults-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid var(--black); }
+    .defaults-section h2 { font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 20px; }
+    .defaults-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .defaults-block h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--grey); margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
+    .defaults-block .d-row { display: flex; justify-content: space-between; padding: 3px 0; font-size: 12px; }
+    .defaults-block .d-label { color: var(--grey); }
+    .defaults-block .d-value { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: flex-start;
+      padding: 40px 20px; overflow-y: auto;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: white; max-width: 720px; width: 100%; padding: 40px;
+      position: relative; max-height: calc(100vh - 80px); overflow-y: auto;
+    }
+    .modal h2 { font-size: 18px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; }
+    .modal h3 { font-size: 14px; font-weight: 700; margin-top: 28px; margin-bottom: 10px; color: var(--black); text-transform: uppercase; letter-spacing: 0.02em; }
+    .modal p { font-size: 13px; line-height: 1.7; margin-bottom: 10px; color: #333; }
+    .modal .formula { background: var(--light-grey); padding: 12px 16px; font-family: 'SF Mono', 'Menlo', monospace; font-size: 12px; margin: 10px 0; border-left: 3px solid var(--green); }
+    .modal .example { background: #F8FAFB; padding: 10px 16px; font-size: 12px; margin: 8px 0; border-left: 3px solid var(--blue); }
+    .modal-close {
+      position: sticky; top: 0; float: right; background: var(--black); color: white;
+      border: none; width: 32px; height: 32px; font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; z-index: 10;
+    }
+
+    /* FOOTER */
+    footer { padding: 20px 32px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: var(--grey); }
+
+    @media (max-width: 1200px) { .metrics-strip { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 900px) { .sidebar { display: none; } .charts-grid { grid-template-columns: 1fr; } .defaults-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-area">
+    <svg viewBox="160 395 1600 230" xmlns="http://www.w3.org/2000/svg">
+      <g><g>
+        <path d="m551.11,439.1v-31.88h31.31v31.88h-31.31Zm1.71,175.9v-150h27.89v150h-27.89Z"/>
+        <path d="m609.74,615v-150h27.89v19.92h.85c8.26-14.23,26.19-22.77,45.82-22.77,36.43,0,53.51,23.91,53.51,58.35v94.5h-27.89v-94.21c0-24.19-13.09-35.58-33.02-35.58-25.33,0-39.28,20.21-39.28,50.66v79.13h-27.89Z"/>
+        <path d="m777.39,615v-126.94h-26.47v-23.06h26.47v-19.92c0-27.04,17.65-40.7,45.26-40.7,4.84,0,11.67.57,16.22,1.71v24.19c-24.76-2.56-33.58,2.56-33.58,21.06v13.66h33.58v23.06h-33.58v126.94h-27.89Zm79.41,0v-207.78h27.61v207.78h-27.61Z"/>
+        <path d="m903.47,539.57c0-46.68,29.03-77.42,71.16-77.42s69.45,29.03,69.45,72.58c0,2.85,0,6.55-.29,11.67h-110.43c0,29.89,17.36,48.39,42.69,48.39,21.06,0,31.88-8.82,38.14-26.76h27.61c-5.12,29.6-32.16,49.81-66.03,49.81-42.98,0-72.3-32.16-72.3-78.27Zm110.44-13.95c-1.14-24.76-16.22-40.42-39.28-40.42s-39.28,16.22-41.27,40.42h80.55Z"/>
+        <path d="m1058.88,539.29c0-46.4,29.03-77.14,72.58-77.14,35.58,0,63.19,22.2,66.03,52.94h-29.6c-3.42-19.35-17.65-29.89-36.43-29.89-27.61,0-42.69,21.63-42.69,54.08,0,35.86,16.79,55.5,42.13,55.5,20.49,0,33.87-11.95,37-30.17h29.6c-3.13,30.74-29.32,53.22-66.6,53.22-45.54,0-72.01-31.31-72.01-78.56Z"/>
+        <path d="m1229.37,582.27v-94.21h-24.19v-23.06h24.19v-42.12h27.89v42.12h28.18v23.06h-28.18v85.96c0,13.38,3.42,17.36,20.5,17.36,3.13,0,6.26-.29,7.68-.57v24.19c-4.27.85-9.68,1.42-16.79,1.42-26.19,0-39.28-11.38-39.28-34.16Z"/>
+        <path d="m1306.79,439.1v-31.88h31.31v31.88h-31.31Zm1.71,175.9v-150h27.89v150h-27.89Z"/>
+        <path d="m1358.3,539.86c0-46.96,29.6-77.7,73.44-77.7s73.43,30.74,73.43,77.7-29.32,77.99-73.43,77.99-73.44-31.02-73.44-77.99Zm116.98,0c0-35.01-17.36-54.65-43.55-54.65-27.89,0-43.55,21.92-43.55,54.65,0,35.29,17.36,54.93,43.55,54.93,27.89,0,43.55-21.92,43.55-54.93Z"/>
+        <path d="m1524.24,615v-150h27.89v19.92h.85c8.26-14.23,26.19-22.77,45.82-22.77,36.43,0,53.51,23.91,53.51,58.35v94.5h-27.89v-94.21c0-24.19-13.09-35.58-33.02-35.58-25.33,0-39.28,20.21-39.28,50.66v79.13h-27.89Z"/>
+      </g>
+      <path d="m1673.38,496.55c0-18.99,15.32-34.4,34.4-34.4s34.4,15.41,34.4,34.4-15.23,34.4-34.4,34.4-34.4-15.41-34.4-34.4Zm63.3,0c0-15.87-13.03-28.9-28.9-28.9s-28.9,13.03-28.9,28.9,12.94,28.9,28.9,28.9,28.9-13.03,28.9-28.9Zm-46.14,0c0-12.2,7.06-19.08,17.89-19.08,8.99,0,15.6,5.6,16.51,14.04h-8.44c-.64-4.86-3.85-7.16-8.07-7.16-6.42,0-9.54,4.86-9.54,12.2,0,8.35,3.85,12.29,9.63,12.29,4.77,0,7.52-2.94,8.26-7.16h8.35c-.64,8.35-7.34,14.03-16.6,14.03-11.56,0-17.98-7.71-17.98-19.17Z"/>
+      </g>
+      <path d="m477.82,468v-3H177.82v3c82.01,0,148.5,32.24,148.5,72s-66.49,72-148.5,72v3h300v-3c-82.01,0-148.5-32.24-148.5-72s66.49-72,148.5-72Z"/>
+    </svg>
+    <span class="header-title">Reetdachhaus Altenkrempe - Investment Model</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn" onclick="showModal()">How It Works</button>
+    <button class="btn btn-reset" onclick="resetDefaults()">Reset Defaults</button>
+  </div>
+</header>
+
+<!-- HOW IT WORKS MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)hideModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="hideModal()">&times;</button>
+    <h2>How the Model Works</h2>
+
+    <h3>Step 1: Total Acquisition Cost</h3>
+    <p>Buying a property in Germany costs more than the purchase price. You pay transfer tax (Grunderwerbsteuer, 6.5% in Schleswig-Holstein) and notary + land registry fees (~1.8%). These are sunk costs - they don't increase the property's resale value.</p>
+    <div class="formula">Total Acquisition = Purchase Price + Transfer Tax + Notary Fees</div>
+    <div class="example">Example: 800,000 + 52,000 + 14,400 = <b>866,400</b></div>
+
+    <h3>Step 2: Equity &amp; Loan</h3>
+    <p>You split the total acquisition cost between your own money (equity) and a bank loan. The more you borrow, the less equity you need - but you pay interest. The freed-up cash goes into a separate investment portfolio.</p>
+    <div class="formula">Equity = Total Acquisition - Loan<br>Starting Portfolio = Loan Amount (the cash you freed up)</div>
+    <div class="example">866,400 - 500,000 = <b>366,400 equity</b>, <b>500,000 in portfolio</b></div>
+    <p><b>LTV (Loan-to-Value)</b> = Loan / Purchase Price. It measures leverage. Banks typically cap at 80%.</p>
+    <div class="example">500,000 / 800,000 = <b>62.5% LTV</b></div>
+
+    <h3>Step 3: Loan Payments (Annuitat)</h3>
+    <p>A German mortgage (Annuitatendarlehen) has a fixed annual payment. Each payment is split between interest (what the bank charges) and principal repayment (Tilgung, which reduces your debt). Early on, most goes to interest. Over time, more goes to principal.</p>
+    <p><b>Set by Tilgung:</b> You choose the initial repayment rate. The loan term is computed from this. At 2% Tilgung + 3.5% interest, you pay 5.5% of the loan annually.</p>
+    <div class="formula">Annuity = Loan &times; (Interest Rate + Tilgung Rate)<br>Term = ln((r+t)/t) / ln(1+r)</div>
+    <div class="example">500,000 &times; 5.5% = <b>27,500/year</b>. Term: <b>~29 years</b></div>
+    <p><b>Set by Term:</b> You choose how many years to repay. The annuity is computed.</p>
+    <div class="formula">Annuity = Loan &times; r / (1 - (1+r)<sup>-n</sup>)</div>
+    <div class="example">20-year term at 3.5%: Annuity = <b>~35,182/year</b>. Tilgung: <b>~3.5%</b></div>
+    <p><b>Zinsbindung</b> is the fixed-rate period (typically 10 years). After that, you refinance at whatever rates are available. The model shows your remaining balance at that point.</p>
+
+    <h3>Step 4: Tax Allocation (Deductible Share)</h3>
+    <p>When you use a property for both rental and personal use, the tax office only lets you deduct costs proportional to rental use. Vacant days are split between rental and personal use based on their ratio.</p>
+    <div class="formula">Rental Days = Rental Weeks &times; 7<br>Vacancy to Rental = Vacant Days &times; Rental Days / (Rental + Personal Days)<br>Deductible Share = (Rental Days + Vacancy to Rental) / 365</div>
+    <div class="example">25 rental weeks, 5 personal: Deductible Share = <b>83.3%</b> (rounded to 80% conservatively)</div>
+
+    <h3>Step 5: Operating Costs</h3>
+    <p><b>Total Cash Costs</b> = everything you actually pay out per year: management fee, maintenance, insurance, energy, taxes, reserves. This is cash out of your pocket.</p>
+    <p><b>Tax-Deductible Costs</b> = the portion the tax office accepts as an expense. Different rules apply:</p>
+    <div class="formula">Management Fee: 100% deductible (direct rental cost)<br>Regular costs (maintenance, insurance, etc.): deductible at Deductible Share %<br>Zweitwohnungsteuer: 0% (personal tax, not deductible)<br>Capex Reserve: 0% (only deductible when actually spent)</div>
+    <div class="example">Total cash costs: 27,650. Tax-deductible: <b>22,520</b></div>
+
+    <h3>Step 6: Depreciation (AfA)</h3>
+    <p>The building (not the land) loses value on paper. You can deduct this "loss" (AfA = Absetzung fur Abnutzung) from your rental income even though no cash leaves your account. For pre-1925 buildings: 2.5% per year of the building's acquisition value.</p>
+    <div class="formula">Building Value = Total Acquisition &times; Building Share %<br>Annual AfA = Building Value &times; 2.5%<br>Deductible AfA = Annual AfA &times; Deductible Share</div>
+    <div class="example">866,400 &times; 65% = 563,160. AfA = 14,079. Deductible: <b>11,263</b></div>
+
+    <h3>Step 7: Taxable Income &amp; Tax Effect</h3>
+    <p>Your rental taxable income = Revenue minus all deductible costs, AfA, and interest. If this is negative (a "tax loss"), it reduces your other income (salary) and saves you taxes at your marginal rate. If positive, you owe additional tax.</p>
+    <div class="formula">Taxable Income = Revenue - Deductible Costs - Deductible AfA - Deductible Interest<br>Tax Effect = -Taxable Income &times; Tax Rate<br>(positive = saving, negative = tax due)</div>
+    <div class="example">40,000 - 22,520 - 11,263 - 14,000 = <b>-7,783</b> (loss)<br>Tax saving: 7,783 &times; 42% = <b>+3,269</b></div>
+
+    <h3>Step 8: Annual Net Cash Flow</h3>
+    <p>What actually flows through your bank account each year.</p>
+    <div class="formula">Net Cash = Revenue - Total Cash Costs - Loan Payment + Tax Effect</div>
+    <div class="example">40,000 - 27,650 - 27,500 + 3,269 = <b>-11,881</b></div>
+    <p>Negative cash flow means the property costs you money each year. This shortfall is funded from the portfolio.</p>
+
+    <h3>Step 9: Portfolio Growth</h3>
+    <p>The EUR 500K you didn't put into the property is invested (e.g., in a diversified ETF portfolio). Each year it grows at the portfolio return rate, then the property's cash shortfall is withdrawn.</p>
+    <div class="formula">Portfolio = Previous Portfolio &times; (1 + Return) + Net Cash Flow</div>
+    <div class="example">Year 1: 500,000 &times; 1.05 - 11,881 = <b>513,119</b></div>
+
+    <h3>Step 10: Total Wealth</h3>
+    <p>After N years, your total wealth = property value minus remaining loan plus portfolio.</p>
+    <div class="formula">Property Value = Purchase Price &times; (1 + Appreciation)<sup>years</sup><br>Property Equity = Property Value - Loan Balance<br>Total Wealth = Property Equity + Portfolio</div>
+
+    <h3>Return Composition</h3>
+    <p>The total gain comes from four sources:</p>
+    <p><b>Appreciation</b> = Property value at end minus purchase price. This is your capital gain on the real estate.</p>
+    <p><b>Portfolio Growth</b> = Portfolio at end minus starting portfolio. What your freed-up capital earned in the market.</p>
+    <p><b>Equity Buildup</b> = Loan amount minus remaining loan balance. The portion of your loan payments that went to principal (forced savings).</p>
+    <p><b>Tax Savings</b> = Sum of all annual tax effects. The money saved by offsetting rental losses against salary income.</p>
+    <p><b>Operating Deficit</b> = Sum of (Revenue - Total Costs - Annuity) before tax. The pre-tax shortfall. This is the price you pay for the property's operating deficit. It includes the sunk Nebenkosten.</p>
+    <div class="formula">Total Gain = Appreciation + Portfolio Growth + Equity Buildup + Tax Savings + Operating Deficit</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="scenarios-strip">
+    <button class="btn btn-active" id="sc-base" onclick="applyScenario('base')">Base Case</button>
+    <button class="btn" id="sc-conservative" onclick="applyScenario('conservative')">Conservative</button>
+    <button class="btn" id="sc-optimistic" onclick="applyScenario('optimistic')">Optimistic</button>
+    <button class="btn" id="sc-personal" onclick="applyScenario('personal')">Personal Retreat</button>
+  </div>
+
+  <!-- Property -->
+  <div class="input-section">
+    <div class="section-header" onclick="toggleSection(this)">Property Acquisition <span class="chevron">&#9660;</span></div>
+    <div class="section-body">
+      <div class="input-group">
+        <label>Purchase Price</label>
+        <div class="input-with-unit"><span class="unit">&euro;</span><input type="number" id="purchasePrice" value="800000" step="10000" oninput="recalc()"></div>
+      </div>
+      <div class="input-group">
+        <label>Transfer Tax (Grunderwerbsteuer)</label>
+        <div class="input-with-unit"><input type="number" id="transferTaxRate" value="6.5" step="0.5" oninput="recalc()"><span class="unit unit-right">%</span></div>
+      </div>
+      <div class="input-group">
+        <label>Notary + Land Registry</label>
+        <div class="input-with-unit"><input type="number" id="notaryRate" value="1.8" step="0.1" oninput="recalc()"><span class="unit unit-right">%</span></div>
+      </div>
+      <div class="computed-values">
+        <div class="cv-row"><span class="cv-label">Transfer tax</span><span class="cv-value" id="cv-transferTax"></span></div>
+        <div class="cv-row"><span class="cv-label">Notary costs</span><span class="cv-value" id="cv-notary"></span></div>
+        <div class="cv-row" style="border-top:1px solid var(--border);padding-top:4px;margin-top:4px"><span class="cv-label" style="font-weight:600;color:var(--black)">Total acquisition</span><span class="cv-value" id="cv-totalAcq"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Financing -->
+  <div class="input-section">
+    <div class="section-header" onclick="toggleSection(this)">Financing <span class="chevron">&#9660;</span></div>
+    <div class="section-body">
+      <div class="input-group">
+        <label>Loan Amount</label>
+        <div class="input-with-unit"><span class="unit">&euro;</span><input type="number" id="loanAmount" value="500000" step="10000" oninput="recalc()"></div>
+      </div>
+      <div class="input-group">
+        <label>Interest Rate</label>
+        <div class="input-with-unit"><input type="number" id="interestRate" value="3.5" step="0.1" oninput="recalc()"><span class="unit unit-right">%</span></div>
+      </div>
+      <div class="input-group">
+        <div class="radio-group">
+          <label><input type="radio" name="loanMode" value="tilgung" checked onchange="onLoanModeChange()"> Set Tilgung</label>
+          <label><input type="radio" name="loanMode" value="term" onchange="onLoanModeChange()"> Set Term</label>
+        </div>
+      </div>
+      <div class="input-group" id="tilgungGroup">
+        <label>Initial Tilgung</label>
+        <div class="input-with-unit"><input type="number" id="tilgungRate" value="2.0" step="0.5" oninput="recalc()"><span class="unit unit-right">%</span></div>
+      </div>
+      <div class="input-group" id="termGroup" style="display:none">
+        <label>Loan Term</label>
+        <div class="input-with-unit"><input type="number" id="loanTerm" value="20" step="1" min="5" max="40" oninput="recalc()"><span class="unit unit-right">yrs</span></div>
+      </div>
+      <div class="input-group">
+        <label>Zinsbindung (Fixed Rate Period)</label>
+        <div class="input-with-unit"><input type="number" id="zinsbindung" value="10" step="1" min="1" max="30" oninput="recalc()"><span class="unit unit-right">yrs</span></div>
+      </div>
+      <div class="computed-values">
+        <div class="cv-row"><span class="cv-label">Annual annuity</span><span class="cv-value" id="cv-annuity"></span></div>
+        <div class="cv-row"><span class="cv-label">Equity required</span><span class="cv-value" id="cv-equity"></span></div>
+        <div class="cv-row"><span class="cv-label">LTV (Loan / Property)</span><span class="cv-value" id="cv-ltv"></span></div>
+        <div class="cv-row" id="cv-termRow"><span class="cv-label">Computed term</span><span class="cv-value" id="cv-term"></span></div>
+        <div class="cv-row" id="cv-tilgungRow" style="display:none"><span class="cv-label">Effective Tilgung</span><span class="cv-value" id="cv-effTilgung"></span></div>
+        <div class="cv-row"><span class="cv-label">Balance at Zinsbindung</span><span class="cv-value" id="cv-zbBalance"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Usage & Revenue -->
+  <div class="input-section">
+    <div class="section-header" onclick="toggleSection(this)">Usage &amp; Revenue <span class="chevron">&#9660;</span></div>
+    <div class="section-body">
+      <div class="input-group">
+        <label>Rental Weeks / Year</label>
+        <div class="input-with-unit"><input type="number" id="rentalWeeks" value="25" step="1" min="0" max="52" oninput="onRentalWeeksChange()"><span class="unit unit-right">wks</span></div>
+      </div>
+      <div class="input-group">
+        <label>Personal Use Weeks / Year</label>
+        <div class="input-with-unit"><input type="number" id="personalWeeks" value="5" step="1" min="0" max="52" oninput="recalc()"><span class="unit unit-right">wks</span></div>
+      </div>
+      <div class="input-group">
+        <label>Annual Gross Rental Income</label>
+        <div class="input-with-unit"><span class="unit">&euro;</span><input type="number" id="annualRevenue" value="40000" step="1000" oninput="recalc()"></div>
+        <span class="helper-text">Avg &euro;<span id="cv-weeklyRate">1,600</span>/week</span>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="conservativeRounding" checked onchange="recalc()">
+        <label for="conservativeRounding">Conservative rounding (round down to nearest 5%)</label>
+      </div>
+      <div class="computed-values">
+        <div class="cv-row"><span class="cv-label">Rental days</span><span class="cv-value" id="cv-rentalDays"></span></div>
+        <div class="cv-row"><span class="cv-label">Personal days</span><span class="cv-value" id="cv-personalDays"></span></div>
+        <div class="cv-row"><span class="cv-label">Vacant days</span><span class="cv-value" id="cv-vacantDays"></span></div>
+        <div class="cv-row"><span class="cv-label">Exact deductible share</span><span class="cv-value" id="cv-exactShare"></span></div>
+        <div class="cv-row" style="border-top:1px solid var(--border);padding-top:4px;margin-top:4px"><span class="cv-label" style="font-weight:600;color:var(--black)">Used in calculations</span><span class="cv-value" id="cv-usedShare"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Operating Costs -->
+  <div class="input-section">
+    <div class="section-header collapsed" onclick="toggleSection(this)">Operating Costs <span class="chevron">&#9660;</span></div>
+    <div class="section-body hidden">
+      <div class="input-group"><label>Management Fee (% of revenue)</label><div class="input-with-unit"><input type="number" id="managementFeeRate" value="25" step="1" oninput="recalc()"><span class="unit unit-right">%</span></div></div>
+      <div class="input-group"><label>General Maintenance</label><div class="input-with-unit"><span class="unit">&euro;</span><input type="number" id="maintenance" value="7000" step="500" oninput="recalc()"></div></div>
+      <div class="input-group"><label>Insurance (Reetdach + Liability)</label><div class="input-with-unit"><span class="unit">&euro;</span><input type="number" id="insurance" value="3200" step="100" oninput="recalc()"></div></div>
+      <div class="input-group"><label>Reetdach Maintenance</label><div class="input-with-unit"><span class="unit">&euro;</span><input type="number" id="reetdachMaint" value="850" step="50" oninput="recalc()"></div></div>
+      <div class="input-group"><label>Energy (net of guest charges)</label><div class="input-with-unit"><span class="unit">&euro;</span><input type="number" id="energy" value="2200" step="100" oninput="recalc()"></div></div>
+      <div class="input-group"><label>Steuerberater</label><div class="input-with-unit"><span class="unit">&euro;</span><input type="number" id="steuerberater" value="1500" step="100" oninput="recalc()"></div></div>
+      <div class="input-group"><label>Grundsteuer</label><div class="input-with-unit"><span class="unit">&euro;</span><input type="number" id="grundsteuer" value="400" step="50" oninput="recalc()"></div></div>
+      <div class="input-group"><label>Zweitwohnungsteuer</label><div class="input-with-unit"><span class="unit">&euro;</span><input type="number" id="zweitwohnungsteuer" value="600" step="50" oninput="recalc()"></div><span class="helper-text">Not tax-deductible (Aufwandsteuer)</span></div>
+      <div class="input-group"><label>Miscellaneous</label><div class="input-with-unit"><span class="unit">&euro;</span><input type="number" id="misc" value="500" step="100" oninput="recalc()"></div></div>
+      <div class="input-group"><label>Reetdach Capex Reserve</label><div class="input-with-unit"><span class="unit">&euro;</span><input type="number" id="capexReserve" value="1400" step="100" oninput="recalc()"></div><span class="helper-text">Not tax-deductible until spent</span></div>
+      <div class="computed-values">
+        <div class="cv-row"><span class="cv-label">Total cash costs</span><span class="cv-value" id="cv-totalCosts"></span></div>
+        <div class="cv-row"><span class="cv-label">Tax-deductible costs</span><span class="cv-value" id="cv-deductibleCosts"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assumptions -->
+  <div class="input-section">
+    <div class="section-header collapsed" onclick="toggleSection(this)">Growth &amp; Tax Assumptions <span class="chevron">&#9660;</span></div>
+    <div class="section-body hidden">
+      <div class="input-group"><label>Marginal Tax Rate</label><div class="input-with-unit"><input type="number" id="taxRate" value="42" step="1" oninput="recalc()"><span class="unit unit-right">%</span></div></div>
+      <div class="input-group"><label>Revenue Growth / Year</label><div class="input-with-unit"><input type="number" id="revenueGrowth" value="2" step="0.5" oninput="recalc()"><span class="unit unit-right">%</span></div></div>
+      <div class="input-group"><label>Cost Growth / Year</label><div class="input-with-unit"><input type="number" id="costGrowth" value="2" step="0.5" oninput="recalc()"><span class="unit unit-right">%</span></div></div>
+      <div class="input-group"><label>Property Appreciation / Year</label><div class="input-with-unit"><input type="number" id="appreciationRate" value="2.5" step="0.5" oninput="recalc()"><span class="unit unit-right">%</span></div></div>
+      <div class="input-group"><label>Portfolio Return / Year</label><div class="input-with-unit"><input type="number" id="portfolioReturn" value="5" step="0.5" oninput="recalc()"><span class="unit unit-right">%</span></div></div>
+      <div class="input-group"><label>Building Share (for AfA)</label><div class="input-with-unit"><input type="number" id="buildingShare" value="65" step="5" oninput="recalc()"><span class="unit unit-right">%</span></div></div>
+      <div class="input-group"><label>AfA Rate (pre-1925 building)</label><div class="input-with-unit"><input type="number" id="afaRate" value="2.5" step="0.5" oninput="recalc()"><span class="unit unit-right">%</span></div></div>
+      <div class="input-group"><label>Time Horizon</label><div class="input-with-unit"><input type="number" id="horizon" value="10" step="1" min="1" max="30" oninput="recalc()"><span class="unit unit-right">yrs</span></div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<section class="main-content">
+  <div class="warning-banner" id="warningBanner"></div>
+
+  <div class="metrics-strip">
+    <div class="metric-card"><div class="metric-value" id="m-totalWealth"></div><div class="metric-label">Total Wealth</div></div>
+    <div class="metric-card"><div class="metric-value" id="m-netGain"></div><div class="metric-label">Net Gain</div></div>
+    <div class="metric-card"><div class="metric-value" id="m-annReturn"></div><div class="metric-label">Ann. Return</div></div>
+    <div class="metric-card"><div class="metric-value" id="m-annReturnLife"></div><div class="metric-label">Incl. Lifestyle</div></div>
+    <div class="metric-card"><div class="metric-value" id="m-avgCash"></div><div class="metric-label">Avg Cash Flow / Yr</div></div>
+    <div class="metric-card"><div class="metric-value" id="m-deductShare"></div><div class="metric-label">Deductible Share</div></div>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card"><h3>Wealth Trajectory</h3><div class="chart-container"><canvas id="chartWealth"></canvas></div></div>
+    <div class="chart-card"><h3>Annual Cash Flow</h3><div class="chart-container"><canvas id="chartCashFlow"></canvas></div></div>
+    <div class="chart-card"><h3>Loan Amortization</h3><div class="chart-container"><canvas id="chartLoan"></canvas></div></div>
+    <div class="chart-card"><h3>Return Composition</h3><div class="chart-container"><canvas id="chartReturn"></canvas></div></div>
+  </div>
+
+  <div class="table-section">
+    <h3>Year-by-Year Projection</h3>
+    <div class="table-wrapper">
+      <table><thead><tr>
+        <th>Year</th><th>Revenue</th><th>Op. Costs</th><th>Annuity</th>
+        <th>Interest</th><th>Principal</th><th>Tax Effect</th>
+        <th>Net Cash</th><th>Cumulative</th><th>Portfolio</th>
+        <th>Property</th><th>Loan Bal.</th><th>Total Wealth</th>
+      </tr></thead><tbody id="cashFlowBody"></tbody></table>
+    </div>
+  </div>
+
+  <div class="defaults-section">
+    <h2>Memo Defaults Reference</h2>
+    <div class="defaults-grid">
+      <div class="defaults-block">
+        <h4>Property &amp; Financing</h4>
+        <div class="d-row"><span class="d-label">Purchase price</span><span class="d-value">&euro;800,000</span></div>
+        <div class="d-row"><span class="d-label">Transfer tax (6.5%)</span><span class="d-value">&euro;52,000</span></div>
+        <div class="d-row"><span class="d-label">Total acquisition</span><span class="d-value">&euro;866,400</span></div>
+        <div class="d-row"><span class="d-label">Loan</span><span class="d-value">&euro;500,000</span></div>
+        <div class="d-row"><span class="d-label">Equity</span><span class="d-value">&euro;366,400</span></div>
+        <div class="d-row"><span class="d-label">Interest / Tilgung</span><span class="d-value">3.5% / 2.0%</span></div>
+        <div class="d-row"><span class="d-label">Annual annuity</span><span class="d-value">&euro;27,500</span></div>
+        <div class="d-row"><span class="d-label">LTV</span><span class="d-value">62.5%</span></div>
+      </div>
+      <div class="defaults-block">
+        <h4>Revenue &amp; Usage</h4>
+        <div class="d-row"><span class="d-label">Rental weeks</span><span class="d-value">25</span></div>
+        <div class="d-row"><span class="d-label">Personal use weeks</span><span class="d-value">5</span></div>
+        <div class="d-row"><span class="d-label">Peak (Jul-Aug)</span><span class="d-value">8 wks &times; &euro;2,400</span></div>
+        <div class="d-row"><span class="d-label">High (Jun, Sep, hols)</span><span class="d-value">7 wks &times; &euro;1,500</span></div>
+        <div class="d-row"><span class="d-label">Shoulder (Apr-May, Oct)</span><span class="d-value">6 wks &times; &euro;1,050</span></div>
+        <div class="d-row"><span class="d-label">Low (winter)</span><span class="d-value">4 wks &times; &euro;1,000</span></div>
+        <div class="d-row"><span class="d-label">Annual revenue</span><span class="d-value">&euro;40,000</span></div>
+        <div class="d-row"><span class="d-label">Deductible share (memo)</span><span class="d-value">80%</span></div>
+      </div>
+      <div class="defaults-block">
+        <h4>Costs &amp; Assumptions</h4>
+        <div class="d-row"><span class="d-label">Total cash costs</span><span class="d-value">&euro;27,650</span></div>
+        <div class="d-row"><span class="d-label">Tax-deductible costs</span><span class="d-value">&euro;22,520</span></div>
+        <div class="d-row"><span class="d-label">Tax rate</span><span class="d-value">42%</span></div>
+        <div class="d-row"><span class="d-label">Growth (rev &amp; costs)</span><span class="d-value">2.0% / yr</span></div>
+        <div class="d-row"><span class="d-label">Appreciation</span><span class="d-value">2.5% / yr</span></div>
+        <div class="d-row"><span class="d-label">Portfolio return</span><span class="d-value">5.0% / yr</span></div>
+        <div class="d-row"><span class="d-label">Building share / AfA</span><span class="d-value">65% / 2.5%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<footer>
+  <span>Altenkrempe Investment Model - Analysis date: 2026-02-19</span>
+  <span>Based on Altenkrempe Memo. Consult a Steuerberater before transacting.</span>
+</footer>
+
+<!-- JAVASCRIPT -->
+<script>
+// ==========================================
+// DEFAULTS
+// ==========================================
+const DEFAULTS = {
+  purchasePrice: 800000, transferTaxRate: 6.5, notaryRate: 1.8,
+  loanAmount: 500000, interestRate: 3.5, tilgungRate: 2.0, loanTerm: 20, zinsbindung: 10,
+  rentalWeeks: 25, personalWeeks: 5, annualRevenue: 40000,
+  managementFeeRate: 25, maintenance: 7000, insurance: 3200, reetdachMaint: 850,
+  energy: 2200, steuerberater: 1500, grundsteuer: 400, zweitwohnungsteuer: 600,
+  misc: 500, capexReserve: 1400,
+  taxRate: 42, revenueGrowth: 2, costGrowth: 2, appreciationRate: 2.5,
+  portfolioReturn: 5, buildingShare: 65, afaRate: 2.5, horizon: 10
+};
+
+const SCENARIOS = {
+  base: { ...DEFAULTS, _loanMode: 'tilgung', _conservative: true },
+  conservative: { ...DEFAULTS, appreciationRate: 1.5, portfolioReturn: 3, annualRevenue: 32000, rentalWeeks: 20, _loanMode: 'tilgung', _conservative: true },
+  optimistic: { ...DEFAULTS, appreciationRate: 3.5, portfolioReturn: 7, annualRevenue: 50000, rentalWeeks: 28, _loanMode: 'tilgung', _conservative: true },
+  personal: { ...DEFAULTS, rentalWeeks: 15, personalWeeks: 15, annualRevenue: 24000, _loanMode: 'tilgung', _conservative: true }
+};
+
+let prevRentalWeeks = 25;
+
+// ==========================================
+// HELPERS
+// ==========================================
+function fmt(n) { return new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(Math.round(n)); }
+function fmtEur(n) { return '\u20AC' + fmt(n); }
+function fmtPct(n, d) { return n.toFixed(d !== undefined ? d : 1) + '%'; }
+function getVal(id) { return parseFloat(document.getElementById(id).value) || 0; }
+function setVal(id, v) { document.getElementById(id).value = v; }
+function getLoanMode() { return document.querySelector('input[name="loanMode"]:checked')?.value || 'tilgung'; }
+
+// ==========================================
+// LOAN MATH
+// ==========================================
+function annuityFromTerm(P, r, n) {
+  if (P === 0) return 0;
+  if (r === 0) return P / n;
+  return P * r / (1 - Math.pow(1 + r, -n));
+}
+
+function termFromTilgung(r, t) {
+  if (t <= 0) return Infinity;
+  if (r <= 0) return 1 / t;
+  return Math.log((r + t) / t) / Math.log(1 + r);
+}
+
+// ==========================================
+// MAIN CALCULATION
+// ==========================================
+function calculate() {
+  const p = {};
+  Object.keys(DEFAULTS).forEach(k => { p[k] = getVal(k); });
+  const loanMode = getLoanMode();
+
+  // Acquisition
+  const transferTax = p.purchasePrice * p.transferTaxRate / 100;
+  const notaryCosts = p.purchasePrice * p.notaryRate / 100;
+  const totalAcquisition = p.purchasePrice + transferTax + notaryCosts;
+  const equity = totalAcquisition - p.loanAmount;
+
+  // Loan
+  const r = p.interestRate / 100;
+  let annuity, computedTerm, computedTilgung;
+  if (loanMode === 'tilgung') {
+    const t = p.tilgungRate / 100;
+    annuity = p.loanAmount * (r + t);
+    computedTerm = termFromTilgung(r, t);
+    computedTilgung = t;
+  } else {
+    const n = p.loanTerm;
+    annuity = annuityFromTerm(p.loanAmount, r, n);
+    computedTilgung = p.loanAmount > 0 ? annuity / p.loanAmount - r : 0;
+    computedTerm = n;
+  }
+
+  // Usage allocation - auto-computed deductible share
+  const rentalDays = p.rentalWeeks * 7;
+  const personalDays = p.personalWeeks * 7;
+  const vacantDays = 365 - rentalDays - personalDays;
+  const usedDays = rentalDays + personalDays;
+  const vacancyToRental = usedDays > 0 ? vacantDays * (rentalDays / usedDays) : 0;
+  const exactShare = rentalDays > 0 ? (rentalDays + vacancyToRental) / 365 * 100 : 0;
+  const conservative = document.getElementById('conservativeRounding').checked;
+  const usedShare = conservative ? Math.floor(exactShare / 5) * 5 : exactShare;
+  const deductiblePct = usedShare / 100;
+
+  // AfA
+  const buildingValue = totalAcquisition * p.buildingShare / 100;
+  const annualAfa = buildingValue * p.afaRate / 100;
+  const deductibleAfa = annualAfa * deductiblePct;
+
+  // Operating costs (year 1)
+  const managementFee = p.managementFeeRate / 100 * p.annualRevenue;
+  const regularCosts = p.maintenance + p.insurance + p.reetdachMaint + p.energy + p.steuerberater + p.grundsteuer + p.misc;
+  const totalCashCosts = managementFee + regularCosts + p.zweitwohnungsteuer + p.capexReserve;
+  const deductibleCosts = managementFee + regularCosts * deductiblePct;
+  const avgWeeklyRate = p.rentalWeeks > 0 ? p.annualRevenue / p.rentalWeeks : 0;
+
+  // Year-by-year
+  const years = [];
+  let balance = p.loanAmount;
+  let portfolio = p.loanAmount;
+  let cumulativeNetCash = 0;
+  let totalTaxEffect = 0;
+
+  for (let y = 1; y <= p.horizon; y++) {
+    const gRev = Math.pow(1 + p.revenueGrowth / 100, y - 1);
+    const gCost = Math.pow(1 + p.costGrowth / 100, y - 1);
+
+    const rev = p.annualRevenue * gRev;
+    const mgmtFee = p.managementFeeRate / 100 * rev;
+    const regCosts = regularCosts * gCost;
+    const zwst = p.zweitwohnungsteuer * gCost;
+    const capex = p.capexReserve * gCost;
+    const costs = mgmtFee + regCosts + zwst + capex;
+    const dedCosts = mgmtFee + regCosts * deductiblePct;
+
+    let interest = 0, principal = 0, annuityActual = 0;
+    if (balance > 0.01) {
+      interest = balance * r;
+      const targetPrincipal = annuity - interest;
+      if (targetPrincipal >= balance) {
+        principal = balance;
+        annuityActual = balance + interest;
+      } else {
+        principal = targetPrincipal;
+        annuityActual = annuity;
+      }
+      balance = Math.max(0, balance - principal);
+    }
+
+    const dedInterest = interest * deductiblePct;
+    const taxableIncome = rev - dedCosts - deductibleAfa - dedInterest;
+    const taxEffect = -taxableIncome * p.taxRate / 100;
+    const netCash = rev - costs - annuityActual + taxEffect;
+    cumulativeNetCash += netCash;
+    totalTaxEffect += taxEffect;
+
+    portfolio = portfolio * (1 + p.portfolioReturn / 100) + netCash;
+
+    const propertyValue = p.purchasePrice * Math.pow(1 + p.appreciationRate / 100, y);
+    const propertyEquity = propertyValue - balance;
+    const totalWealth = propertyEquity + portfolio;
+
+    years.push({ year: y, revenue: rev, totalCosts: costs, annuity: annuityActual,
+      interest, principal, loanBalance: balance, taxableIncome, taxEffect,
+      netCash, cumulativeNetCash, portfolio, propertyValue, propertyEquity, totalWealth });
+  }
+
+  const last = years[years.length - 1];
+  const totalGain = last.totalWealth - totalAcquisition;
+  const annualizedReturn = totalAcquisition > 0 ? Math.pow(Math.max(0, last.totalWealth) / totalAcquisition, 1 / p.horizon) - 1 : 0;
+  const personalUseValue = p.personalWeeks * avgWeeklyRate * p.horizon;
+  const annReturnLife = totalAcquisition > 0 ? Math.pow(Math.max(0, last.totalWealth + personalUseValue) / totalAcquisition, 1 / p.horizon) - 1 : 0;
+
+  // Decomposition
+  const appreciation = last.propertyValue - p.purchasePrice;
+  const portfolioGrowthNet = last.portfolio - p.loanAmount;
+  const equityBuildup = p.loanAmount - last.loanBalance;
+  const operatingResult = years.reduce((s, y) => s + (y.revenue - y.totalCosts - y.annuity), 0);
+
+  // Zinsbindung balance
+  const zbYear = Math.min(p.zinsbindung, years.length);
+  const zbBalance = zbYear > 0 ? years[zbYear - 1].loanBalance : p.loanAmount;
+
+  return {
+    transferTax, notaryCosts, totalAcquisition, equity,
+    annuity, computedTerm, computedTilgung,
+    rentalDays, personalDays, vacantDays, exactShare, usedShare,
+    buildingValue, annualAfa, deductibleAfa,
+    managementFee, totalCashCosts, deductibleCosts, avgWeeklyRate,
+    years, totalTaxEffect, cumulativeNetCash: last.cumulativeNetCash,
+    totalGain, annualizedReturn, personalUseValue, annReturnLife,
+    appreciation, portfolioGrowthNet, equityBuildup, operatingResult,
+    zbBalance, lastYear: last
+  };
+}
+
+// ==========================================
+// CHARTS
+// ==========================================
+let chartWealth, chartCashFlow, chartLoan, chartReturn;
+const COLORS = { black: '#000000', grey: '#808080', green: '#B3BCB5', blue: '#B4BACC' };
+
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = COLORS.grey;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.pointStyleWidth = 10;
+Chart.defaults.plugins.legend.labels.boxHeight = 6;
+
+function destroyCharts() { [chartWealth, chartCashFlow, chartLoan, chartReturn].forEach(c => { if (c) c.destroy(); }); }
+
+function renderCharts(r) {
+  destroyCharts();
+  const labels = r.years.map(y => 'Y' + y.year);
+  const ttCb = { label: ctx => ctx.dataset.label + ': ' + fmtEur(ctx.parsed.y) };
+  const ttCbX = { label: ctx => fmtEur(ctx.parsed.x) };
+  const gridY = { ticks: { callback: v => fmtEur(v) }, grid: { color: '#F0F0F0' } };
+  const noGridX = { grid: { display: false } };
+
+  chartWealth = new Chart(document.getElementById('chartWealth'), {
+    type: 'line', data: { labels, datasets: [
+      { label: 'Total Wealth', data: r.years.map(y => y.totalWealth), borderColor: COLORS.black, backgroundColor: COLORS.black, borderWidth: 2.5, pointRadius: 3, tension: 0.3 },
+      { label: 'Property Value', data: r.years.map(y => y.propertyValue), borderColor: COLORS.green, backgroundColor: COLORS.green, borderWidth: 1.5, pointRadius: 2, tension: 0.3 },
+      { label: 'Portfolio', data: r.years.map(y => y.portfolio), borderColor: COLORS.blue, backgroundColor: COLORS.blue, borderWidth: 1.5, pointRadius: 2, tension: 0.3 },
+      { label: 'Loan Balance', data: r.years.map(y => y.loanBalance), borderColor: COLORS.grey, backgroundColor: COLORS.grey, borderWidth: 1.5, borderDash: [4,4], pointRadius: 2, tension: 0.3 }
+    ]}, options: { responsive: true, maintainAspectRatio: false, plugins: { tooltip: { callbacks: ttCb } }, scales: { y: gridY, x: noGridX } }
+  });
+
+  chartCashFlow = new Chart(document.getElementById('chartCashFlow'), {
+    type: 'bar', data: { labels, datasets: [
+      { label: 'Revenue', data: r.years.map(y => y.revenue), backgroundColor: COLORS.green, stack: 'pos' },
+      { label: 'Tax Saving', data: r.years.map(y => Math.max(0, y.taxEffect)), backgroundColor: COLORS.blue, stack: 'pos' },
+      { label: 'Op. Costs', data: r.years.map(y => -y.totalCosts), backgroundColor: COLORS.grey, stack: 'neg' },
+      { label: 'Loan Pmt', data: r.years.map(y => -y.annuity), backgroundColor: COLORS.black, stack: 'neg' },
+      { label: 'Tax Due', data: r.years.map(y => Math.min(0, y.taxEffect)), backgroundColor: '#C9A0A0', stack: 'neg' }
+    ]}, options: { responsive: true, maintainAspectRatio: false, plugins: { tooltip: { callbacks: ttCb } },
+      scales: { y: { ...gridY, stacked: true }, x: { ...noGridX, stacked: true } } }
+  });
+
+  chartLoan = new Chart(document.getElementById('chartLoan'), {
+    type: 'bar', data: { labels, datasets: [
+      { label: 'Interest', data: r.years.map(y => y.interest), backgroundColor: COLORS.grey, stack: 'a' },
+      { label: 'Principal', data: r.years.map(y => y.principal), backgroundColor: COLORS.green, stack: 'a' },
+      { label: 'Balance', data: r.years.map(y => y.loanBalance), type: 'line', borderColor: COLORS.black, backgroundColor: 'transparent', borderWidth: 2, pointRadius: 3, yAxisID: 'y1', tension: 0.3 }
+    ]}, options: { responsive: true, maintainAspectRatio: false, plugins: { tooltip: { callbacks: ttCb } },
+      scales: { y: { ...gridY, stacked: true }, y1: { ticks: { callback: v => fmtEur(v) }, grid: { display: false }, position: 'right' }, x: { ...noGridX, stacked: true } } }
+  });
+
+  const rd = [
+    { label: 'Appreciation', value: r.appreciation },
+    { label: 'Portfolio Growth', value: r.portfolioGrowthNet },
+    { label: 'Equity Buildup', value: r.equityBuildup },
+    { label: 'Tax Savings', value: r.totalTaxEffect },
+    { label: 'Operating Deficit', value: r.operatingResult }
+  ];
+  chartReturn = new Chart(document.getElementById('chartReturn'), {
+    type: 'bar', data: { labels: rd.map(d => d.label), datasets: [{
+      data: rd.map(d => d.value),
+      backgroundColor: rd.map(d => d.value >= 0 ? COLORS.green : COLORS.grey),
+      borderColor: rd.map(d => d.value >= 0 ? '#8FA892' : '#666'), borderWidth: 1
+    }]}, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: ttCbX } },
+      scales: { x: { ticks: { callback: v => fmtEur(v) }, grid: { color: '#F0F0F0' } }, y: noGridX } }
+  });
+}
+
+// ==========================================
+// TABLE
+// ==========================================
+function renderTable(r) {
+  document.getElementById('cashFlowBody').innerHTML = r.years.map(y => {
+    const nc = y.netCash >= 0 ? 'td-positive' : 'td-negative';
+    const cc = y.cumulativeNetCash >= 0 ? 'td-positive' : 'td-negative';
+    const te = y.taxEffect >= 0 ? 'td-positive' : 'td-negative';
+    return `<tr><td>Year ${y.year}</td><td>${fmtEur(y.revenue)}</td><td>${fmtEur(y.totalCosts)}</td>
+      <td>${fmtEur(y.annuity)}</td><td>${fmtEur(y.interest)}</td><td>${fmtEur(y.principal)}</td>
+      <td class="${te}">${fmtEur(y.taxEffect)}</td><td class="${nc} td-bold">${fmtEur(y.netCash)}</td>
+      <td class="${cc}">${fmtEur(y.cumulativeNetCash)}</td><td>${fmtEur(y.portfolio)}</td>
+      <td>${fmtEur(y.propertyValue)}</td><td>${fmtEur(y.loanBalance)}</td>
+      <td class="td-bold">${fmtEur(y.totalWealth)}</td></tr>`;
+  }).join('');
+}
+
+// ==========================================
+// RENDER ALL
+// ==========================================
+function renderAll(r) {
+  const el = id => document.getElementById(id);
+
+  // Metrics
+  el('m-totalWealth').textContent = fmtEur(r.lastYear.totalWealth);
+  el('m-totalWealth').className = 'metric-value';
+  el('m-netGain').textContent = fmtEur(r.totalGain);
+  el('m-netGain').className = 'metric-value ' + (r.totalGain >= 0 ? 'metric-positive' : 'metric-negative');
+  el('m-annReturn').textContent = fmtPct(r.annualizedReturn * 100);
+  el('m-annReturn').className = 'metric-value ' + (r.annualizedReturn >= 0 ? 'metric-positive' : 'metric-negative');
+  el('m-annReturnLife').textContent = fmtPct(r.annReturnLife * 100);
+  el('m-annReturnLife').className = 'metric-value ' + (r.annReturnLife >= 0 ? 'metric-positive' : 'metric-negative');
+  const avgCash = r.cumulativeNetCash / r.years.length;
+  el('m-avgCash').textContent = fmtEur(avgCash);
+  el('m-avgCash').className = 'metric-value ' + (avgCash >= 0 ? 'metric-positive' : 'metric-negative');
+  el('m-deductShare').textContent = fmtPct(r.usedShare);
+  el('m-deductShare').className = 'metric-value';
+
+  // Sidebar: Property
+  el('cv-transferTax').textContent = fmtEur(r.transferTax);
+  el('cv-notary').textContent = fmtEur(r.notaryCosts);
+  el('cv-totalAcq').textContent = fmtEur(r.totalAcquisition);
+
+  // Sidebar: Financing
+  el('cv-annuity').textContent = fmtEur(r.annuity) + '/yr';
+  el('cv-equity').textContent = fmtEur(r.equity);
+  const ltv = getVal('purchasePrice') > 0 ? getVal('loanAmount') / getVal('purchasePrice') * 100 : 0;
+  el('cv-ltv').textContent = fmtPct(ltv);
+
+  const mode = getLoanMode();
+  if (mode === 'tilgung') {
+    el('cv-termRow').style.display = '';
+    el('cv-tilgungRow').style.display = 'none';
+    el('cv-term').textContent = isFinite(r.computedTerm) ? r.computedTerm.toFixed(1) + ' yrs' : 'Never';
+  } else {
+    el('cv-termRow').style.display = 'none';
+    el('cv-tilgungRow').style.display = '';
+    el('cv-effTilgung').textContent = fmtPct(r.computedTilgung * 100);
+  }
+  el('cv-zbBalance').textContent = fmtEur(r.zbBalance);
+
+  // Sidebar: Usage
+  el('cv-weeklyRate').textContent = fmt(r.avgWeeklyRate);
+  el('cv-rentalDays').textContent = r.rentalDays;
+  el('cv-personalDays').textContent = r.personalDays;
+  el('cv-vacantDays').textContent = Math.max(0, r.vacantDays);
+  el('cv-exactShare').textContent = fmtPct(r.exactShare);
+  el('cv-usedShare').textContent = fmtPct(r.usedShare);
+
+  // Sidebar: Costs
+  el('cv-totalCosts').textContent = fmtEur(r.totalCashCosts) + '/yr';
+  el('cv-deductibleCosts').textContent = fmtEur(r.deductibleCosts) + '/yr';
+
+  // Warning
+  const negYear = r.years.find(y => y.portfolio < -100);
+  const banner = el('warningBanner');
+  if (negYear) {
+    banner.style.display = 'block';
+    banner.textContent = 'Portfolio depleted in Year ' + negYear.year + '. Additional capital of ' + fmtEur(Math.abs(negYear.portfolio)) + ' needed.';
+  } else {
+    banner.style.display = 'none';
+  }
+
+  renderCharts(r);
+  renderTable(r);
+}
+
+// ==========================================
+// EVENTS
+// ==========================================
+function recalc() { renderAll(calculate()); updateScenarioButtons(); }
+
+function toggleSection(header) {
+  header.classList.toggle('collapsed');
+  header.nextElementSibling.classList.toggle('hidden');
+}
+
+function onLoanModeChange() {
+  const mode = getLoanMode();
+  document.getElementById('tilgungGroup').style.display = mode === 'tilgung' ? '' : 'none';
+  document.getElementById('termGroup').style.display = mode === 'term' ? '' : 'none';
+  recalc();
+}
+
+function onRentalWeeksChange() {
+  const newWeeks = getVal('rentalWeeks');
+  if (prevRentalWeeks > 0 && newWeeks > 0) {
+    const currentRevenue = getVal('annualRevenue');
+    setVal('annualRevenue', Math.round(currentRevenue * newWeeks / prevRentalWeeks));
+  }
+  prevRentalWeeks = newWeeks;
+  recalc();
+}
+
+function applyScenario(name) {
+  const s = SCENARIOS[name];
+  Object.keys(DEFAULTS).forEach(k => { setVal(k, s[k] !== undefined ? s[k] : DEFAULTS[k]); });
+  if (s._loanMode) {
+    document.querySelector(`input[name="loanMode"][value="${s._loanMode}"]`).checked = true;
+    onLoanModeChange();
+  }
+  if (s._conservative !== undefined) {
+    document.getElementById('conservativeRounding').checked = s._conservative;
+  }
+  prevRentalWeeks = getVal('rentalWeeks');
+  recalc();
+}
+
+function updateScenarioButtons() {
+  document.querySelectorAll('.scenarios-strip .btn').forEach(b => b.classList.remove('btn-active'));
+  for (const [name, s] of Object.entries(SCENARIOS)) {
+    const match = Object.keys(DEFAULTS).every(k => {
+      const expected = s[k] !== undefined ? s[k] : DEFAULTS[k];
+      return Math.abs(getVal(k) - expected) < 0.01;
+    });
+    if (match) { document.getElementById('sc-' + name)?.classList.add('btn-active'); return; }
+  }
+}
+
+function resetDefaults() { applyScenario('base'); }
+
+function showModal() { document.getElementById('modalOverlay').classList.add('active'); }
+function hideModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+
+// INIT
+recalc();
+</script>
+</body>
+</html>

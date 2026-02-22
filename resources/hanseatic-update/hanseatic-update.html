@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hanseatic - Portfolio Update</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #000000;
+    --grey: #808080;
+    --white: #FFFFFF;
+    --green: #B3BCB5;
+    --blue: #B4BACC;
+    --off-white: #F5F5F5;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 40px;
+  }
+
+  .slide {
+    width: 1280px;
+    height: 720px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .slide-label {
+    color: var(--grey);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    width: 1280px;
+    text-align: left;
+    margin-bottom: -30px;
+  }
+
+  /* ========== SLIDE 1: TITLE ========== */
+  .slide-1 {
+    background: var(--black);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .slide-1 .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 56px;
+  }
+
+  .slide-1 .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .slide-1 .logo svg {
+    width: 36px;
+    height: 20px;
+  }
+
+  .slide-1 .logo span {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+
+  .slide-1 .title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .slide-1 .title-block h1 {
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.03em;
+    line-height: 1.0;
+  }
+
+  .slide-1 .title-block .subtitle {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--grey);
+    line-height: 1.5;
+    max-width: 420px;
+  }
+
+  .slide-1 .meta {
+    display: flex;
+    gap: 40px;
+  }
+
+  .slide-1 .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .slide-1 .meta-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--grey);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .slide-1 .meta-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--white);
+  }
+
+  .slide-1 .right {
+    background: var(--green);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px 56px;
+  }
+
+  .slide-1 .right .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .stat-card .stat-number {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: -0.03em;
+    line-height: 1.0;
+  }
+
+  .stat-card .stat-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(0,0,0,0.55);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .slide-1 .right .divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(0,0,0,0.15);
+    margin: 28px 0;
+  }
+
+  .slide-1 .right .thesis {
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(0,0,0,0.7);
+    line-height: 1.6;
+  }
+
+  /* ========== SLIDE 2: COMMERCIAL & TECH ========== */
+  .slide-2 {
+    background: var(--white);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .slide-2 .left {
+    padding: 48px 48px 48px 56px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #E8E8E8;
+  }
+
+  .slide-2 .right {
+    padding: 48px 56px 48px 48px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .section-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--black);
+    padding: 5px 10px;
+    border-radius: 2px;
+  }
+
+  .section-tag.green {
+    background: var(--green);
+    color: var(--black);
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+
+  .flow-item {
+    margin-bottom: 22px;
+  }
+
+  .flow-item .flow-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .flow-item .flow-name .badge {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: rgba(179, 188, 181, 0.3);
+    color: rgba(0,0,0,0.5);
+  }
+
+  .flow-item .flow-desc {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--grey);
+    line-height: 1.55;
+    margin-bottom: 8px;
+  }
+
+  .flow-metrics {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .flow-metric {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+
+  .flow-metric .fm-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: -0.02em;
+  }
+
+  .flow-metric .fm-label {
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--grey);
+  }
+
+  .flow-separator {
+    width: 100%;
+    height: 1px;
+    background: #E8E8E8;
+    margin: 18px 0;
+  }
+
+  .pipeline-note {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--grey);
+    line-height: 1.5;
+    padding: 12px 14px;
+    background: var(--off-white);
+    border-left: 2px solid var(--green);
+    margin-top: auto;
+  }
+
+  .pipeline-note strong {
+    color: var(--black);
+  }
+
+  .tech-item {
+    margin-bottom: 24px;
+  }
+
+  .tech-item .tech-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 6px;
+  }
+
+  .tech-item .tech-desc {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--grey);
+    line-height: 1.55;
+  }
+
+  .kpi-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  .kpi-box {
+    background: var(--off-white);
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .kpi-box .kpi-val {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: -0.02em;
+  }
+
+  .kpi-box .kpi-lbl {
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--grey);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .next-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 8px;
+    margin-top: auto;
+  }
+
+  .next-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .next-item {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(0,0,0,0.65);
+    line-height: 1.4;
+    padding-left: 12px;
+    position: relative;
+  }
+
+  .next-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 4px;
+    height: 4px;
+    background: var(--green);
+    border-radius: 1px;
+  }
+
+  .slide-2-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--black) 0%, var(--black) 50%, var(--green) 50%, var(--green) 100%);
+  }
+
+  /* ========== SLIDE 3: GOVERNANCE ========== */
+  .slide-3 {
+    background: var(--black);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .slide-3 .left {
+    padding: 48px 48px 48px 56px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .slide-3 .right {
+    padding: 48px 56px 48px 48px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .section-tag.dark {
+    background: rgba(255,255,255,0.1);
+    color: var(--white);
+  }
+
+  .section-tag.green-dark {
+    background: var(--green);
+    color: var(--black);
+  }
+
+  .section-title.light {
+    color: rgba(255,255,255,0.4);
+  }
+
+  .terms-table {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .terms-row {
+    display: flex;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 10px 0;
+  }
+
+  .terms-row .terms-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.4);
+    width: 140px;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .terms-row .terms-value {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--white);
+    line-height: 1.4;
+  }
+
+  .cap-table-header {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 12px;
+    margin-top: 16px;
+  }
+
+  .cap-bar {
+    display: flex;
+    height: 28px;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .cap-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .cap-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .cap-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .cap-legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
+
+  .cset-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .trigger-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .trigger-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .trigger-num {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--black);
+    background: var(--green);
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .trigger-text {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.45;
+  }
+
+  .bottom-line {
+    margin-top: auto;
+    padding: 16px;
+    border: 1px solid rgba(179, 188, 181, 0.3);
+    border-radius: 2px;
+  }
+
+  .bottom-line .bl-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  .bottom-line .bl-text {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.55;
+  }
+
+  .bottom-line .bl-text strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .slide-3-footer {
+    position: absolute;
+    bottom: 48px;
+    left: 56px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .slide-3-footer svg {
+    width: 28px;
+    height: 16px;
+  }
+
+  .slide-3-footer span {
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.3);
+  }
+
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide-label">Slide 1 / 3</div>
+<div class="slide slide-1">
+  <div class="left">
+    <div class="logo">
+      <svg viewBox="0 0 36 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 10C0 10 7.2 0 18 0C28.8 0 36 10 36 10C36 10 28.8 20 18 20C7.2 20 0 10 0 10Z" fill="white"/>
+        <ellipse cx="12" cy="10" rx="4" ry="6" fill="black"/>
+        <ellipse cx="24" cy="10" rx="4" ry="6" fill="black"/>
+      </svg>
+      <span>inflection</span>
+    </div>
+
+    <div class="title-block">
+      <h1>Hanseatic<br>Portfolio Update</h1>
+      <div class="subtitle">Programmable energy merchant encoding trading intelligence into software. Targeting the $95B+ physical energy trading sector.</div>
+    </div>
+
+    <div class="meta">
+      <div class="meta-item">
+        <div class="meta-label">Date</div>
+        <div class="meta-value">February 2026</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Status</div>
+        <div class="meta-value">Post-Seed</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Classification</div>
+        <div class="meta-value">Confidential</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">$4M</div>
+        <div class="stat-label">Round Size</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">$22.5M</div>
+        <div class="stat-label">Post-Money</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">$2M</div>
+        <div class="stat-label">Inflection (Lead)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">8.0%</div>
+        <div class="stat-label">Ownership (FD)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">~$70k</div>
+        <div class="stat-label">Monthly Burn</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">&lt;6 mo</div>
+        <div class="stat-label">Path to CF+</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="thesis">Co-investors: 3VC, RMC Ventures. Board observer seat for Inflection. 7+ years theoretical runway at current burn, but targeting cashflow positive in under 6 months.</div>
+  </div>
+</div>
+
+<!-- SLIDE 2: COMMERCIAL & TECH -->
+<div class="slide-label">Slide 2 / 3</div>
+<div class="slide slide-2">
+  <div class="left">
+    <div class="section-header">
+      <div class="section-tag">Commercial</div>
+      <div class="section-title">Building Baseflows</div>
+    </div>
+
+    <div class="flow-item">
+      <div class="flow-name">UCO Aggregation <span class="badge">Active</span></div>
+      <div class="flow-desc">Used Cooking Oil from Europe & Asia into Northern European biofuel refineries. Partnership with CSET & Circunext. Prepaid deals, existing tank facilities - no working capital needed.</div>
+      <div class="flow-metrics">
+        <div class="flow-metric">
+          <span class="fm-value">2kt</span>
+          <span class="fm-label">/mo now</span>
+        </div>
+        <div class="flow-metric" style="color: var(--grey); font-size: 14px;">&#8594;</div>
+        <div class="flow-metric">
+          <span class="fm-value">10kt</span>
+          <span class="fm-label">/mo target</span>
+        </div>
+        <div class="flow-metric" style="color: var(--grey); font-size: 14px;">&#8594;</div>
+        <div class="flow-metric">
+          <span class="fm-value">20kt</span>
+          <span class="fm-label">/mo stretch</span>
+        </div>
+      </div>
+      <div style="margin-top: 6px;">
+        <div class="flow-metrics">
+          <div class="flow-metric">
+            <span class="fm-value">$70k</span>
+            <span class="fm-label">GP now</span>
+          </div>
+          <div class="flow-metric" style="color: var(--grey); font-size: 14px;">&#8594;</div>
+          <div class="flow-metric">
+            <span class="fm-value">$700k</span>
+            <span class="fm-label">GP stretch/mo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-separator"></div>
+
+    <div class="flow-item">
+      <div class="flow-name">ULSD to Optima Croatia <span class="badge">Active</span></div>
+      <div class="flow-desc">300kt/year Ultra Light Sulfur Diesel supplied via Vitol to Optima in Croatia.</div>
+      <div class="flow-metrics">
+        <div class="flow-metric">
+          <span class="fm-value">$150M+</span>
+          <span class="fm-label">revenue</span>
+        </div>
+        <div class="flow-metric">
+          <span class="fm-value">$1.8M</span>
+          <span class="fm-label">fixed margin</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline-note">
+      <strong>5+ additional flows</strong> in earlier stages representing $10M+ in unweighted additional gross profit.
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="section-header">
+      <div class="section-tag green">Technology</div>
+      <div class="section-title">Automating Operations</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-name">Hanseatic Handshake - MVP Live</div>
+      <div class="tech-desc">Dealmaking platform operational with Circunext (Netherlands). Currently uses Google Sheets as interface. Digitizes trade documentation and automates operator workflows.</div>
+
+      <div class="kpi-row" style="margin-top: 12px;">
+        <div class="kpi-box">
+          <div class="kpi-val">50+</div>
+          <div class="kpi-lbl">Docs / Week</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-val">60%+</div>
+          <div class="kpi-lbl">Time Saved</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-val">6.7x</div>
+          <div class="kpi-lbl">Capacity Unlock</div>
+        </div>
+      </div>
+      <div class="tech-desc" style="margin-top: 4px;">De-bottlenecks logistics partner from 3kt/mo to 20kt/mo UCO capacity.</div>
+    </div>
+
+    <div class="flow-separator"></div>
+
+    <div class="tech-item">
+      <div class="tech-name">AI Agent POCs</div>
+      <div class="tech-desc">Early proofs of concept for agents that handle operator processes autonomously. Rethinking trade execution workflows from first principles.</div>
+    </div>
+
+    <div class="next-label">Next Priorities</div>
+    <div class="next-items">
+      <div class="next-item">Elegant interface replacing Google Sheets</div>
+      <div class="next-item">Track & trace, blending, tank management</div>
+      <div class="next-item">Automate operator role end-to-end</div>
+      <div class="next-item">Build repeatable, scalable baseflow templates</div>
+    </div>
+  </div>
+
+  <div class="slide-2-footer"></div>
+</div>
+
+<!-- SLIDE 3: GOVERNANCE & CSET -->
+<div class="slide-label">Slide 3 / 3</div>
+<div class="slide slide-3">
+  <div class="left">
+    <div class="section-header">
+      <div class="section-tag dark">Governance</div>
+      <div class="section-title light">Investment Structure</div>
+    </div>
+
+    <div class="terms-table">
+      <div class="terms-row">
+        <div class="terms-label">Entity</div>
+        <div class="terms-value">Hanseatic AG, Zug, Switzerland</div>
+      </div>
+      <div class="terms-row">
+        <div class="terms-label">Instrument</div>
+        <div class="terms-value">Preferred Seed Shares</div>
+      </div>
+      <div class="terms-row">
+        <div class="terms-label">Preference</div>
+        <div class="terms-value">1x non-participating liquidation</div>
+      </div>
+      <div class="terms-row">
+        <div class="terms-label">Anti-Dilution</div>
+        <div class="terms-value">Broad-based weighted average</div>
+      </div>
+      <div class="terms-row">
+        <div class="terms-label">Board</div>
+        <div class="terms-value">Observer seat (Inflection). Director seat: 3VC (Peter Lasinger)</div>
+      </div>
+      <div class="terms-row">
+        <div class="terms-label">Founder Lock-up</div>
+        <div class="terms-value">48 months, 8-year linear vesting</div>
+      </div>
+      <div class="terms-row">
+        <div class="terms-label">Pro-Rata</div>
+        <div class="terms-value">Yes, 5 business day window</div>
+      </div>
+    </div>
+
+    <div class="cap-table-header">Cap Table (Fully Diluted)</div>
+    <div class="cap-bar">
+      <div class="cap-segment" style="width: 61.06%; background: #555; color: white;">Founders 61%</div>
+      <div class="cap-segment" style="width: 8%; background: var(--green); color: var(--black);">3VC 8%</div>
+      <div class="cap-segment" style="width: 8%; background: var(--blue); color: var(--black);">INF 8%</div>
+      <div class="cap-segment" style="width: 7.94%; background: #888; color: white; font-size: 8px;">Pre-Seed</div>
+      <div class="cap-segment" style="width: 11.72%; background: #333; color: #aaa; font-size: 8px;">Angels</div>
+      <div class="cap-segment" style="width: 3.28%; background: #222; color: #666; font-size: 8px;">ESOP</div>
+    </div>
+    <div class="cap-legend">
+      <div class="cap-legend-item"><div class="cap-legend-dot" style="background: #555;"></div>Founders (61%)</div>
+      <div class="cap-legend-item"><div class="cap-legend-dot" style="background: var(--green);"></div>3VC (8%)</div>
+      <div class="cap-legend-item"><div class="cap-legend-dot" style="background: var(--blue);"></div>Inflection (8%)</div>
+      <div class="cap-legend-item"><div class="cap-legend-dot" style="background: #888;"></div>Pre-Seed (8%)</div>
+      <div class="cap-legend-item"><div class="cap-legend-dot" style="background: #333;"></div>Angels (12%)</div>
+      <div class="cap-legend-item"><div class="cap-legend-dot" style="background: #222;"></div>ESOP (3%)</div>
+    </div>
+
+    <div class="slide-3-footer" style="position: relative; margin-top: auto; padding-top: 20px;">
+      <svg viewBox="0 0 36 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 10C0 10 7.2 0 18 0C28.8 0 36 10 36 10C36 10 28.8 20 18 20C7.2 20 0 10 0 10Z" fill="rgba(255,255,255,0.2)"/>
+        <ellipse cx="12" cy="10" rx="4" ry="6" fill="black"/>
+        <ellipse cx="24" cy="10" rx="4" ry="6" fill="black"/>
+      </svg>
+      <span style="font-size: 13px; color: rgba(255,255,255,0.25);">inflection / confidential</span>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="section-header">
+      <div class="section-tag green-dark">Action Required</div>
+      <div class="section-title light">CSET Integration</div>
+    </div>
+
+    <div class="cset-title">CSET deal triggers 7 governance provisions</div>
+
+    <div class="trigger-list">
+      <div class="trigger-item">
+        <div class="trigger-num">1</div>
+        <div class="trigger-text">Joint venture / partnership agreement</div>
+      </div>
+      <div class="trigger-item">
+        <div class="trigger-num">2</div>
+        <div class="trigger-text">Investment exceeds CHF 500k threshold (convertible + opex)</div>
+      </div>
+      <div class="trigger-item">
+        <div class="trigger-num">3</div>
+        <div class="trigger-text">Equity grant of 15% to Sebastiaan far exceeds 5% ESOP limit</div>
+      </div>
+      <div class="trigger-item">
+        <div class="trigger-num">4</div>
+        <div class="trigger-text">Management compensation changes (CHF 300k + CHF 200k new salaries)</div>
+      </div>
+      <div class="trigger-item">
+        <div class="trigger-num">5</div>
+        <div class="trigger-text">Convertible instrument issuance requires Board + shareholder participation rights</div>
+      </div>
+      <div class="trigger-item">
+        <div class="trigger-num">6</div>
+        <div class="trigger-text">Related-party transaction (CSET is existing trading partner)</div>
+      </div>
+      <div class="trigger-item">
+        <div class="trigger-num">7</div>
+        <div class="trigger-text">Potential acquisition of business exceeding 10% FMV</div>
+      </div>
+    </div>
+
+    <div class="bottom-line">
+      <div class="bl-title">Recommended Action</div>
+      <div class="bl-text">Inflection holds <strong>observer rights only</strong> - cannot block at Board level. <strong>3VC has effective veto</strong> via Investor Director quorum requirement. Preferred Majority needed for any capital increase. <strong>Coordinate joint position with 3VC before Board vote.</strong></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

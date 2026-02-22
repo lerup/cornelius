@@ -72,7 +72,7 @@ run_connections.sh "Flow states" --depth 2
 run_connections.sh "Buddhism" --semantic-only
 
 # Full note ID for exact match
-run_connections.sh "02-Permanent/Dopamine.md" --json
+run_connections.sh "02-Thinking/Dopamine.md" --json
 ```
 
 ### 3. STATS - Graph Statistics
@@ -269,7 +269,7 @@ run_connections.sh --stats
 **"Note not found matching: X"**
 - Try partial name or different spelling
 - Use search first to find exact name
-- Use full note ID: `02-Permanent/Dopamine.md`
+- Use full note ID: `02-Thinking/Dopamine.md`
 
 **"ModuleNotFoundError"**
 - The wrapper scripts should handle this

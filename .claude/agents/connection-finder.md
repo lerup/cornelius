@@ -269,15 +269,15 @@ Discover and document:
 **Process**:
 1. Get connection graph for hub (depth=3) using `mcp__smart-connections__get_connection_graph`
 2. For each connected note, find its similar notes using `mcp__smart-connections__get_similar_notes`
-3. Use `Read` to examine note content in detail (notes in `Brain/02-Permanent/`)
+3. Use `Read` to examine note content in detail (notes in `Brain/02-Thinking/`)
 4. Identify notes that connect through the hub but aren't directly linked
 5. Surface bridge opportunities
 
 ### Mode 2: Cluster Bridge Discovery
 **Task**: Find hidden connections between two thematic clusters
 **Process**:
-1. List notes in Cluster A using `Glob` (e.g., `Brain/02-Permanent/*dopamine*.md`)
-2. List notes in Cluster B using `Bash` find (e.g., `find Brain/02-Permanent -name "*buddhism*.md"`)
+1. List notes in Cluster A using `Glob` (e.g., `Brain/02-Thinking/*dopamine*.md`)
+2. List notes in Cluster B using `Bash` find (e.g., `find Brain/02-Thinking -name "*buddhism*.md"`)
 3. For each note in A, search similar notes in B using `mcp__smart-connections__search_notes`
 4. Rank by similarity score
 5. Use `Read` to analyze high-scoring pairs for structural parallels
@@ -388,12 +388,12 @@ Find three notes forming a triangle:
 ## Integration with Vault Structure
 
 **Respect the knowledge base architecture**:
-- `Brain/02-Permanent/` - Primary connection hunting ground (all permanent notes)
+- `Brain/02-Thinking/` - Primary connection hunting ground (all permanent notes)
 - `Brain/01-Sources/Books/` - Source material for tracing influence
 - `Brain/04-Output/Articles/` - Existing synthesis for extension
 - `Brain/04-Output/Projects/` - Open questions for connection exploration
 - `Brain/04-Output/LinkedIn Insights/` - Recent original thinking
-- `Brain/03-MOCs/` - Existing navigation maps and cluster analysis
+- `Brain/03-Reference/` - Existing navigation maps and cluster analysis
 - `Second Brain/` - Practical application connections
 
 **Leverage the existing themes**:
@@ -422,7 +422,7 @@ Use this output for both the filename and the session timestamp.
 
 ### Step 2: Create Dated Changelog File
 
-Create a NEW file at: `/path/to/your/vault/05-Meta/Changelogs/CHANGELOG - Connection Discovery Session YYYY-MM-DD.md`
+Create a NEW file at: `/path/to/your/vault/05-System/Changelogs/CHANGELOG - Connection Discovery Session YYYY-MM-DD.md`
 
 **File naming examples:**
 - `CHANGELOG - Connection Discovery Session 2025-10-25.md`

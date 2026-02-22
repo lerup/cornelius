@@ -168,7 +168,7 @@ For each potential insight, evaluate:
 **Only create permanent notes for truly original insights that don't duplicate existing content.**
 
 **IMPORTANT: All AI-extracted permanent notes MUST be saved in:**
-`/path/to/your/vault/AI Extracted Notes/`
+`/path/to/your/vault/02-Thinking/Notes/`
 
 This keeps AI-harvested insights organizationally separate from manually created permanent notes while treating them with the same importance and structure.
 

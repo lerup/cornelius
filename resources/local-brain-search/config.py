@@ -8,7 +8,7 @@ from pathlib import Path
 PROJECT_DIR = Path(__file__).parent
 DATA_DIR = PROJECT_DIR / "data"
 # Brain path - relative to project root or set via environment variable
-BRAIN_PATH = Path(os.environ.get("BRAIN_PATH", PROJECT_DIR.parent.parent / "Brain"))
+BRAIN_PATH = Path(os.environ.get("BRAIN_PATH", "/Users/alexanderruppert/Desktop/Claude/OBSIDIAN VAULT"))
 
 # FAISS settings
 FAISS_INDEX_PATH = DATA_DIR / "brain.faiss"

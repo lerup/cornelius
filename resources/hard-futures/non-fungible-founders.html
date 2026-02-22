@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Non-Fungible Founders</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #F5F5F5;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .slide {
+    width: 1440px;
+    height: 810px;
+    background: #FFFFFF;
+    position: relative;
+    padding: 80px 80px 60px 80px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 56px;
+  }
+
+  .headline {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    color: #000000;
+    margin-bottom: 12px;
+  }
+
+  .subheadline {
+    font-size: 18px;
+    font-weight: 400;
+    color: #808080;
+    letter-spacing: -0.2px;
+  }
+
+  /* Archetype Grid */
+  .archetypes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    flex: 1;
+  }
+
+  .archetype {
+    display: flex;
+    flex-direction: column;
+    padding: 32px 28px;
+    border: 1px solid #E0E0E0;
+    border-radius: 2px;
+    position: relative;
+  }
+
+  /* Accent bar */
+  .archetype::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #000000;
+  }
+
+  .archetype-number {
+    font-size: 11px;
+    font-weight: 600;
+    color: #808080;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .archetype-name {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    color: #000000;
+  }
+
+  .archetype-desc {
+    font-size: 13px;
+    font-weight: 400;
+    color: #808080;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  /* Examples */
+  .examples {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .example {
+    border-top: 1px solid #E8E8E8;
+    padding-top: 12px;
+  }
+
+  .example-company {
+    font-size: 12px;
+    font-weight: 600;
+    color: #000000;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .example-detail {
+    font-size: 12px;
+    font-weight: 400;
+    color: #808080;
+    line-height: 1.4;
+  }
+
+  /* Footer */
+  .footer {
+    position: absolute;
+    bottom: 32px;
+    left: 80px;
+    right: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid #E0E0E0;
+  }
+
+  .footer-logo {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: #000000;
+  }
+
+  .footer-logo span {
+    color: #808080;
+    font-weight: 700;
+  }
+
+  .footer-note {
+    font-size: 11px;
+    color: #808080;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="slide">
+
+  <div class="header">
+    <div class="headline">Non-Fungible Founders</div>
+    <div class="subheadline">Their entire lives converge on a single problem</div>
+  </div>
+
+  <div class="archetypes">
+
+    <!-- 1. Mad Scientist -->
+    <div class="archetype">
+      <div class="archetype-number">01</div>
+      <div class="archetype-name">Mad Scientist</div>
+      <div class="archetype-desc">Decades on one problem before anyone saw a market. The company is the culmination, not the beginning.</div>
+      <div class="examples">
+        <div class="example">
+          <div class="example-company">Tune Insight</div>
+          <div class="example-detail">15 years in applied cryptography. 50+ papers. 5 patents. Then a company.</div>
+        </div>
+        <div class="example">
+          <div class="example-company">Ubitium</div>
+          <div class="example-detail">Invented leading FPGA architectures. 200+ patents. The world wasn't ready. Now it is.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Polymath -->
+    <div class="archetype">
+      <div class="archetype-number">02</div>
+      <div class="archetype-name">Polymath</div>
+      <div class="archetype-desc">Backgrounds that make no sense on paper but create unique pattern recognition in practice.</div>
+      <div class="examples">
+        <div class="example">
+          <div class="example-company">Hedy</div>
+          <div class="example-detail">Philosophy grad. Special Forces veteran. Fortune 500 CTO. One founding team.</div>
+        </div>
+        <div class="example">
+          <div class="example-company">Deep Earth</div>
+          <div class="example-detail">Ex engineer at SpaceX, Marvel Fusion and Tesla. Teamed up with Google Maps product lead to map what is beneath us.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Rebel -->
+    <div class="archetype">
+      <div class="archetype-number">03</div>
+      <div class="archetype-name">Rebel</div>
+      <div class="archetype-desc">Outgrew institutions before graduating. Built from first principles because nobody taught them the rules.</div>
+      <div class="examples">
+        <div class="example">
+          <div class="example-company">Fabric</div>
+          <div class="example-detail">Bitcoin mining at 15. Math Olympiad winner. MIT dropout. 6 patents before 30.</div>
+        </div>
+        <div class="example">
+          <div class="example-company">Lodestar</div>
+          <div class="example-detail">Won the Hyperloop Competition. Then built robotic arms for space.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Wartime Builder -->
+    <div class="archetype">
+      <div class="archetype-number">04</div>
+      <div class="archetype-name">Wartime Builder</div>
+      <div class="archetype-desc">Built under impossible constraints. Speed and resilience aren't strategy - they're survival.</div>
+      <div class="examples">
+        <div class="example">
+          <div class="example-company">ARK</div>
+          <div class="example-detail">44 engineers in a warzone. Bootstrapped with personal savings. Extreme velocity.</div>
+        </div>
+        <div class="example">
+          <div class="example-company">Foundational</div>
+          <div class="example-detail">Built an optics and space laser R&D hub for 7 years. $5M in revenue. 18 people. Then productised into a company.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-logo">inflection<span>&copy;</span></div>
+    <div class="footer-note">CONFIDENTIAL</div>
+  </div>
+
+</div>
+
+</body>
+</html>

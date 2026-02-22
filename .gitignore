@@ -37,3 +37,13 @@ yarn-error.log*
 # Temporary files
 *.tmp
 *.temp
+
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Local Brain Search data (generated, machine-specific)
+resources/local-brain-search/data/
+resources/local-brain-search/venv/
+resources/local-brain-search/__pycache__/

@@ -115,7 +115,7 @@ Your thoughts, reactions, questions, or connections to other ideas:
 
 1. **While reading**: Highlight and take fleeting notes
 2. **After finishing**: Create this source note
-3. **Extract insights**: Create permanent notes in `02-Permanent/`
+3. **Extract insights**: Create permanent notes in `02-Thinking/Notes/`
 4. **Link them**: Update this note with permanent note links
 5. **Find connections**: Run `/find-connections` on new permanent notes
 

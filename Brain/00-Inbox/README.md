@@ -1,8 +1,8 @@
 # 00-Inbox - Capture Zone
 
-**Purpose**: Quick capture without friction. Don't organize here—just get ideas down fast.
+**Purpose**: Quick capture without friction. Don't organize here - just get ideas down fast.
 
-## 📂 Folders
+## Folders
 
 ### Quick Captures/
 **What**: Fleeting notes, raw thoughts, quick ideas
@@ -10,7 +10,7 @@
 **How**:
 - Create quick markdown files
 - Don't worry about formatting
-- Process these into permanent notes regularly
+- Process these into thinking notes regularly
 
 **Examples**:
 - Random thoughts while reading
@@ -24,42 +24,42 @@
 **How**:
 - Agent places extracted insights here
 - Review and validate each extraction
-- Move validated notes to `02-Permanent/`
+- Move validated notes to `02-Thinking/Notes/`
 - Edit or delete as needed
 
-## 🔄 Workflow
+## Workflow
 
 ### Daily
 1. **Capture**: Drop ideas in `Quick Captures/` throughout the day
-2. **Process**: Evening review—convert to permanent notes
+2. **Process**: Evening review - convert to thinking notes
 3. **Clean**: Delete or archive processed items
 
 ### Weekly
 1. **Review**: Check `Content Extractions/` for AI-generated notes
 2. **Validate**: Review each extraction for accuracy
-3. **Integrate**: Move good ones to `02-Permanent/`
+3. **Integrate**: Move good ones to `02-Thinking/Notes/`
 
-## ✅ Best Practices
+## Best Practices
 
 ### Do
-- ✅ Capture quickly without overthinking
-- ✅ Use simple filenames (date + topic)
-- ✅ Process inbox to zero regularly
-- ✅ Keep this folder empty-ish
+- Capture quickly without overthinking
+- Use simple filenames (date + topic)
+- Process inbox to zero regularly
+- Keep this folder empty-ish
 
 ### Don't
-- ❌ Let fleeting notes pile up
-- ❌ Organize or categorize here
-- ❌ Leave items unprocessed for weeks
-- ❌ Write long, polished notes here
+- Let fleeting notes pile up
+- Organize or categorize here
+- Leave items unprocessed for weeks
+- Write long, polished notes here
 
-## 🎯 Processing Guidelines
+## Processing Guidelines
 
-When converting fleeting notes to permanent:
+When converting fleeting notes to thinking notes:
 
 1. **Ask**: Is this a unique insight worth preserving?
 2. **Rephrase**: Put it in your own words
-3. **Link**: Connect to existing permanent notes
+3. **Link**: Connect to existing thinking notes
 4. **Source**: Note where the idea came from
 5. **Delete**: Remove the fleeting note once processed
 

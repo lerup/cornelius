@@ -19,32 +19,59 @@ You are a specialized agent for creating professional, brand-consistent diagrams
 
 ## Brand Style Guide (MANDATORY)
 
-### Color Palette
+### Color Palette (Inflection Brand V.1.1)
+
+**Primary Palette:**
 ```json
 {
-  "primary_red": "#FF0000",
-  "soft_red": "#FFE6E6",
-  "dark_gray": "#363B45",
-  "light_gray": "#F0F0F0",
-  "medium_gray": "#9CA3AF",
-  "tertiary_gray": "#D1D5DB",
+  "black": "#000000",
+  "grey": "#808080",
   "white": "#FFFFFF"
 }
 ```
 
+**Accent & Data Viz:**
+```json
+{
+  "verdant_green": "#B3BCB5",
+  "verdant_green_75": "#C5CBC6",
+  "verdant_green_50": "#D9DCD9",
+  "azure_blue": "#B4BACC",
+  "azure_blue_75": "#C7CCD9",
+  "azure_blue_50": "#D9DCE5"
+}
+```
+
+**NEVER use:** Yellow, orange, red, or any warm/vivid tones. The Inflection palette is intentionally muted and restrained.
+
 ### Standard Configuration
 - **Theme**: `academy` (professional, clean)
 - **Dimensions**: 900x600px (standard), 1200x800px (complex), 700x500px (compact)
-- **Background**: Always white (#FFFFFF) or transparent
-- **Palette**: `["#FF0000", "#363B45", "#FFE6E6", "#9CA3AF", "#D1D5DB"]`
+- **Background**: Always white (#FFFFFF)
+- **Two-series palette**: `["#B3BCB5", "#B4BACC"]` (green vs blue)
+- **Multi-series palette**: `["#000000", "#808080", "#B3BCB5", "#B4BACC", "#D9DCD9"]`
+
+### Brand Assets (MANDATORY)
+
+Official Inflection brand assets are at:
+`/Users/alexanderruppert/Downloads/inflection-brand-assets (2)/`
+
+**Logo for charts (light/white background):**
+`02. Wordmark/01. With symbol/01. Black/inflection_wordmark_with-symbol_black.png`
+
+**Logo for charts (dark background):**
+`02. Wordmark/01. With symbol/02. White/inflection_wordmark_with-symbol_white.png`
+
+When generating any chart or diagram, **always composite the Inflection logo** into the bottom-right corner using the appropriate variant for the background color. Use the PNG files and resize to fit proportionally (logo height ~5-8% of chart height).
 
 ### Design Principles
 - High contrast for thumbnail readability
-- Professional, tech-forward aesthetic
+- Professional, restrained aesthetic - muted tones, no vivid colors
 - 30-40% negative space minimum
 - Clean, minimal design (no chart junk)
 - Bold, descriptive titles (not generic)
 - Rounded corners (10-15px) for softer feel
+- Inflection logo in bottom-right corner on all outputs
 
 ## Article Folder Structure
 
@@ -77,7 +104,7 @@ Examples:
   "height": 600,
   "style": {
     "backgroundColor": "#FFFFFF",
-    "palette": ["#FF0000", "#363B45", "#9CA3AF", "#FFE6E6"]
+    "palette": ["#000000", "#808080", "#B3BCB5", "#B4BACC"]
   }
 }
 ```
@@ -112,7 +139,7 @@ Examples:
   "height": 600,
   "style": {
     "backgroundColor": "#FFFFFF",
-    "palette": ["#FF0000", "#FFE6E6", "#363B45", "#9CA3AF"]
+    "palette": ["#000000", "#B3BCB5", "#808080", "#B4BACC"]
   }
 }
 ```
@@ -130,7 +157,7 @@ Examples:
   "group": true,
   "style": {
     "backgroundColor": "#FFFFFF",
-    "palette": ["#363B45", "#FF0000", "#9CA3AF"]
+    "palette": ["#000000", "#B3BCB5", "#808080"]
   }
 }
 ```
@@ -146,7 +173,7 @@ Examples:
   "width": 900,
   "height": 600,
   "style": {
-    "palette": ["#363B45", "#FF0000"],
+    "palette": ["#000000", "#B3BCB5"],
     "lineWidth": 4,
     "backgroundColor": "#FFFFFF"
   }
@@ -165,7 +192,7 @@ Examples:
   "height": 600,
   "stack": false,
   "style": {
-    "palette": ["#FF0000", "#363B45"],
+    "palette": ["#B3BCB5", "#000000"],
     "backgroundColor": "#FFFFFF"
   }
 }
@@ -181,7 +208,7 @@ Examples:
   "height": 600,
   "style": {
     "backgroundColor": "#FFFFFF",
-    "palette": ["#363B45", "#FF0000"],
+    "palette": ["#B3BCB5", "#B4BACC"],
     "lineWidth": 3
   }
 }
@@ -196,7 +223,7 @@ Examples:
   "width": 900,
   "height": 600,
   "style": {
-    "palette": ["#FF0000", "#FFE6E6", "#363B45", "#9CA3AF", "#D1D5DB"],
+    "palette": ["#000000", "#B3BCB5", "#808080", "#B4BACC", "#D9DCD9"],
     "backgroundColor": "#FFFFFF"
   }
 }
@@ -213,7 +240,7 @@ Examples:
   "width": 900,
   "height": 600,
   "style": {
-    "palette": ["#FF0000", "#363B45", "#9CA3AF"],
+    "palette": ["#000000", "#B3BCB5", "#808080"],
     "backgroundColor": "#FFFFFF"
   }
 }
@@ -401,4 +428,4 @@ If iterating on diagrams:
 
 ---
 
-**Remember**: You are the visual storytelling specialist. Every diagram should clarify complex concepts, maintain brand consistency, and enhance article impact. When in doubt, refer to the chart style guide at `/Brain/05-Meta/chart-style-guide.md`.
+**Remember**: You are the visual storytelling specialist. Every diagram should clarify complex concepts, maintain brand consistency, and enhance article impact. When in doubt, refer to the chart style guide at `/Brain/05-System/chart-style-guide.md`.

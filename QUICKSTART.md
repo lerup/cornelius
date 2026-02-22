@@ -95,7 +95,7 @@ If this works, you're done! 🎉
 
 **Create your first permanent note:**
 ```
-Can you help me create a permanent note about [idea] in the Permanent/ folder?
+Can you help me create a permanent note about [idea] in the 02-Thinking/Notes/ folder?
 ```
 
 ## Next Steps (When You Have Time)
@@ -138,7 +138,7 @@ Replace `/path/to/vault` with your actual path.
 ## What's Next?
 
 **Start simple:**
-1. Create notes in `Permanent/`
+1. Create notes in `02-Thinking/Notes/`
 2. Run `/find-connections` to see relationships
 3. Create your first MOC when you have 10+ related notes
 

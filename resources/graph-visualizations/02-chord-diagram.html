@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chord Diagram - Cross-Sector Relationships</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0c0c1e; font-family: 'Inter', -apple-system, system-ui, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+svg { overflow: visible; }
+#container { position: relative; }
+#title {
+  position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+  text-align: center; white-space: nowrap;
+}
+#title h1 { color: #fff; font-size: 22px; font-weight: 600; letter-spacing: -0.5px; }
+#title p { color: #666; font-size: 12px; margin-top: 4px; }
+#tooltip {
+  position: fixed; display: none; padding: 12px 16px;
+  background: rgba(10,10,30,0.95); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px; color: #e0e0e0; font-size: 13px;
+  pointer-events: none; backdrop-filter: blur(10px); max-width: 280px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5); z-index: 100;
+}
+#subtitle {
+  position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%);
+  color: #555; font-size: 11px; text-align: center;
+}
+</style>
+</head>
+<body>
+<div id="container">
+  <div id="title">
+    <h1>Cross-Sector Technology Dependencies</h1>
+    <p>Chord diagram - hover sectors to reveal relationship intensity</p>
+  </div>
+  <svg id="chart" width="800" height="800"></svg>
+  <div id="subtitle">Width of chords represents number of cross-sector relationships</div>
+</div>
+<div id="tooltip"></div>
+
+<script>
+const svg = document.getElementById('chart');
+const tooltip = document.getElementById('tooltip');
+const W = 800, H = 800, cx = W/2, cy = H/2, R = 300;
+
+const sectors = [
+  { name: 'Defense & Security', color: '#ff6b6b', companies: ['Helsing','HENSOLDT','Preligens','Blackshark.ai','Mynaric','Ark','Hedy'] },
+  { name: 'Space & Aerospace', color: '#4ecdc4', companies: ['Isar Aerospace','Exotrail','D-Orbit','Destinus','Lilium','Foundational','Radical','Lodestar'] },
+  { name: 'Compute & Semiconductors', color: '#a78bfa', companies: ['SiPearl','Pasqal','OQC','Kalray','Graphcore','Fabric','Ubitium','Tune Insight','Cornami'] },
+  { name: 'Energy & Nuclear', color: '#fbbf24', companies: ['Rolls-Royce SMR','Newcleo','Seaborg','Marvel Fusion','First Light','HB11','Northvolt'] },
+  { name: 'Critical Minerals', color: '#34d399', companies: ['Vulcan Energy','Talga Group','Horizon Arctic','Ascend Elements','Deep Earth','Senken'] },
+  { name: 'Adv. Manufacturing', color: '#f472b6', companies: ['ASML','Trumpf','Zeiss SMT'] },
+];
+
+// Relationship matrix (sector x sector)
+const matrix = [
+// Def   Space  Comp   Energy Mineral Manuf
+  [5,    8,     6,     2,     1,      3],   // Defense
+  [8,    4,     5,     3,     1,      2],   // Space
+  [6,    5,     4,     3,     2,      7],   // Compute
+  [2,    3,     3,     3,     6,      2],   // Energy
+  [1,    1,     2,     6,     2,      1],   // Minerals
+  [3,    2,     7,     2,     1,      2],   // Manufacturing
+];
+
+const n = sectors.length;
+const totals = matrix.map(row => row.reduce((a,b) => a+b, 0));
+const total = totals.reduce((a,b) => a+b, 0);
+const padAngle = 0.04;
+const totalPad = padAngle * n;
+const availAngle = Math.PI * 2 - totalPad;
+
+// Compute arcs
+let arcs = [];
+let angle = -Math.PI/2;
+sectors.forEach((s, i) => {
+  const span = (totals[i] / total) * availAngle;
+  arcs.push({ start: angle, end: angle + span, mid: angle + span/2, sector: s, index: i });
+  angle += span + padAngle;
+});
+
+// Helper: polar to cartesian
+function polar(a, r) { return { x: cx + Math.cos(a)*r, y: cy + Math.sin(a)*r }; }
+
+// Draw sector arcs
+const arcWidth = 24;
+const NS = 'http://www.w3.org/2000/svg';
+
+function createEl(tag, attrs) {
+  const el = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+
+function describeArc(r, startAngle, endAngle) {
+  const s = polar(startAngle, r), e = polar(endAngle, r);
+  const large = endAngle - startAngle > Math.PI ? 1 : 0;
+  return `M ${s.x} ${s.y} A ${r} ${r} 0 ${large} 1 ${e.x} ${e.y}`;
+}
+
+// Glow filter
+const defs = createEl('defs', {});
+sectors.forEach((s, i) => {
+  const filter = createEl('filter', { id: `glow-${i}`, x: '-50%', y: '-50%', width: '200%', height: '200%' });
+  const blur = createEl('feGaussianBlur', { stdDeviation: '4', result: 'blur' });
+  const merge = createEl('feMerge', {});
+  const m1 = createEl('feMergeNode', { in: 'blur' });
+  const m2 = createEl('feMergeNode', { in: 'SourceGraphic' });
+  merge.appendChild(m1); merge.appendChild(m2);
+  filter.appendChild(blur); filter.appendChild(merge);
+  defs.appendChild(filter);
+});
+svg.appendChild(defs);
+
+// Chord group
+const chordGroup = createEl('g', { class: 'chords' });
+svg.appendChild(chordGroup);
+
+// Draw chords
+let chordEls = [];
+for (let i = 0; i < n; i++) {
+  for (let j = i; j < n; j++) {
+    if (matrix[i][j] === 0) continue;
+    const ai = arcs[i], aj = arcs[j];
+    const wi = (matrix[i][j] / totals[i]) * (ai.end - ai.start);
+    const wj = (matrix[j][i] / totals[j]) * (aj.end - aj.start);
+
+    // Position within arc
+    let offsetI = 0, offsetJ = 0;
+    for (let k = 0; k < j; k++) offsetI += (matrix[i][k] / totals[i]) * (ai.end - ai.start);
+    for (let k = 0; k < i; k++) offsetJ += (matrix[j][k] / totals[j]) * (aj.end - aj.start);
+    if (i === j) offsetJ = offsetI + wi * 0.5;
+
+    const r = R - arcWidth/2;
+    const s1a = ai.start + offsetI, s1b = ai.start + offsetI + wi;
+    const s2a = aj.start + offsetJ, s2b = aj.start + offsetJ + wj;
+
+    const p1 = polar(s1a, r), p2 = polar(s1b, r);
+    const p3 = polar(s2a, r), p4 = polar(s2b, r);
+
+    const large1 = s1b - s1a > Math.PI ? 1 : 0;
+    const large2 = s2b - s2a > Math.PI ? 1 : 0;
+
+    const d = `M ${p1.x} ${p1.y}
+      A ${r} ${r} 0 ${large1} 1 ${p2.x} ${p2.y}
+      Q ${cx} ${cy} ${p3.x} ${p3.y}
+      A ${r} ${r} 0 ${large2} 1 ${p4.x} ${p4.y}
+      Q ${cx} ${cy} ${p1.x} ${p1.y} Z`;
+
+    const grad = createEl('linearGradient', { id: `cg-${i}-${j}`, x1: '0%', y1: '0%', x2: '100%', y2: '100%' });
+    const stop1 = createEl('stop', { offset: '0%', 'stop-color': sectors[i].color, 'stop-opacity': '0.5' });
+    const stop2 = createEl('stop', { offset: '100%', 'stop-color': sectors[j].color, 'stop-opacity': '0.5' });
+    grad.appendChild(stop1); grad.appendChild(stop2);
+    defs.appendChild(grad);
+
+    const path = createEl('path', {
+      d, fill: `url(#cg-${i}-${j})`, stroke: 'none',
+      opacity: '0.4', 'data-i': i, 'data-j': j
+    });
+    path.style.transition = 'opacity 0.3s';
+    chordGroup.appendChild(path);
+    chordEls.push({ el: path, i, j, value: matrix[i][j] });
+  }
+}
+
+// Draw arcs on top
+const arcGroup = createEl('g', { class: 'arcs' });
+svg.appendChild(arcGroup);
+
+arcs.forEach((a, i) => {
+  // Outer glow arc
+  const glowPath = createEl('path', {
+    d: describeArc(R, a.start, a.end),
+    fill: 'none', stroke: a.sector.color, 'stroke-width': arcWidth + 8,
+    opacity: '0.15', 'stroke-linecap': 'round', filter: `url(#glow-${i})`
+  });
+  arcGroup.appendChild(glowPath);
+
+  // Main arc
+  const arcPath = createEl('path', {
+    d: describeArc(R, a.start, a.end),
+    fill: 'none', stroke: a.sector.color, 'stroke-width': arcWidth,
+    'stroke-linecap': 'round', opacity: '0.85', cursor: 'pointer'
+  });
+  arcPath.style.transition = 'opacity 0.3s';
+
+  // Label
+  const labelR = R + 28;
+  const lp = polar(a.mid, labelR);
+  const textAngle = (a.mid * 180 / Math.PI);
+  const flip = textAngle > 90 || textAngle < -90;
+  const text = createEl('text', {
+    x: lp.x, y: lp.y, fill: a.sector.color,
+    'font-size': '13', 'font-weight': '500', 'font-family': 'Inter, sans-serif',
+    'text-anchor': flip ? 'end' : 'start',
+    transform: `rotate(${flip ? textAngle + 180 : textAngle}, ${lp.x}, ${lp.y})`,
+    opacity: '0.9'
+  });
+  text.textContent = a.sector.name;
+  arcGroup.appendChild(text);
+
+  // Company labels (smaller, along arc)
+  const compR = R - 28;
+  a.sector.companies.forEach((comp, ci) => {
+    const t = ci / (a.sector.companies.length);
+    const compAngle = a.start + t * (a.end - a.start) + (a.end-a.start)/(a.sector.companies.length*2);
+    const cp = polar(compAngle, compR);
+    const ca = compAngle * 180 / Math.PI;
+    const cflip = ca > 90 || ca < -90;
+    const ct = createEl('text', {
+      x: cp.x, y: cp.y, fill: '#888',
+      'font-size': '9', 'font-family': 'Inter, sans-serif',
+      'text-anchor': cflip ? 'end' : 'start',
+      transform: `rotate(${cflip ? ca + 180 : ca}, ${cp.x}, ${cp.y})`,
+      opacity: '0.5'
+    });
+    ct.textContent = comp;
+    arcGroup.appendChild(ct);
+  });
+
+  // Hover interactions
+  arcPath.addEventListener('mouseenter', (e) => {
+    arcPath.setAttribute('opacity', '1');
+    chordEls.forEach(c => {
+      if (c.i === i || c.j === i) {
+        c.el.setAttribute('opacity', '0.8');
+      } else {
+        c.el.setAttribute('opacity', '0.05');
+      }
+    });
+    tooltip.style.display = 'block';
+    tooltip.innerHTML = `<div style="color:${a.sector.color};font-weight:600;font-size:15px">${a.sector.name}</div>
+      <div style="margin-top:6px;font-size:12px;opacity:0.7">${a.sector.companies.length} companies</div>
+      <div style="margin-top:6px;font-size:12px;opacity:0.8">Cross-sector relationships: ${totals[i]}</div>`;
+  });
+
+  arcPath.addEventListener('mousemove', (e) => {
+    tooltip.style.left = (e.clientX + 16) + 'px';
+    tooltip.style.top = (e.clientY - 10) + 'px';
+  });
+
+  arcPath.addEventListener('mouseleave', () => {
+    arcPath.setAttribute('opacity', '0.85');
+    chordEls.forEach(c => c.el.setAttribute('opacity', '0.4'));
+    tooltip.style.display = 'none';
+  });
+
+  arcGroup.appendChild(arcPath);
+});
+
+// Center label
+const centerText = createEl('text', {
+  x: cx, y: cy - 8, fill: '#fff', 'font-size': '16', 'font-weight': '600',
+  'text-anchor': 'middle', 'font-family': 'Inter, sans-serif', opacity: '0.6'
+});
+centerText.textContent = '40 Companies';
+svg.appendChild(centerText);
+
+const centerSub = createEl('text', {
+  x: cx, y: cy + 14, fill: '#888', 'font-size': '11',
+  'text-anchor': 'middle', 'font-family': 'Inter, sans-serif', opacity: '0.4'
+});
+centerSub.textContent = '6 Sectors';
+svg.appendChild(centerSub);
+
+// Animate entrance
+chordEls.forEach((c, idx) => {
+  c.el.setAttribute('opacity', '0');
+  setTimeout(() => {
+    c.el.style.transition = 'opacity 0.8s ease-out';
+    c.el.setAttribute('opacity', '0.4');
+  }, 100 + idx * 40);
+});
+</script>
+</body>
+</html>

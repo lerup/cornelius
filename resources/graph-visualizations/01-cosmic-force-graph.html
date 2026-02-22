@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cosmic Force Graph - European Critical Tech</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a1a; overflow: hidden; font-family: 'Inter', -apple-system, system-ui, sans-serif; }
+canvas { display: block; }
+#tooltip {
+  position: absolute; display: none; padding: 12px 16px;
+  background: rgba(10,10,30,0.95); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px; color: #e0e0e0; font-size: 13px;
+  pointer-events: none; backdrop-filter: blur(10px); max-width: 260px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+#tooltip .name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+#tooltip .sector { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; }
+#tooltip .desc { margin-top: 6px; line-height: 1.4; font-size: 12px; opacity: 0.8; }
+#legend {
+  position: absolute; bottom: 24px; left: 24px;
+  background: rgba(10,10,30,0.85); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; padding: 16px 20px; backdrop-filter: blur(10px);
+}
+#legend h3 { color: #fff; font-size: 13px; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px; }
+.legend-item { display: flex; align-items: center; margin-bottom: 6px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; }
+.legend-label { color: #aaa; font-size: 11px; }
+#title {
+  position: absolute; top: 24px; left: 24px; color: #fff;
+}
+#title h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.5px; }
+#title p { font-size: 12px; color: #666; margin-top: 4px; }
+#controls {
+  position: absolute; top: 24px; right: 24px;
+  display: flex; gap: 8px;
+}
+.ctrl-btn {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+  color: #aaa; padding: 6px 14px; border-radius: 6px; cursor: pointer;
+  font-size: 12px; transition: all 0.2s;
+}
+.ctrl-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+.ctrl-btn.active { background: rgba(100,140,255,0.2); border-color: rgba(100,140,255,0.4); color: #8ab4ff; }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<div id="tooltip"></div>
+<div id="title">
+  <h1>European Critical Technology Atlas</h1>
+  <p>Force-directed graph with particle flow edges - drag nodes, scroll to zoom</p>
+</div>
+<div id="controls">
+  <button class="ctrl-btn active" onclick="toggleSector(this,'all')">All</button>
+  <button class="ctrl-btn" onclick="toggleSector(this,'defense')">Defense</button>
+  <button class="ctrl-btn" onclick="toggleSector(this,'space')">Space</button>
+  <button class="ctrl-btn" onclick="toggleSector(this,'compute')">Compute</button>
+  <button class="ctrl-btn" onclick="toggleSector(this,'energy')">Energy</button>
+  <button class="ctrl-btn" onclick="toggleSector(this,'mining')">Mining</button>
+</div>
+<div id="legend">
+  <h3>SECTORS</h3>
+  <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div><span class="legend-label">Defense & Security</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#4ecdc4"></div><span class="legend-label">Space & Aerospace</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div><span class="legend-label">Compute & Semiconductors</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div><span class="legend-label">Energy & Nuclear</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div><span class="legend-label">Critical Minerals & Mining</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f472b6"></div><span class="legend-label">Advanced Manufacturing</span></div>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const tooltip = document.getElementById('tooltip');
+let W, H, dpr;
+
+function resize() {
+  dpr = window.devicePixelRatio || 1;
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+resize();
+window.addEventListener('resize', resize);
+
+const COLORS = {
+  defense: '#ff6b6b', space: '#4ecdc4', compute: '#a78bfa',
+  energy: '#fbbf24', mining: '#34d399', manufacturing: '#f472b6'
+};
+
+const nodes = [
+  { id: 0, name: 'Helsing', sector: 'defense', size: 28, desc: 'AI-powered defense systems. Munich.' },
+  { id: 1, name: 'Lilium', sector: 'space', size: 22, desc: 'Electric vertical takeoff jets. Munich.' },
+  { id: 2, name: 'Isar Aerospace', sector: 'space', size: 24, desc: 'Launch vehicles for small satellites. Munich.' },
+  { id: 3, name: 'Marvel Fusion', sector: 'energy', size: 20, desc: 'Laser-driven nuclear fusion. Munich.' },
+  { id: 4, name: 'Mynaric', sector: 'defense', size: 18, desc: 'Laser communication terminals. Munich.' },
+  { id: 5, name: 'Exotrail', sector: 'space', size: 16, desc: 'Electric propulsion for satellites. Paris.' },
+  { id: 6, name: 'Preligens', sector: 'defense', size: 19, desc: 'AI for satellite imagery analysis. Paris.' },
+  { id: 7, name: 'Kalray', sector: 'compute', size: 17, desc: 'Manycore processors for edge. Grenoble.' },
+  { id: 8, name: 'SiPearl', sector: 'compute', size: 22, desc: 'European HPC microprocessors. Maisons-Laffitte.' },
+  { id: 9, name: 'Pasqal', sector: 'compute', size: 21, desc: 'Neutral-atom quantum computing. Paris.' },
+  { id: 10, name: 'Ark', sector: 'defense', size: 16, desc: 'Autonomous drone fleet control. Portfolio.' },
+  { id: 11, name: 'Hedy', sector: 'defense', size: 15, desc: 'Contested network security. Portfolio.' },
+  { id: 12, name: 'Fabric', sector: 'compute', size: 15, desc: 'Cryptographic compute hardware. Portfolio.' },
+  { id: 13, name: 'Ubitium', sector: 'compute', size: 15, desc: 'Universal processor architecture. Portfolio.' },
+  { id: 14, name: 'Foundational', sector: 'space', size: 15, desc: 'Space domain awareness. Portfolio.' },
+  { id: 15, name: 'Radical', sector: 'space', size: 14, desc: 'Stratospheric platforms (HAPS). Portfolio.' },
+  { id: 16, name: 'Lodestar', sector: 'space', size: 14, desc: 'In-space assembly & manufacturing. Portfolio.' },
+  { id: 17, name: 'Deep Earth', sector: 'mining', size: 14, desc: 'Subsurface AI intelligence. Portfolio.' },
+  { id: 18, name: 'Vulcan Energy', sector: 'mining', size: 20, desc: 'Zero-carbon lithium extraction. Karlsruhe.' },
+  { id: 19, name: 'Northvolt', sector: 'energy', size: 26, desc: 'European battery gigafactory. Stockholm.' },
+  { id: 20, name: 'Ascend Elements', sector: 'mining', size: 18, desc: 'Battery recycling & critical minerals. Europe ops.' },
+  { id: 21, name: 'HENSOLDT', sector: 'defense', size: 24, desc: 'Sensor solutions for defense. Taufkirchen.' },
+  { id: 22, name: 'Blackshark.ai', sector: 'defense', size: 16, desc: 'AI-generated 3D world models. Graz.' },
+  { id: 23, name: 'OQC', sector: 'compute', size: 18, desc: 'Superconducting quantum processors. London.' },
+  { id: 24, name: 'Graphcore', sector: 'compute', size: 20, desc: 'Intelligence Processing Units. Bristol.' },
+  { id: 25, name: 'Rolls-Royce SMR', sector: 'energy', size: 23, desc: 'Small modular nuclear reactors. UK.' },
+  { id: 26, name: 'Newcleo', sector: 'energy', size: 19, desc: 'Lead-cooled fast reactors + MOX fuel. London/Turin.' },
+  { id: 27, name: 'Seaborg', sector: 'energy', size: 17, desc: 'Molten salt reactor barges. Copenhagen.' },
+  { id: 28, name: 'ASML', sector: 'manufacturing', size: 30, desc: 'EUV lithography monopoly. Veldhoven.' },
+  { id: 29, name: 'Trumpf', sector: 'manufacturing', size: 22, desc: 'Industrial laser & EUV source. Ditzingen.' },
+  { id: 30, name: 'Zeiss SMT', sector: 'manufacturing', size: 20, desc: 'EUV optics. Oberkochen.' },
+  { id: 31, name: 'Senken', sector: 'mining', size: 13, desc: 'Carbon credit marketplace. Portfolio.' },
+  { id: 32, name: 'Tune Insight', sector: 'compute', size: 13, desc: 'Federated data analytics. Portfolio.' },
+  { id: 33, name: 'D-Orbit', sector: 'space', size: 17, desc: 'Space logistics & last-mile delivery. Como.' },
+  { id: 34, name: 'Destinus', sector: 'space', size: 16, desc: 'Hypersonic hydrogen aircraft. Payerne.' },
+  { id: 35, name: 'HB11 Energy', sector: 'energy', size: 15, desc: 'Hydrogen-boron laser fusion. Munich/Sydney.' },
+  { id: 36, name: 'First Light Fusion', sector: 'energy', size: 17, desc: 'Projectile fusion. Oxford.' },
+  { id: 37, name: 'Cornami', sector: 'compute', size: 14, desc: 'Fully homomorphic encryption chips. EU R&D.' },
+  { id: 38, name: 'Horizon Arctic', sector: 'mining', size: 15, desc: 'Arctic rare earth extraction. Scandinavia.' },
+  { id: 39, name: 'Talga Group', sector: 'mining', size: 16, desc: 'Natural graphite anode. Sweden.' },
+];
+
+const edges = [
+  { s: 0, t: 4, type: 'tech' }, { s: 0, t: 6, type: 'tech' }, { s: 0, t: 21, type: 'supply' },
+  { s: 0, t: 22, type: 'tech' }, { s: 0, t: 10, type: 'ecosystem' },
+  { s: 1, t: 2, type: 'ecosystem' }, { s: 1, t: 5, type: 'tech' },
+  { s: 2, t: 5, type: 'compete' }, { s: 2, t: 14, type: 'ecosystem' }, { s: 2, t: 33, type: 'supply' },
+  { s: 3, t: 35, type: 'compete' }, { s: 3, t: 36, type: 'compete' }, { s: 3, t: 26, type: 'tech' },
+  { s: 4, t: 21, type: 'supply' }, { s: 4, t: 11, type: 'tech' }, { s: 4, t: 15, type: 'tech' },
+  { s: 5, t: 33, type: 'ecosystem' }, { s: 5, t: 16, type: 'tech' },
+  { s: 6, t: 22, type: 'tech' }, { s: 6, t: 14, type: 'supply' },
+  { s: 7, t: 8, type: 'ecosystem' }, { s: 7, t: 24, type: 'compete' },
+  { s: 8, t: 9, type: 'ecosystem' }, { s: 8, t: 23, type: 'ecosystem' }, { s: 8, t: 13, type: 'tech' },
+  { s: 9, t: 23, type: 'compete' }, { s: 9, t: 37, type: 'tech' },
+  { s: 10, t: 11, type: 'portfolio' }, { s: 10, t: 0, type: 'ecosystem' },
+  { s: 11, t: 12, type: 'portfolio' }, { s: 11, t: 32, type: 'portfolio' },
+  { s: 12, t: 13, type: 'portfolio' }, { s: 12, t: 37, type: 'tech' },
+  { s: 13, t: 7, type: 'tech' }, { s: 13, t: 24, type: 'compete' },
+  { s: 14, t: 15, type: 'portfolio' }, { s: 14, t: 16, type: 'portfolio' }, { s: 14, t: 33, type: 'tech' },
+  { s: 15, t: 17, type: 'portfolio' }, { s: 15, t: 31, type: 'tech' },
+  { s: 16, t: 33, type: 'ecosystem' },
+  { s: 17, t: 18, type: 'tech' }, { s: 17, t: 38, type: 'tech' }, { s: 17, t: 39, type: 'tech' },
+  { s: 18, t: 19, type: 'supply' }, { s: 18, t: 39, type: 'ecosystem' },
+  { s: 19, t: 20, type: 'supply' }, { s: 19, t: 39, type: 'supply' },
+  { s: 20, t: 18, type: 'ecosystem' },
+  { s: 21, t: 10, type: 'supply' }, { s: 21, t: 0, type: 'supply' },
+  { s: 25, t: 26, type: 'compete' }, { s: 25, t: 27, type: 'compete' },
+  { s: 26, t: 27, type: 'compete' },
+  { s: 28, t: 29, type: 'supply' }, { s: 28, t: 30, type: 'supply' }, { s: 28, t: 8, type: 'tech' },
+  { s: 29, t: 30, type: 'supply' },
+  { s: 34, t: 2, type: 'ecosystem' }, { s: 34, t: 15, type: 'tech' },
+  { s: 35, t: 36, type: 'compete' },
+  { s: 38, t: 39, type: 'ecosystem' }, { s: 38, t: 18, type: 'tech' },
+  { s: 31, t: 17, type: 'portfolio' },
+];
+
+const EDGE_COLORS = {
+  tech: 'rgba(120,160,255,0.25)', supply: 'rgba(255,180,60,0.25)',
+  compete: 'rgba(255,80,80,0.2)', ecosystem: 'rgba(100,200,150,0.2)',
+  portfolio: 'rgba(180,130,255,0.35)'
+};
+
+// Initialize positions
+nodes.forEach(n => {
+  n.x = W/2 + (Math.random()-0.5) * 400;
+  n.y = H/2 + (Math.random()-0.5) * 400;
+  n.vx = 0; n.vy = 0;
+  n.color = COLORS[n.sector];
+  n.visible = true;
+});
+
+// Particles on edges
+let particles = [];
+function spawnParticles() {
+  edges.forEach(e => {
+    for (let i = 0; i < 2; i++) {
+      particles.push({ edge: e, t: Math.random(), speed: 0.002 + Math.random()*0.003 });
+    }
+  });
+}
+spawnParticles();
+
+// Camera
+let cam = { x: 0, y: 0, zoom: 1 };
+let dragging = null, dragOffset = { x: 0, y: 0 };
+let panning = false, panStart = { x: 0, y: 0 };
+let hoveredNode = null;
+let activeSector = 'all';
+
+function screenToWorld(sx, sy) {
+  return { x: (sx - W/2) / cam.zoom + cam.x, y: (sy - H/2) / cam.zoom + cam.y };
+}
+function worldToScreen(wx, wy) {
+  return { x: (wx - cam.x) * cam.zoom + W/2, y: (wy - cam.y) * cam.zoom + H/2 };
+}
+
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  const factor = e.deltaY > 0 ? 0.92 : 1.08;
+  cam.zoom = Math.max(0.3, Math.min(5, cam.zoom * factor));
+}, { passive: false });
+
+canvas.addEventListener('mousedown', e => {
+  const wp = screenToWorld(e.clientX, e.clientY);
+  for (const n of nodes) {
+    const dx = wp.x - n.x, dy = wp.y - n.y;
+    if (dx*dx + dy*dy < (n.size+4)*(n.size+4) && n.visible) {
+      dragging = n; dragOffset = { x: dx, y: dy };
+      n.fx = n.x; n.fy = n.y;
+      return;
+    }
+  }
+  panning = true; panStart = { x: e.clientX, y: e.clientY };
+});
+
+canvas.addEventListener('mousemove', e => {
+  if (dragging) {
+    const wp = screenToWorld(e.clientX, e.clientY);
+    dragging.fx = wp.x - dragOffset.x;
+    dragging.fy = wp.y - dragOffset.y;
+    dragging.x = dragging.fx; dragging.y = dragging.fy;
+  } else if (panning) {
+    cam.x -= (e.clientX - panStart.x) / cam.zoom;
+    cam.y -= (e.clientY - panStart.y) / cam.zoom;
+    panStart = { x: e.clientX, y: e.clientY };
+  } else {
+    const wp = screenToWorld(e.clientX, e.clientY);
+    hoveredNode = null;
+    for (const n of nodes) {
+      if (!n.visible) continue;
+      const dx = wp.x - n.x, dy = wp.y - n.y;
+      if (dx*dx + dy*dy < (n.size+6)*(n.size+6)) { hoveredNode = n; break; }
+    }
+    if (hoveredNode) {
+      tooltip.style.display = 'block';
+      tooltip.style.left = (e.clientX + 16) + 'px';
+      tooltip.style.top = (e.clientY - 10) + 'px';
+      tooltip.innerHTML = `<div class="name" style="color:${hoveredNode.color}">${hoveredNode.name}</div>
+        <div class="sector">${hoveredNode.sector}</div>
+        <div class="desc">${hoveredNode.desc}</div>`;
+      canvas.style.cursor = 'pointer';
+    } else {
+      tooltip.style.display = 'none';
+      canvas.style.cursor = panning ? 'grabbing' : 'default';
+    }
+  }
+});
+
+canvas.addEventListener('mouseup', () => {
+  if (dragging) { delete dragging.fx; delete dragging.fy; }
+  dragging = null; panning = false;
+});
+
+function toggleSector(btn, sector) {
+  document.querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeSector = sector;
+  nodes.forEach(n => { n.visible = sector === 'all' || n.sector === sector; });
+}
+
+// Force simulation
+function simulate() {
+  const alpha = 0.3;
+  // Center gravity
+  nodes.forEach(n => {
+    if (!n.visible || n.fx !== undefined) return;
+    n.vx += (W/2 - n.x) * 0.0001;
+    n.vy += (H/2 - n.y) * 0.0001;
+  });
+  // Repulsion
+  for (let i = 0; i < nodes.length; i++) {
+    if (!nodes[i].visible) continue;
+    for (let j = i+1; j < nodes.length; j++) {
+      if (!nodes[j].visible) continue;
+      let dx = nodes[j].x - nodes[i].x, dy = nodes[j].y - nodes[i].y;
+      let d2 = dx*dx + dy*dy;
+      if (d2 < 1) d2 = 1;
+      const f = 800 / d2;
+      const fx = dx/Math.sqrt(d2)*f, fy = dy/Math.sqrt(d2)*f;
+      if (!nodes[i].fx) { nodes[i].vx -= fx; nodes[i].vy -= fy; }
+      if (!nodes[j].fx) { nodes[j].vx += fx; nodes[j].vy += fy; }
+    }
+  }
+  // Attraction (edges)
+  edges.forEach(e => {
+    const a = nodes[e.s], b = nodes[e.t];
+    if (!a.visible || !b.visible) return;
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const d = Math.sqrt(dx*dx + dy*dy);
+    if (d < 1) return;
+    const f = (d - 120) * 0.003;
+    const fx = dx/d*f, fy = dy/d*f;
+    if (!a.fx) { a.vx += fx; a.vy += fy; }
+    if (!b.fx) { b.vx -= fx; b.vy -= fy; }
+  });
+  // Damping & update
+  nodes.forEach(n => {
+    if (!n.visible || n.fx !== undefined) return;
+    n.vx *= 0.85; n.vy *= 0.85;
+    n.x += n.vx * alpha; n.y += n.vy * alpha;
+  });
+}
+
+// Stars background
+const stars = Array.from({length: 200}, () => ({
+  x: Math.random() * 3000 - 1000, y: Math.random() * 2000 - 500,
+  r: Math.random() * 1.2, a: Math.random()
+}));
+
+let time = 0;
+function draw() {
+  time += 0.016;
+  simulate();
+  ctx.clearRect(0, 0, W, H);
+
+  // Stars
+  ctx.save();
+  stars.forEach(s => {
+    const sp = worldToScreen(s.x, s.y);
+    ctx.globalAlpha = s.a * 0.3 + Math.sin(time*2 + s.x)*0.1;
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(sp.x, sp.y, s.r, 0, Math.PI*2); ctx.fill();
+  });
+  ctx.restore();
+
+  // Edges
+  edges.forEach(e => {
+    const a = nodes[e.s], b = nodes[e.t];
+    if (!a.visible || !b.visible) return;
+    const sa = worldToScreen(a.x, a.y), sb = worldToScreen(b.x, b.y);
+    const isHighlighted = hoveredNode && (e.s === hoveredNode.id || e.t === hoveredNode.id);
+    ctx.strokeStyle = isHighlighted ?
+      (EDGE_COLORS[e.type] || 'rgba(255,255,255,0.3)').replace(/[\d.]+\)$/, '0.7)') :
+      (EDGE_COLORS[e.type] || 'rgba(255,255,255,0.15)');
+    ctx.lineWidth = isHighlighted ? 2 : 0.8;
+    ctx.beginPath(); ctx.moveTo(sa.x, sa.y); ctx.lineTo(sb.x, sb.y); ctx.stroke();
+  });
+
+  // Particles along edges
+  particles.forEach(p => {
+    const a = nodes[p.edge.s], b = nodes[p.edge.t];
+    if (!a.visible || !b.visible) return;
+    p.t += p.speed;
+    if (p.t > 1) p.t -= 1;
+    const px = a.x + (b.x - a.x) * p.t;
+    const py = a.y + (b.y - a.y) * p.t;
+    const sp = worldToScreen(px, py);
+    const isHighlighted = hoveredNode && (p.edge.s === hoveredNode.id || p.edge.t === hoveredNode.id);
+    ctx.fillStyle = isHighlighted ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.35)';
+    ctx.beginPath(); ctx.arc(sp.x, sp.y, isHighlighted ? 2.5 : 1.5, 0, Math.PI*2); ctx.fill();
+  });
+
+  // Nodes
+  nodes.forEach(n => {
+    if (!n.visible) return;
+    const sp = worldToScreen(n.x, n.y);
+    const r = n.size * cam.zoom * 0.4;
+    const isHovered = hoveredNode === n;
+    const isConnected = hoveredNode && edges.some(e =>
+      (e.s === hoveredNode.id && e.t === n.id) || (e.t === hoveredNode.id && e.s === n.id));
+    const dimmed = hoveredNode && !isHovered && !isConnected;
+
+    // Glow
+    const glow = ctx.createRadialGradient(sp.x, sp.y, 0, sp.x, sp.y, r * 3);
+    glow.addColorStop(0, n.color + (dimmed ? '10' : (isHovered ? '60' : '30')));
+    glow.addColorStop(1, 'transparent');
+    ctx.fillStyle = glow;
+    ctx.beginPath(); ctx.arc(sp.x, sp.y, r*3, 0, Math.PI*2); ctx.fill();
+
+    // Node body
+    ctx.globalAlpha = dimmed ? 0.2 : 1;
+    ctx.fillStyle = n.color;
+    ctx.shadowColor = n.color; ctx.shadowBlur = isHovered ? 20 : 8;
+    ctx.beginPath(); ctx.arc(sp.x, sp.y, r, 0, Math.PI*2); ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Pulse ring on hover
+    if (isHovered) {
+      ctx.strokeStyle = n.color;
+      ctx.lineWidth = 1.5;
+      const pulse = r + 6 + Math.sin(time*4)*3;
+      ctx.globalAlpha = 0.5 + Math.sin(time*4)*0.3;
+      ctx.beginPath(); ctx.arc(sp.x, sp.y, pulse, 0, Math.PI*2); ctx.stroke();
+    }
+
+    // Label
+    if (cam.zoom > 0.6 || isHovered || isConnected) {
+      ctx.globalAlpha = dimmed ? 0.15 : (isHovered ? 1 : 0.8);
+      ctx.fillStyle = '#fff';
+      ctx.font = `${isHovered ? '13' : '11'}px Inter, -apple-system, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(n.name, sp.x, sp.y + r + 14);
+    }
+    ctx.globalAlpha = 1;
+  });
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>

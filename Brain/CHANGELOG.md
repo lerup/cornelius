@@ -2,30 +2,30 @@
 
 **Purpose**: Quick reference index of all discovery sessions and major changes.
 
-This is a **summary index**. For detailed session logs, see `05-Meta/Changelogs/CHANGELOG - [Session Type] YYYY-MM-DD.md`.
+This is a **summary index**. For detailed session logs, see `05-System/Changelogs/CHANGELOG - [Session Type] YYYY-MM-DD.md`.
 
 ---
 
 ## 2025-01
 
 ### 2025-01-15
-**Connection Discovery Session** - [Details](05-Meta/Changelogs/CHANGELOG - Connection Discovery Session 2025-01-15.md)
+**Connection Discovery Session** - [Details](05-System/Changelogs/CHANGELOG - Connection Discovery Session 2025-01-15.md)
 - Explored connections around [Topic]
 - Found 8 non-obvious relationships
 - Identified 2 bridge notes
 - Recommended synthesis: [Article idea]
 
 ### 2025-01-10
-**Auto-Discovery Session** - [Details](05-Meta/Changelogs/CHANGELOG - Auto-Discovery Sessions 2025-01-10.md)
+**Auto-Discovery Session** - [Details](05-System/Changelogs/CHANGELOG - Auto-Discovery Sessions 2025-01-10.md)
 - Cross-domain exploration
 - Sampled 47 notes across 5 domains
-- Discovered unexpected connection: [Topic A] ↔ [Topic B]
+- Discovered unexpected connection: [Topic A] <-> [Topic B]
 - Emerging pattern: [Pattern name]
 
 ### 2025-01-05
-**Vault Management Session** - [Details](05-Meta/Changelogs/CHANGELOG - Vault Management Session 2025-01-05.md)
-- Created 15 permanent notes from [Source]
-- Updated MOC - [Topic Name]
+**Vault Management Session** - [Details](05-System/Changelogs/CHANGELOG - Vault Management Session 2025-01-05.md)
+- Created 15 thinking notes from [Source]
+- Updated reference notes
 - Reorganized [folder/section]
 
 ---
@@ -43,8 +43,8 @@ This is a **summary index**. For detailed session logs, see `05-Meta/Changelogs/
 
 ## Quick Stats
 
-- **Total Permanent Notes**: XX (update monthly)
-- **Total MOCs**: X
+- **Total Thinking Notes**: XX (update monthly)
+- **Total Reference Notes**: X
 - **Total Source Notes**: XX
 - **Last Auto-Discovery**: YYYY-MM-DD
 - **Last Connection Finding**: YYYY-MM-DD
@@ -57,10 +57,10 @@ This is a **summary index**. For detailed session logs, see `05-Meta/Changelogs/
 - **Auto-Discovery**: Random cross-domain exploration for serendipity
 - **Connection Discovery**: Targeted exploration around specific notes/topics
 - **Vault Management**: CRUD operations, organization, batch updates
-- **Insight Extraction**: Processing content to create permanent notes
+- **Insight Extraction**: Processing content to create thinking notes
 - **Analysis**: Structural analysis of knowledge base
 
 ---
 
 **Tip**: Run `/analyze-kb` monthly to update comprehensive statistics.
-**Tip**: Detailed changelogs in `05-Meta/Changelogs/` contain full analysis and recommendations.
+**Tip**: Detailed changelogs in `05-System/Changelogs/` contain full analysis and recommendations.

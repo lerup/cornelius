@@ -1,6 +1,6 @@
 # Recommended Folder Structure
 
-This guide provides a recommended folder structure for your Obsidian vault when using the Claude Code Second Brain system. This structure is based on the PARA method and Zettelkasten principles, optimized for knowledge work.
+This guide provides a recommended folder structure for your Obsidian vault when using the Claude Code Second Brain system. This structure is optimized for knowledge work with a venture/investment focus.
 
 ## Core Philosophy
 
@@ -20,43 +20,39 @@ your-vault/
 │   └── settings.local.json          # Permissions & MCP config
 │
 ├── .obsidian/                        # Obsidian settings (standard)
-│   └── plugins/
-│       └── smart-connections/       # For semantic search
 │
 ├── CLAUDE.md                         # System instructions
 ├── knowledge-base-analysis.md       # KB structure report (auto-generated)
 │
-├── Inbox/                            # Capture & staging
-│   ├── Quick Captures/              # Fleeting notes
-│   ├── Content Extractions/         # AI-processed sources
-│   └── To Process/                  # Unprocessed material
+├── 00-Inbox/                         # Capture & staging
 │
-├── Sources/                          # Source material
+├── 01-Sources/                       # Source material
 │   ├── Books/                       # Book notes
-│   ├── Articles/                    # Article summaries
-│   ├── Videos/                      # Video notes
-│   └── Podcasts/                    # Podcast notes
+│   ├── Clippings/                   # Web clippings
+│   ├── Demo/                        # Demo/sample content
+│   └── Research/                    # Research papers, external analysis
 │
-├── Permanent/                        # Permanent notes (your insights)
-│   └── [All atomic notes]           # Core knowledge atoms
+├── 02-Thinking/                      # Your insights and analysis (the core)
+│   ├── Notes/                       # Atomic permanent notes
+│   ├── Investment Memos/            # Public market stock analyses
+│   └── Portfolio Memos/             # Venture portfolio company memos
 │
-├── MOCs/                             # Maps of Content
-│   ├── MOC - Master Navigation.md   # Top-level index
-│   └── [Topic-specific MOCs]        # Thematic navigation hubs
+├── 03-Reference/                     # Reference material
+│   ├── Companies/                   # Company profiles
+│   ├── People/                      # People profiles
+│   └── Meetings/                    # Meeting notes
 │
-├── Output/                           # Published/synthesized work
+├── 04-Output/                        # Published/synthesized work
 │   ├── Articles/                    # Long-form writing
-│   ├── Frameworks/                  # Original models
-│   ├── Insights/                    # Short-form insights
-│   └── Projects/                    # Open research questions
+│   └── Draft Posts/                 # Social media drafts (plain text)
 │
-├── Meta/                             # Workflow & evolution
+├── 05-System/                        # Workflow & system
 │   ├── Changelogs/                  # Discovery session logs
+│   ├── Dashboards/                  # Overview dashboards
 │   ├── Templates/                   # Note templates
-│   └── Workflows/                   # Process documentation
+│   └── Projects/                    # Active project tracking
 │
-└── AI Extracted Notes/               # Separate provenance
-    └── [AI-generated notes]         # Clear AI vs human distinction
+└── 06-Tasks/                         # Task tracking
 ```
 
 ## Folder Purposes
@@ -73,32 +69,27 @@ your-vault/
 - Keep in git if sharing setup
 - Add `settings.local.json` to `.gitignore` for privacy
 
-### Inbox/
+### 00-Inbox/
 **Purpose**: Capture ideas quickly without friction
 
-**Contents**:
-- **Quick Captures/**: Fleeting notes, raw thoughts
-- **Content Extractions/**: AI-processed content awaiting review
-- **To Process/**: Material waiting to become permanent notes
-
 **Workflow**:
-1. Capture quickly to Quick Captures
-2. Process into permanent notes regularly
+1. Capture quickly
+2. Process into thinking notes regularly
 3. Delete or archive after processing
 
-### Sources/
+### 01-Sources/
 **Purpose**: Reference material and source notes
 
 **Contents**:
 - **Books/**: Comprehensive book notes with key quotes
-- **Articles/**: Article summaries with main arguments
-- **Videos/**: Video notes with timestamps
-- **Podcasts/**: Podcast notes with key points
+- **Clippings/**: Web clippings and saved articles
+- **Demo/**: Demo or sample content
+- **Research/**: Research papers, external analysis, document insights
 
 **Best Practices**:
 - One file per source
 - Include metadata (author, date, URL)
-- Link to permanent notes that reference it
+- Link to thinking notes that reference it
 - Use frontmatter for structured metadata
 
 **Example Source Note**:
@@ -116,18 +107,18 @@ tags: [topic1, topic2]
 - Main point 1
 - Main point 2
 
-## Permanent Notes
+## Thinking Notes Created
 - [[Note 1]] - About topic X
 - [[Note 2]] - About topic Y
 ```
 
-### Permanent/
-**Purpose**: Atomic permanent notes—your knowledge atoms
+### 02-Thinking/
+**Purpose**: Your insights and analysis - the core of the knowledge graph
 
 **Contents**:
-- Single-idea notes in your own words
-- Each note is independently understandable
-- Connected via wikilinks to other permanent notes
+- **Notes/**: Atomic permanent notes - single-idea insights in your own words
+- **Investment Memos/**: Public market stock analyses with consistent structure
+- **Portfolio Memos/**: Venture portfolio company memos
 
 **Best Practices**:
 - **One idea per note**: Keep atomic and focused
@@ -137,7 +128,7 @@ tags: [topic1, topic2]
 - **Date stamp**: Include creation date in frontmatter
 - **Average length**: 50-300 words ideal
 
-**Example Permanent Note**:
+**Example Thinking Note**:
 ```markdown
 ---
 created: 2025-10-27
@@ -158,66 +149,41 @@ The "wanting" (dopamine) system is separate from the "liking" (opioid) system in
 - [[Motivation vs. willpower]]
 ```
 
-### MOCs/ (Maps of Content)
-**Purpose**: Navigation hubs for thematic clusters
+### 03-Reference/
+**Purpose**: Reference material and navigation hubs
 
 **Contents**:
-- **MOC - Master Navigation**: Top-level index to all MOCs
-- **Thematic MOCs**: Topic-specific navigation (e.g., "MOC - Decision Making")
+- **Companies/**: Company profiles (portfolio companies, public market companies)
+- **People/**: People profiles (team, founders, contacts)
+- **Meetings/**: Meeting notes with dates and action items
 
 **Best Practices**:
-- Create when you have 15+ notes on a theme
-- Group related permanent notes
-- Add brief context for each section
-- Update regularly as knowledge grows
-- Link to related MOCs
+- Create company profiles when you have substantial information
+- Link people to their companies
+- Add brief context for each reference
+- Update regularly as information changes
 
-**Example MOC Structure**:
-```markdown
-# MOC - Decision Making
-
-## Core Concepts
-- [[Judgment as measurement]]
-- [[Noise in judgments]]
-- [[Bias vs. noise]]
-
-## Cognitive Biases
-- [[Confirmation bias]]
-- [[Anchoring bias]]
-- [[Availability heuristic]]
-
-## Frameworks
-- [[Mental models taxonomy]]
-- [[Thinking in bets]]
-- [[Expected value calculation]]
-
-## Related MOCs
-- [[MOC - Cognitive Science]]
-- [[MOC - Investing]]
-```
-
-### Output/
+### 04-Output/
 **Purpose**: Finished work and synthesis
 
 **Contents**:
-- **Articles/**: Long-form published pieces
-- **Frameworks/**: Original models and taxonomies
-- **Insights/**: Short-form insights (LinkedIn, Twitter)
-- **Projects/**: Open research questions and ongoing work
+- **Articles/**: Long-form published pieces (each article in its own subfolder)
+- **Draft Posts/**: Social media drafts in plain text (no Markdown - platforms don't render it)
 
 **Best Practices**:
-- Link back to permanent notes used
+- Link back to thinking notes used
 - Include publication date and status
 - Track revisions in git
 - Archive outdated versions
 
-### Meta/
-**Purpose**: Workflow documentation and evolution tracking
+### 05-System/
+**Purpose**: Workflow documentation and system operations
 
 **Contents**:
 - **Changelogs/**: Discovery session logs from agents
+- **Dashboards/**: Overview dashboards (portfolio, holdings, etc.)
 - **Templates/**: Note templates for consistency
-- **Workflows/**: Process documentation
+- **Projects/**: Active project tracking and research questions
 
 **Changelog Structure**:
 ```
@@ -227,44 +193,12 @@ Changelogs/
 └── CHANGELOG - Vault Management 2025-10-25.md
 ```
 
-### AI Extracted Notes/
-**Purpose**: Clear provenance for AI-generated content
+### 06-Tasks/
+**Purpose**: Task tracking and to-do management
 
 **Contents**:
-- Permanent notes created by insight-extractor agent
-- Clearly separated from human-created notes
-
-**Best Practices**:
-- Review and edit AI extractions
-- Merge with permanent notes if validated
-- Maintain clear provenance
-- Use frontmatter to tag as AI-extracted
-
-## Optional Folders
-
-### People/
-**Purpose**: Network documentation
-
-**Contents**: Notes about people you interact with
-- Professional contacts
-- Collaborators
-- Authors you follow
-
-### Projects/
-**Purpose**: Active project management
-
-**Contents**:
-- Project plans
-- Meeting notes
-- Task tracking
-
-### Archive/
-**Purpose**: Completed or outdated material
-
-**Contents**:
-- Old versions of notes
-- Completed projects
-- Deprecated frameworks
+- Task notes with inline Dataview fields
+- Uses `[prio:: N] [due:: YYYY-MM-DD] [completed:: YYYY-MM-DD]`
 
 ## Information Flow
 
@@ -273,11 +207,11 @@ The recommended structure supports this knowledge pipeline:
 ```
 CAPTURE → PROCESS → ORGANIZE → SYNTHESIZE → CREATE
 
-Inbox/      Sources/      Permanent/    MOCs/         Output/
-           ↓             ↓             ↓             ↓
-Quick → Source Notes → Permanent → MOCs → Articles
-Captures              Notes         Connection   Insights
-                                    Maps         Frameworks
+Inbox/     Sources/      Thinking/     Reference/    Output/
+          ↓             ↓             ↓             ↓
+Quick → Source Notes → Thinking   → Reference  → Articles
+Captures              Notes         Profiles     Insights
+                      Memos         Meetings     Frameworks
 ```
 
 ## Customization Guidelines
@@ -296,8 +230,8 @@ This structure is a starting point. Customize based on:
 Whatever structure you choose, maintain:
 
 1. **Clear stages**: Distinguish raw inputs from refined outputs
-2. **Atomic permanent notes**: Keep core insights separate
-3. **Navigation aids**: MOCs or indexes for finding notes
+2. **Atomic thinking notes**: Keep core insights separate
+3. **Navigation aids**: Reference notes and dashboards for finding notes
 4. **Evolution tracking**: Changelogs or similar
 5. **Source attribution**: Link notes back to origins
 
@@ -314,7 +248,7 @@ Whatever structure you choose, maintain:
 ### From Other Systems
 
 - **Roam/Logseq**: Export to markdown, then organize by type
-- **Notion**: Export pages, create permanent notes from key insights
+- **Notion**: Export pages, create thinking notes from key insights
 - **Evernote**: Export notes, use insight-extractor to process
 - **OneNote**: Manual migration, extract atomic notes
 
@@ -322,18 +256,18 @@ Whatever structure you choose, maintain:
 
 ### Regular Tasks
 
-**Daily**: Empty Inbox/Quick Captures into permanent notes
+**Daily**: Empty 00-Inbox/ into thinking notes
 
 **Weekly**:
-- Review new permanent notes
-- Update relevant MOCs
+- Review new thinking notes
+- Update relevant reference notes
 - Run `/find-connections` on recent notes
 
 **Monthly**:
 - Run auto-discovery agent
 - Review changelogs
 - Clean up outdated temporary notes
-- Update MOC - Master Navigation
+- Update dashboards
 
 **Quarterly**:
 - Run `/analyze-kb` for structural analysis
@@ -353,9 +287,9 @@ See `EXAMPLES.md` for:
 
 1. Create the basic folder structure
 2. Configure `.claude/settings.local.json` with your paths
-3. Start capturing in Inbox/
-4. Process into Permanent/ regularly
-5. Create MOCs when themes emerge
+3. Start capturing in 00-Inbox/
+4. Process into 02-Thinking/ regularly
+5. Create reference notes when themes emerge
 6. Use agents to discover connections
 
 ---

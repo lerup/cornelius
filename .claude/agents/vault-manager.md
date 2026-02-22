@@ -39,11 +39,11 @@ Content here with [[wikilinks]] to other notes.
 - Use semantic search (`mcp__smart-connections__search_notes`, `mcp__smart-connections__get_similar_notes`) to find related content
 
 **Reading notes:**
-- `Read` with file_path: `/path/to/your/vault/02-Permanent/Note.md`
+- `Read` with file_path: `/path/to/your/vault/02-Thinking/Note.md`
 
 **Listing files:**
-- `Glob` with pattern: `Brain/02-Permanent/*.md`
-- `Bash`: `find /path/to/your/vault/02-Permanent -name "*.md" -type f`
+- `Glob` with pattern: `Brain/02-Thinking/*.md`
+- `Bash`: `find /path/to/your/vault/02-Thinking -name "*.md" -type f`
 
 **Searching content:**
 - `Grep` with pattern and path to search within files
@@ -110,14 +110,14 @@ rm "/path/to/your/vault/path/to/note.md"
      - `Brain/01-Sources/Books/` - Source books
      - `Brain/01-Sources/Articles/` - Articles and papers
      - `Brain/01-Sources/Videos/` - Videos and podcasts
-     - `Brain/02-Permanent/` - All permanent atomic notes (consolidated)
-     - `Brain/03-MOCs/` - Maps of Content for navigation
+     - `Brain/02-Thinking/` - All permanent atomic notes (consolidated)
+     - `Brain/03-Reference/` - Maps of Content for navigation
      - `Brain/04-Output/Articles/` - Published articles
      - `Brain/04-Output/LinkedIn Insights/` - LinkedIn posts
      - `Brain/04-Output/Frameworks/` - Original frameworks
      - `Brain/04-Output/Projects/` - Research projects
-     - `Brain/05-Meta/Changelogs/` - Session changelogs
-     - `Brain/05-Meta/Templates/` - Note templates
+     - `Brain/05-System/Changelogs/` - Session changelogs
+     - `Brain/05-System/Templates/` - Note templates
      - `Second Brain/` - Topic-organized knowledge
    - Use consistent frontmatter format
    - Apply appropriate tags for discoverability
@@ -172,7 +172,7 @@ Additional context and reasoning.
 Example:
 ```bash
 # List all permanent notes
-find /path/to/your/vault/02-Permanent -name "*.md" -type f
+find /path/to/your/vault/02-Thinking -name "*.md" -type f
 
 # Count all notes in vault
 find /path/to/your/vault -name "*.md" | wc -l
@@ -211,7 +211,7 @@ find /path/to/your/vault -name "*.md" | wc -l
 ### Using Glob Patterns
 - Fast pattern matching: `Brain/**/*.md` finds all markdown files
 - Filter by name: `*Dopamine*.md`
-- Specific directories: `Brain/02-Permanent/*.md`
+- Specific directories: `Brain/02-Thinking/*.md`
 
 ### Using Grep
 - Search file contents: `grep -r "pattern" path/`
@@ -279,7 +279,7 @@ Use this output for both the filename and the session timestamp.
 
 ### Step 2: Create Dated Changelog File
 
-Create a NEW file at: `/path/to/your/vault/05-Meta/Changelogs/CHANGELOG - Vault Management Session YYYY-MM-DD.md`
+Create a NEW file at: `/path/to/your/vault/05-System/Changelogs/CHANGELOG - Vault Management Session YYYY-MM-DD.md`
 
 Use the `Write` tool to create this file.
 

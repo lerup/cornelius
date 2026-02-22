@@ -1,0 +1,58 @@
+Date,Workout Name,Duration,Exercise Name,Set Order,Weight,Weight Unit,Reps,Distance,Distance Unit,Seconds,Notes,Workout Notes,RPE
+2026-02-23,Upper Strength,40min,Dumbbell Bench Press,1,25,kg,5,,,,Normal tempo - 2-3 min rest,Heavy compounds - leave 2-3 reps in reserve,7
+2026-02-23,Upper Strength,40min,Dumbbell Bench Press,2,25,kg,5,,,,Normal tempo - 2-3 min rest,,7
+2026-02-23,Upper Strength,40min,Dumbbell Bench Press,3,25,kg,5,,,,Normal tempo - 2-3 min rest,,7
+2026-02-23,Upper Strength,40min,Pull Up,1,0,kg,5,,,,Full ROM - normal tempo - 2-3 min rest,,7
+2026-02-23,Upper Strength,40min,Pull Up,2,0,kg,5,,,,Full ROM - normal tempo - 2-3 min rest,,7
+2026-02-23,Upper Strength,40min,Pull Up,3,0,kg,5,,,,Full ROM - normal tempo - 2-3 min rest,,7
+2026-02-23,Upper Strength,40min,Dumbbell Shoulder Press,1,25,kg,5,,,,Seated - normal tempo - 2-3 min rest,,7
+2026-02-23,Upper Strength,40min,Dumbbell Shoulder Press,2,25,kg,5,,,,Seated - normal tempo - 2-3 min rest,,7
+2026-02-23,Upper Strength,40min,Dumbbell Shoulder Press,3,25,kg,5,,,,Seated - normal tempo - 2-3 min rest,,7
+2026-02-23,Upper Strength,40min,Dumbbell Row,1,25,kg,5,,,,One arm on bench - normal tempo,,7
+2026-02-23,Upper Strength,40min,Dumbbell Row,2,25,kg,5,,,,One arm on bench - normal tempo,,7
+2026-02-23,Upper Strength,40min,Dumbbell Row,3,25,kg,5,,,,One arm on bench - normal tempo,,7
+2026-02-24,Lower Strength,40min,Bulgarian Split Squat,1,25,kg,5,,,,Each leg - normal tempo - 2-3 min rest,Heavy unilateral - leave 2-3 reps in reserve,7
+2026-02-24,Lower Strength,40min,Bulgarian Split Squat,2,25,kg,5,,,,Each leg - normal tempo - 2-3 min rest,,7
+2026-02-24,Lower Strength,40min,Bulgarian Split Squat,3,25,kg,5,,,,Each leg - normal tempo - 2-3 min rest,,7
+2026-02-24,Lower Strength,40min,Dumbbell Romanian Deadlift,1,25,kg,5,,,,Both dumbbells - normal tempo,,7
+2026-02-24,Lower Strength,40min,Dumbbell Romanian Deadlift,2,25,kg,5,,,,Both dumbbells - normal tempo,,7
+2026-02-24,Lower Strength,40min,Dumbbell Romanian Deadlift,3,25,kg,5,,,,Both dumbbells - normal tempo,,7
+2026-02-24,Lower Strength,40min,Dumbbell Goblet Squat,1,25,kg,5,,,,Deep squat - one dumbbell at chest,,7
+2026-02-24,Lower Strength,40min,Dumbbell Goblet Squat,2,25,kg,5,,,,Deep squat - one dumbbell at chest,,7
+2026-02-24,Lower Strength,40min,Dumbbell Goblet Squat,3,25,kg,5,,,,Deep squat - one dumbbell at chest,,7
+2026-02-24,Lower Strength,40min,Single Leg Calf Raise,1,25,kg,5,,,,Hold one dumbbell - full ROM,,7
+2026-02-24,Lower Strength,40min,Single Leg Calf Raise,2,25,kg,5,,,,Hold one dumbbell - full ROM,,7
+2026-02-24,Lower Strength,40min,Single Leg Calf Raise,3,25,kg,5,,,,Hold one dumbbell - full ROM,,7
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Bench Press,1,25,kg,10,,,,4 sec up 4 sec down,Slow tempo all exercises - push close to failure on isolation only,8
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Bench Press,2,25,kg,10,,,,4 sec up 4 sec down,,8
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Bench Press,3,25,kg,10,,,,4 sec up 4 sec down,,8
+2026-02-26,Upper Hypertrophy,45min,Chin Up,1,0,kg,8,,,,4 sec up 4 sec down,,8
+2026-02-26,Upper Hypertrophy,45min,Chin Up,2,0,kg,8,,,,4 sec up 4 sec down,,8
+2026-02-26,Upper Hypertrophy,45min,Chin Up,3,0,kg,8,,,,4 sec up 4 sec down,,8
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Shoulder Press,1,25,kg,10,,,,4 sec up 4 sec down,,8
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Shoulder Press,2,25,kg,10,,,,4 sec up 4 sec down,,8
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Shoulder Press,3,25,kg,10,,,,4 sec up 4 sec down,,8
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Lateral Raise,1,25,kg,12,,,,4 sec up 4 sec down - close to failure ok,,9
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Lateral Raise,2,25,kg,12,,,,4 sec up 4 sec down - close to failure ok,,9
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Lateral Raise,3,25,kg,12,,,,4 sec up 4 sec down - close to failure ok,,9
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Curl,1,25,kg,10,,,,4 sec up 4 sec down - close to failure ok,,9
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Curl,2,25,kg,10,,,,4 sec up 4 sec down - close to failure ok,,9
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Curl,3,25,kg,10,,,,4 sec up 4 sec down - close to failure ok,,9
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Triceps Extension,1,25,kg,12,,,,4 sec up 4 sec down - both hands one DB,,9
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Triceps Extension,2,25,kg,12,,,,4 sec up 4 sec down - both hands one DB,,9
+2026-02-26,Upper Hypertrophy,45min,Dumbbell Triceps Extension,3,25,kg,12,,,,4 sec up 4 sec down - both hands one DB,,9
+2026-02-27,Lower Hypertrophy,45min,Bulgarian Split Squat,1,25,kg,12,,,,4 sec up 4 sec down - each leg,Slow tempo all exercises - never grind reps,8
+2026-02-27,Lower Hypertrophy,45min,Bulgarian Split Squat,2,25,kg,12,,,,4 sec up 4 sec down - each leg,,8
+2026-02-27,Lower Hypertrophy,45min,Bulgarian Split Squat,3,25,kg,12,,,,4 sec up 4 sec down - each leg,,8
+2026-02-27,Lower Hypertrophy,45min,Dumbbell Romanian Deadlift,1,25,kg,12,,,,4 sec up 4 sec down,,8
+2026-02-27,Lower Hypertrophy,45min,Dumbbell Romanian Deadlift,2,25,kg,12,,,,4 sec up 4 sec down,,8
+2026-02-27,Lower Hypertrophy,45min,Dumbbell Romanian Deadlift,3,25,kg,12,,,,4 sec up 4 sec down,,8
+2026-02-27,Lower Hypertrophy,45min,Dumbbell Goblet Squat,1,25,kg,12,,,,4 sec up 4 sec down - deep squat,,8
+2026-02-27,Lower Hypertrophy,45min,Dumbbell Goblet Squat,2,25,kg,12,,,,4 sec up 4 sec down - deep squat,,8
+2026-02-27,Lower Hypertrophy,45min,Dumbbell Goblet Squat,3,25,kg,12,,,,4 sec up 4 sec down - deep squat,,8
+2026-02-27,Lower Hypertrophy,45min,Dumbbell Lunge,1,25,kg,12,,,,4 sec up 4 sec down - each leg,,8
+2026-02-27,Lower Hypertrophy,45min,Dumbbell Lunge,2,25,kg,12,,,,4 sec up 4 sec down - each leg,,8
+2026-02-27,Lower Hypertrophy,45min,Dumbbell Lunge,3,25,kg,12,,,,4 sec up 4 sec down - each leg,,8
+2026-02-27,Lower Hypertrophy,45min,Single Leg Calf Raise,1,25,kg,15,,,,4 sec up 4 sec down - close to failure ok,,9
+2026-02-27,Lower Hypertrophy,45min,Single Leg Calf Raise,2,25,kg,15,,,,4 sec up 4 sec down - close to failure ok,,9
+2026-02-27,Lower Hypertrophy,45min,Single Leg Calf Raise,3,25,kg,15,,,,4 sec up 4 sec down - close to failure ok,,9

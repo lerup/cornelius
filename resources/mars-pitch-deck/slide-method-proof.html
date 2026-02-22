@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inflection - The Method Works</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    color: #000;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .slide {
+    width: min(100vw, 177.78vh);
+    height: min(100vh, 56.25vw);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 48px 72px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(0,0,0,0.5);
+  }
+
+  .logo-container { margin-bottom: 24px; }
+  .logo-container img { height: 56px; opacity: 0.6; }
+
+  /* Brand colors */
+  .green { color: #B3BCB5; }
+  .blue { color: #B4BACC; }
+
+  /* ── Header ── */
+  h2 {
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: -1.5px;
+    line-height: 1.15;
+    margin-bottom: 36px;
+  }
+
+  /* ── Two cycle rows ── */
+  .cycle-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex: 1;
+  }
+
+  .cycle-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 32px 200px 140px;
+    align-items: center;
+    gap: 0;
+    padding: 24px 0;
+    border-bottom: 1px solid #e0e0de;
+  }
+
+  .cr-trigger { padding-right: 20px; }
+  .cr-trigger-year {
+    font-size: 36px; font-weight: 800; color: #000;
+    letter-spacing: -2px; line-height: 1;
+  }
+  .cr-trigger-label {
+    font-size: 13px; font-weight: 500; color: #808080;
+    margin-top: 4px; line-height: 1.3;
+  }
+
+  .cr-description {
+    font-size: 17px; font-weight: 400; color: #444;
+    line-height: 1.55; padding-right: 20px;
+  }
+  .cr-description strong { color: #000; font-weight: 600; }
+
+  .cr-arrow { text-align: center; font-size: 22px; color: #B3BCB5; }
+
+  .cr-validation {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 0 16px;
+  }
+  .cr-val-tag {
+    padding: 5px 12px; border-radius: 6px;
+    font-size: 12px; font-weight: 600;
+    background: #eef0f5; border: 1px solid #B4BACC; color: #000;
+    white-space: nowrap;
+  }
+
+  .cr-result { text-align: right; padding-left: 12px; }
+  .cr-result-num {
+    font-size: 32px; font-weight: 800;
+    letter-spacing: -1.5px; line-height: 1;
+  }
+  .cr-result-num.achieved { color: #4a7c59; }
+  .cr-result-num.pending { color: #B3BCB5; }
+  .cr-result-label {
+    font-size: 11px; font-weight: 600; color: #808080; margin-top: 2px;
+  }
+  .cr-result-sub {
+    font-size: 20px; font-weight: 800; color: #4a7c59;
+    letter-spacing: -1px; margin-top: 4px;
+  }
+
+  /* ── Pattern statement ── */
+  .pattern-row {
+    display: flex;
+    align-items: center;
+    padding: 28px 0;
+    border-bottom: 1px solid #e0e0de;
+  }
+  .pattern-text {
+    font-size: 22px; font-weight: 600; color: #000;
+    letter-spacing: -0.5px; line-height: 1.5;
+  }
+  .pattern-text strong { color: #B3BCB5; }
+
+  /* ── Bottom: "We are not a sector fund" ── */
+  .method-footer {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 40px;
+    align-items: center;
+    padding-top: 24px;
+  }
+
+  .method-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; color: #808080; margin-bottom: 8px;
+  }
+
+  .method-statement {
+    font-size: 18px; font-weight: 500; color: #000; line-height: 1.55;
+    border-left: 3px solid #B4BACC;
+    padding-left: 20px;
+  }
+  .method-statement span { color: #808080; }
+
+  .method-punchline {
+    font-size: 15px; font-weight: 600; color: #000;
+    background: #f5f5f3;
+    padding: 14px 24px;
+    border-radius: 6px;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .method-punchline .mp-small {
+    display: block; font-size: 12px; font-weight: 500; color: #808080; margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="slide">
+  <div class="logo-container"><img src="logo-black.svg" alt="inflection" onerror="this.style.display='none'"></div>
+  <h2>The method works. We proved it twice.</h2>
+
+  <div class="cycle-rows">
+
+    <!-- Row 1: Crypto cycle -->
+    <div class="cycle-row">
+      <div class="cr-trigger">
+        <div class="cr-trigger-year">2019</div>
+        <div class="cr-trigger-label">Crypto infrastructure</div>
+      </div>
+      <div class="cr-description">
+        Identified crypto as <strong>overlooked, technically hard, and psychologically repulsive</strong> to institutional capital. Deployed at BTC $3k, ETH $200. Backed Centrifuge, Anytype, Molecule at $5-30M.
+      </div>
+      <div class="cr-arrow">→</div>
+      <div class="cr-validation">
+        <div class="cr-val-tag">Rally 2021</div>
+        <div class="cr-val-tag">Positions 10-50x</div>
+      </div>
+      <div class="cr-result">
+        <div class="cr-result-num achieved">8x</div>
+        <div class="cr-result-label">TVPI</div>
+        <div class="cr-result-sub">3x DPI</div>
+      </div>
+    </div>
+
+    <!-- Row 2: Sovereignty cycle -->
+    <div class="cycle-row">
+      <div class="cr-trigger">
+        <div class="cr-trigger-year">2022</div>
+        <div class="cr-trigger-label">Sovereign deep tech</div>
+      </div>
+      <div class="cr-description">
+        Same method, new domain. Sovereign infrastructure was <strong>overlooked, technically hard, and psychologically repulsive</strong> to institutional capital. Deployed into Radical, Ubitium, Ark, Hedy, NAD.
+      </div>
+      <div class="cr-arrow">→</div>
+      <div class="cr-validation">
+        <div class="cr-val-tag">EUR 800B+ committed</div>
+        <div class="cr-val-tag">Procurement 2026</div>
+      </div>
+      <div class="cr-result">
+        <div class="cr-result-num pending">5</div>
+        <div class="cr-result-label">markups (1.5-4.1x)</div>
+      </div>
+    </div>
+
+    <!-- Pattern statement -->
+    <div class="pattern-row">
+      <div class="pattern-text">
+        The domain changed. The pattern did not. <strong>We are early to hard places - and we do it again.</strong>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Method footer -->
+  <div class="method-footer">
+    <div>
+      <div class="method-label">Not a sector fund</div>
+      <div class="method-statement">
+        Sector funds follow categories. We follow a method: find domains that are hard to access, hard to evaluate, and hard to fund. <span>The method selects the sector. We do not.</span>
+      </div>
+    </div>
+    <div class="method-punchline">
+      The funds you can easily categorize<br>are the ones delivering PE returns for VC risk.
+      <span class="mp-small">The one you can't categorize delivered 8x.</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

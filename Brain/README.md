@@ -2,90 +2,113 @@
 
 This is your primary intellectual workspace where knowledge flows from capture to creation.
 
-## 🗺️ Folder Structure
+## Folder Structure
 
 ```
 Brain/
 ├── 00-Inbox/              Capture & staging
-├── 01-Sources/            Source material (books, articles, videos)
-├── 02-Permanent/          Your atomic insights (the core)
-├── 03-MOCs/               Navigation hubs (Maps of Content)
+├── 01-Sources/            Source material (books, articles, research)
+│   ├── Books/
+│   ├── Clippings/
+│   ├── Demo/
+│   └── Research/
+├── 02-Thinking/           Your atomic insights and analysis (the core)
+│   ├── Notes/
+│   ├── Investment Memos/
+│   └── Portfolio Memos/
+├── 03-Reference/          Reference material (companies, people, meetings)
+│   ├── Companies/
+│   ├── People/
+│   └── Meetings/
 ├── 04-Output/             Published work & synthesis
-├── 05-Meta/               Workflow & evolution tracking
-└── AI Extracted Notes/    AI-generated notes (separate provenance)
+│   ├── Articles/
+│   └── Draft Posts/
+├── 05-System/             Workflow, templates, dashboards
+│   ├── Changelogs/
+│   ├── Dashboards/
+│   ├── Templates/
+│   └── Projects/
+├── 06-Tasks/              Task tracking
+├── CHANGELOG.md
+└── README.md
 ```
 
-## 📊 Information Flow
+## Information Flow
 
 ```
 CAPTURE → PROCESS → ORGANIZE → SYNTHESIZE → CREATE
 
-Inbox/       Sources/      Permanent/    MOCs/         Output/
-Quick        Book Notes    Atomic        Navigation    Articles
-Captures  →  Article    →  Insights   →  Hubs       →  Frameworks
-             Summaries                   Connection     Insights
-                                        Maps
+Inbox/      Sources/      Thinking/     Reference/    Output/
+Quick       Book Notes    Atomic        Navigation    Articles
+Captures →  Article    →  Insights   →  Hubs       →  Frameworks
+            Summaries                   Company       Insights
+                                        Profiles
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Capture (00-Inbox/)
-- Drop quick thoughts in `Quick Captures/`
-- Store AI-extracted content in `Content Extractions/`
-- **Don't organize yet** - just capture
+- Drop quick thoughts here
+- Store AI-extracted content for review
+- Do not organize yet - just capture
 
-### 2. Process (01-Sources/ → 02-Permanent/)
+### 2. Process (01-Sources/ → 02-Thinking/)
 - Create source notes for books/articles in `01-Sources/`
-- Extract atomic insights into `02-Permanent/`
-- Link permanent notes back to sources
+- Extract atomic insights into `02-Thinking/Notes/`
+- Investment analysis goes in `02-Thinking/Investment Memos/`
+- Portfolio company memos go in `02-Thinking/Portfolio Memos/`
+- Link thinking notes back to sources
 
-### 3. Organize (03-MOCs/)
-- Create MOCs when you have 15+ notes on a theme
-- Start with `MOC - Master Navigation` as your home base
-- Build thematic navigation hubs
+### 3. Organize (03-Reference/)
+- Company profiles in `03-Reference/Companies/`
+- People profiles in `03-Reference/People/`
+- Meeting notes in `03-Reference/Meetings/`
 
 ### 4. Synthesize & Create (04-Output/)
 - Write articles synthesizing multiple notes
 - Develop frameworks from patterns
-- Capture short insights
-- Document open research questions
+- Draft social media posts in `04-Output/Draft Posts/`
 
-### 5. Track (05-Meta/)
+### 5. Track (05-System/)
 - Review changelogs from discovery sessions
 - Use templates for consistency
 - Document your workflows
 
-## 📝 Key Concepts
+### 6. Tasks (06-Tasks/)
+- Track tasks and to-dos
+- Inline Dataview fields for status tracking
 
-### Atomic Notes (02-Permanent/)
+## Key Concepts
+
+### Atomic Notes (02-Thinking/Notes/)
 - **One idea per note** - Keep focused
 - **Your own words** - Rephrase, don't copy
 - **Clear title** - Make insight obvious
 - **Source attribution** - Link back
 - **Connections** - Link to related notes
 
-### MOCs (03-MOCs/)
+### Reference Notes (03-Reference/)
 - **Navigation hubs** - Not categories
-- **Thematic clusters** - Group by meaning
-- **Living documents** - Update regularly
-- **Start with Master** - Create MOC - Master Navigation first
+- **Company profiles** - Portfolio and public market companies
+- **People profiles** - Contacts, founders, team
+- **Meeting notes** - Dated records with action items
 
-### Changelogs (05-Meta/Changelogs/)
+### Changelogs (05-System/Changelogs/)
 - **Dated files** - One per session
 - **Discovery logs** - What did agents find?
 - **Pattern tracking** - Evolution over time
 - **Actionable insights** - What to do next
 
-## 🎯 Best Practices
+## Best Practices
 
 ### Daily
-- Empty `00-Inbox/Quick Captures/` into permanent notes
-- Process 1-2 items from `Content Extractions/`
-- Review recent permanent notes
+- Empty `00-Inbox/` into permanent notes
+- Process 1-2 items from inbox
+- Review recent thinking notes
 
 ### Weekly
 - Run `/find-connections` on new notes
-- Update relevant MOCs
+- Update relevant reference notes
 - Review latest changelogs
 - Plan synthesis opportunities
 
@@ -95,40 +118,38 @@ Captures  →  Article    →  Insights   →  Hubs       →  Frameworks
 - Create/update frameworks
 - Write synthesis articles
 
-## 🔍 Quick Navigation
+## Quick Navigation
 
 **Looking for something?**
 - `/search-vault <query>` - Quick search
 - `/recall <topic>` - Deep exploration
 - `/find-connections <note>` - Discover relationships
-- Start at: `03-MOCs/MOC - Master Navigation.md`
 
-## 📚 Sample Workflows
+## Sample Workflows
 
 ### Processing a Book
 1. Read and highlight
 2. Create source note in `01-Sources/Books/`
-3. Extract permanent notes to `02-Permanent/`
+3. Extract permanent notes to `02-Thinking/Notes/`
 4. Run `/find-connections` on new notes
-5. Update relevant MOCs
-6. Review changelog
+5. Review changelog
 
 ### Writing an Article
 1. Start with a theme or question
 2. Run `/find-connections <theme>`
 3. Review suggested connections
 4. Create outline in `04-Output/Articles/`
-5. Synthesize permanent notes
+5. Synthesize thinking notes
 6. Write article
 
 ### Weekly Discovery
 1. Review notes from this week
 2. Run `/find-connections` on each major note
-3. Update MOCs
+3. Update reference notes
 4. Document patterns in changelog
 5. Identify synthesis opportunities
 
-## 🎨 Customization
+## Customization
 
 This structure is a starting point. Adapt it:
 - Add subdirectories as needed
@@ -136,14 +157,10 @@ This structure is a starting point. Adapt it:
 - Organize sources by type/topic
 - Build your own workflow
 
-## 📖 Documentation
+## Documentation
 
 See these files for details:
 - `../FOLDER-STRUCTURE.md` - Complete organization guide
 - `../EXAMPLES.md` - Sample notes and workflows
 - `../CLAUDE.md` - System instructions
-- `05-Meta/Templates/` - Note templates
-
----
-
-**Start here**: Create your first note in `02-Permanent/` and run `/find-connections` to see the magic! ✨
+- `05-System/Templates/` - Note templates

@@ -1,6 +1,6 @@
 ---
 name: document-insight-extractor
-description: Specialized agent for extracting insights from external documents (research papers, books, articles, web resources). Stores insights in session-based folders within Document Insights directory. ALWAYS searches for duplicates before creating notes.
+description: Specialized agent for extracting insights from external documents (research papers, books, articles, web resources). Stores insights in session-based folders within 01-Sources/Research directory. ALWAYS searches for duplicates before creating notes.
 tools: Read, Write, Grep, Glob, Bash
 model: sonnet
 ---
@@ -26,7 +26,7 @@ model: sonnet
 
 You are a specialized agent for extracting unique insights, original thinking, and distinctive perspectives from **external documents** (research papers, books, articles, web resources, etc.). You store extracted insights in session-based folders for clear organization.
 
-**KEY DIFFERENCE from insight-extractor**: You process external documents (not user conversations) and store insights in `$VAULT_BASE_PATH/Brain/Document Insights/[session-folder]/` with clear source attribution.
+**KEY DIFFERENCE from insight-extractor**: You process external documents (not user conversations) and store insights in `$VAULT_BASE_PATH/Brain/01-Sources/Research/` with clear source attribution.
 
 ## Session-Based Workflow
 
@@ -37,7 +37,7 @@ Example invocations:
 - "Analyze this book and store in '2025-11-18 Buddhism Reading'"
 - "Process these web articles into 'Web Resources Dopamine'"
 
-**Storage Path**: `$VAULT_BASE_PATH/Brain/Document Insights/[session-folder]/`
+**Storage Path**: `$VAULT_BASE_PATH/Brain/01-Sources/Research/`
 
 ## Your Core Mission
 
@@ -193,7 +193,7 @@ For each potential insight, evaluate:
 **Only create notes for truly original insights that don't duplicate existing content.**
 
 **IMPORTANT: All document insights MUST be saved in:**
-`$VAULT_BASE_PATH/Brain/Document Insights/[session-folder]/`
+`$VAULT_BASE_PATH/Brain/01-Sources/Research/`
 
 This keeps document-sourced insights organizationally separate from user thoughts and conversation insights while maintaining full connectivity in the knowledge graph.
 
@@ -637,11 +637,11 @@ Use this output for the session timestamp.
 
 ### Step 2: Create Changelog File in Session Folder
 
-Create a file at: `$VAULT_BASE_PATH/Brain/Document Insights/[session-folder]/CHANGELOG - Document Analysis YYYY-MM-DD.md`
+Create a file at: `$VAULT_BASE_PATH/Brain/01-Sources/Research/CHANGELOG - Document Analysis YYYY-MM-DD.md`
 
 **Example paths:**
-- `Document Insights/2025-11-17 AI Agent Papers/CHANGELOG - Document Analysis 2025-11-17.md`
-- `Document Insights/Buddhism Reading/CHANGELOG - Document Analysis 2025-11-18.md`
+- `01-Sources/Research/2025-11-17 AI Agent Papers/CHANGELOG - Document Analysis 2025-11-17.md`
+- `01-Sources/Research/Buddhism Reading/CHANGELOG - Document Analysis 2025-11-18.md`
 
 **Template:**
 
@@ -746,7 +746,7 @@ After creating the session changelog, add summary to `$VAULT_BASE_PATH/Brain/CHA
 ```markdown
 ## YYYY-MM-DD - Document Analysis Session
 
-See details: [[Document Insights/[session-folder]/CHANGELOG - Document Analysis YYYY-MM-DD]]
+See details: [[01-Sources/Research/CHANGELOG - Document Analysis YYYY-MM-DD]]
 
 **Quick Summary**:
 - [N] documents analyzed

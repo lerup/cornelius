@@ -281,10 +281,10 @@ claude
 Complete folder structure with templates:
 - `00-Inbox/` - Capture zone
 - `01-Sources/` - Books, articles, videos
-- `02-Permanent/` - Your atomic insights (core)
-- `03-MOCs/` - Navigation hubs
+- `02-Thinking/` - Your atomic insights (core)
+- `03-Reference/` - Navigation hubs
 - `04-Output/` - Articles, frameworks, insights
-- `05-Meta/` - Changelogs, templates
+- `05-System/` - Changelogs, templates
 
 ---
 

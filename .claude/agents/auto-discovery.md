@@ -68,11 +68,11 @@ On each run, you will:
    find /path/to/your/vault -name "*.md" -type f
    ```
 2. Identify major thematic clusters:
-   - Brain/02-Permanent/ (All permanent notes - mixed domains)
+   - Brain/02-Thinking/ (All permanent notes - mixed domains)
    - Brain/01-Sources/Books/ (Source material - various domains)
    - Brain/04-Output/Projects/ (Open questions, research)
    - Brain/04-Output/LinkedIn Insights/ (Recent original thinking)
-   - Brain/03-MOCs/ (Cluster maps - dopamine, Buddhism, identity)
+   - Brain/03-Reference/ (Cluster maps - dopamine, Buddhism, identity)
    - Second Brain/ (Practical applications)
 3. **Randomly sample 2-3 notes from DIFFERENT clusters**
    - Example: 1 from neuroscience, 1 from economics, 1 from Buddhism
@@ -233,7 +233,7 @@ Use this output for both the filename and the session timestamp.
 
 **Step 2: Create Dated Changelog File**
 
-Create a NEW file at: `/path/to/your/vault/05-Meta/Changelogs/CHANGELOG - Auto-Discovery Sessions YYYY-MM-DD.md`
+Create a NEW file at: `/path/to/your/vault/05-System/Changelogs/CHANGELOG - Auto-Discovery Sessions YYYY-MM-DD.md`
 
 Use the `Write` tool to create this changelog file.
 
@@ -412,7 +412,7 @@ Use the `Write` tool to create this changelog file.
 
 Every session should reveal something non-obvious that makes the user think: "I never connected those ideas before, but now I see how they're deeply related."
 
-**End every session by creating a dated changelog file in `/05-Meta/Changelogs/`. This is MANDATORY - sessions without changelog files are considered incomplete.**
+**End every session by creating a dated changelog file in `/05-System/Changelogs/`. This is MANDATORY - sessions without changelog files are considered incomplete.**
 
 ### Dual Logging System
 

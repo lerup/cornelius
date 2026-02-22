@@ -4,7 +4,7 @@ This document provides concrete examples of notes, MOCs, changelogs, and workflo
 
 ## Table of Contents
 
-1. [Permanent Notes](#permanent-notes)
+1. [Thinking Notes](#permanent-notes)
 2. [Source Notes](#source-notes)
 3. [MOCs](#mocs-maps-of-content)
 4. [Changelogs](#changelogs)
@@ -13,7 +13,7 @@ This document provides concrete examples of notes, MOCs, changelogs, and workflo
 
 ---
 
-## Permanent Notes
+## Thinking Notes
 
 ### Example 1: Simple Atomic Note
 
@@ -40,7 +40,7 @@ This bias is particularly strong because it feels rewarding—finding confirmati
 - [[Dopamine rewards certainty]]
 ```
 
-### Example 2: Permanent Note with Multiple Connections
+### Example 2: Thinking Note with Multiple Connections
 
 ```markdown
 ---
@@ -156,7 +156,7 @@ Judgment is plagued not just by bias (systematic errors) but also by noise (rand
 
 ## Key Insights Generated
 
-Permanent notes created from this source:
+Thinking notes created from this source:
 - [[Noise is undesirable variability of judgments]]
 - [[Judgment is a measurement using a human mind]]
 - [[Decision hygiene reduces noise]]
@@ -281,7 +281,7 @@ updated: 2025-10-27
 
 ## 📚 Recent Activity
 
-### Latest Permanent Notes
+### Latest Thinking Notes
 - [[AI adoption requires letting go of mental models]] (2025-10-27)
 - [[Context is perspective applied to information]] (2025-10-26)
 - [[Psychological safety enables velocity]] (2025-10-25)
@@ -293,7 +293,7 @@ updated: 2025-10-27
 ## 🔍 Quick Access
 
 ### By Status
-- [[All Permanent Notes]] - 479 atomic insights
+- [[All Thinking Notes]] - 479 atomic insights
 - [[All Source Notes]] - 31 books/articles processed
 - [[Open Questions]] - 5 active research topics
 
@@ -316,7 +316,7 @@ updated: 2025-10-27
 ## 📊 Vault Statistics
 
 - **Total Notes**: 1,449
-- **Permanent Notes**: 479
+- **Thinking Notes**: 479
 - **MOCs**: 6
 - **Source Books**: 31
 - **Last Updated**: 2025-10-27
@@ -357,7 +357,7 @@ duration: 45 minutes
 
 **Objective**: Explore non-obvious cross-domain connections through random sampling
 **Method**: Sampled notes from different thematic clusters with low semantic similarity (0.50-0.70) but potential conceptual strength
-**Notes Analyzed**: 47 permanent notes across 5 domains
+**Notes Analyzed**: 47 thinking notes across 5 domains
 **Connections Found**: 8 strong cross-domain bridges
 **Emergent Patterns**: 2 major themes identified
 
@@ -511,7 +511,7 @@ Found 3 notes with <3 connections:
 - Cross-domain synthesis is mature enough for book-length work
 
 **Evolution Since Last Session** (2025-10-25):
-- +12 new permanent notes
+- +12 new thinking notes
 - +2 new cross-cluster bridges
 - Uncertainty theme strengthening across all domains
 - Ready for major synthesis work
@@ -703,21 +703,21 @@ Extract valuable insights from books and integrate into knowledge base.
 
 **Command to use**: None (manual creation)
 
-### 3. Extract Permanent Notes (Insight Extraction)
+### 3. Extract Thinking Notes (Insight Extraction)
 - **Review source note** and highlights
-- **Create atomic permanent notes** in Permanent/
+- **Create atomic thinking notes** in 02-Thinking/Notes/
 - Each note:
   - Single insight
   - Your own words
   - Links back to source
-  - Links to related permanent notes
-- **Typical output**: 10-30 permanent notes per book
+  - Links to related thinking notes
+- **Typical output**: 10-30 thinking notes per book
 
 **Time**: 2-4 hours (or use agent)
 
 **Command to use**:
 ```
-Can you help me extract permanent notes from [[Book Title - Source Note]]?
+Can you help me extract thinking notes from [[Book Title - Source Note]]?
 ```
 
 Or launch insight-extractor agent:
@@ -726,7 +726,7 @@ Please launch the insight-extractor agent to process [[Book Title - Source Note]
 ```
 
 ### 4. Discover Connections (Integration)
-- **Run connection finding** on new permanent notes
+- **Run connection finding** on new thinking notes
 - **Command**:
 ```
 /find-connections [new note title]
@@ -851,11 +851,11 @@ This provides serendipitous cross-domain discoveries.
 
 These examples demonstrate:
 
-1. **Permanent Notes**: Atomic, clear, well-connected
-2. **Source Notes**: Structured, comprehensive, linked to permanent notes
+1. **Thinking Notes**: Atomic, clear, well-connected
+2. **Source Notes**: Structured, comprehensive, linked to thinking notes
 3. **MOCs**: Navigation hubs, regularly updated, multi-level
 4. **Changelogs**: Detailed session logs, patterns documented, actionable insights
-5. **Output**: Published work linked back to permanent notes
+5. **Output**: Published work linked back to thinking notes
 6. **Workflows**: Systematic processes for knowledge work
 
 Use these as templates to develop your own second brain practice.

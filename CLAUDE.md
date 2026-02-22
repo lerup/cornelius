@@ -316,7 +316,7 @@ You have access to specialized sub-agents and commands configured in the `.claud
    - Maintains knowledge graph integrity and organizational standards
    - Handles batch operations and knowledge discovery
    - **MANDATORY: Creates separate dated changelog file** when performing significant operations
-   - **File format**: `CHANGELOG - [Session Type] YYYY-MM-DD.md` in `$VAULT_BASE_PATH/05-Meta/Changelogs/`
+   - **File format**: `CHANGELOG - [Session Type] YYYY-MM-DD.md` in `$VAULT_BASE_PATH/05-System/Changelogs/`
    - Tools: Read, Write, Edit, Bash, Glob, Grep (uses Local Brain Search via Bash)
 
 2. **Connection Finder Agent** (`connection-finder`)
@@ -326,7 +326,7 @@ You have access to specialized sub-agents and commands configured in the `.claud
    - Surfaces cross-domain bridges and synthesis opportunities
    - Maps knowledge graph topology and network structure
    - **MANDATORY: Creates separate dated changelog file** for each discovery session
-   - **File format**: `CHANGELOG - [Session Type] YYYY-MM-DD.md` in `$VAULT_BASE_PATH/05-Meta/Changelogs/`
+   - **File format**: `CHANGELOG - [Session Type] YYYY-MM-DD.md` in `$VAULT_BASE_PATH/05-System/Changelogs/`
    - **Best for:** Active research, article writing, integrating new notes
    - **Similarity range:** 0.65-0.95 (strong to moderate connections)
    - Tools: Read, Grep, Glob, Bash (uses Local Brain Search via wrapper scripts)
@@ -338,7 +338,7 @@ You have access to specialized sub-agents and commands configured in the `.claud
    - Samples notes from DIFFERENT thematic clusters
    - Targets connections with LOW semantic similarity (0.50-0.70) but HIGH conceptual strength
    - Analyzes structural patterns, mechanisms, and meta-principles
-   - **MANDATORY: Creates separate dated changelog file** in `$VAULT_BASE_PATH/05-Meta/Changelogs/`
+   - **MANDATORY: Creates separate dated changelog file** in `$VAULT_BASE_PATH/05-System/Changelogs/`
    - **Timestamp requirement**: Must call `date '+%Y-%m-%d %H:%M:%S %Z'` at session start
    - Identifies consilience zones (where 3+ independent domains converge)
    - **Best for:** Serendipitous discoveries, background pattern mining
@@ -348,17 +348,16 @@ You have access to specialized sub-agents and commands configured in the `.claud
    - Handles large files by chunking
    - Preserves authentic voice and reasoning patterns
    - **ALWAYS searches for duplicates before creating notes**
-   - **Storage location**: All AI-extracted permanent notes saved to `$VAULT_BASE_PATH/AI Extracted Notes/`
+   - **Storage location**: All AI-extracted permanent notes saved to `$VAULT_BASE_PATH/02-Thinking/Notes/`
    - **Use when**: Extracting YOUR thoughts, perspectives, and insights from conversations, transcripts, notes
    - **MANDATORY: Creates separate dated changelog file** when extracting significant insights
    - Tools: Read, Write, Grep, Glob, Bash (uses Local Brain Search via wrapper scripts)
 
 5. **Document Insight Extractor Agent** (`document-insight-extractor`)
    - Extracts insights from external research, not personal thoughts
-   - **Storage location**: Session-based folders in `$VAULT_BASE_PATH/Document Insights/[session-folder]/`
-   - **MUST specify session folder** when invoking (e.g., "2025-11-17 AI Agent Papers")
+   - **Storage location**: `$VAULT_BASE_PATH/01-Sources/Research/`
    - **ALWAYS searches for duplicates** before creating notes
-   - **Creates changelog** in session folder: `CHANGELOG - Document Analysis YYYY-MM-DD.md`
+   - **Creates changelog** in changelogs folder: `CHANGELOG - Document Analysis YYYY-MM-DD.md`
    - **Use when**: Analyzing EXTERNAL materials (research papers, books, articles)
    - **NOT for**: Personal thoughts, conversations, transcripts, or your own content
    - Tools: Read, Write, Grep, Glob, Bash (uses Local Brain Search via wrapper scripts)
@@ -406,7 +405,7 @@ You have access to specialized sub-agents and commands configured in the `.claud
 **All sub-agents MUST create separate dated changelog files after each significant session.**
 
 #### File Location & Naming
-- **Directory**: `$VAULT_BASE_PATH/05-Meta/Changelogs/`
+- **Directory**: `$VAULT_BASE_PATH/05-System/Changelogs/`
 - **Naming Format**: `CHANGELOG - [Session Type] YYYY-MM-DD.md`
 - **Examples**:
   - `CHANGELOG - Auto-Discovery Sessions 2025-10-25.md`
@@ -430,7 +429,7 @@ Each changelog file must include:
 7. **Recommended next actions**
 
 #### Dual Logging System
-- **Dated files**: Individual session logs in `/05-Meta/Changelogs/` folder (primary, detailed)
+- **Dated files**: Individual session logs in `/05-System/Changelogs/` folder (primary, detailed)
 - **Master CHANGELOG.md**: Summary entries in `/Brain/CHANGELOG.md` (secondary, brief)
 
 ---
@@ -591,23 +590,28 @@ Location: `./resources/local-brain-search/`
 ```
 Brain/
 ├── 00-Inbox/                    # Quick capture, unprocessed notes
-├── 01-Sources/                  # Literature notes, references
-├── 02-Permanent/                # Atomic, evergreen notes
-├── 03-MOCs/                     # Maps of Content
-├── 04-Output/                   # Published content
-│   ├── Articles/                # Each article in own folder
+├── 01-Sources/                  # EXTERNAL content consumed
+│   ├── Books/                   # Book notes - type: book
+│   ├── Clippings/               # External articles/web content - type: clipping
+│   ├── Demo/                    # Demo/sample content
+│   └── Research/                # Extracted research insights - type: research-finding
+├── 02-Thinking/                 # YOUR analysis and intellectual work
+│   ├── Notes/                   # Atomic insights, frameworks, theses - type: note
+│   ├── Investment Memos/        # Public market stock analysis - type: stock-memo
+│   └── Portfolio Memos/         # VC company investment memos - type: investment-memo
+├── 03-Reference/                # Entity records - things that exist
+│   ├── Companies/               # Company profiles - type: company
+│   ├── People/                  # People profiles - type: person
+│   └── Meetings/                # Meeting notes - type: meeting
+├── 04-Output/                   # Finished artifacts for audiences
+│   ├── Articles/                # Your published articles - type: article
 │   └── Draft Posts/             # Social media drafts (plain text)
-├── 05-Meta/                     # System notes
-│   └── Changelogs/              # Session changelogs
-├── 06-Belief-System/            # Beliefs, values, principles
-│   ├── Core-Values/
-│   ├── Principles/
-│   ├── Opinions/
-│   └── Hypotheses/
-├── 08-Meta-Cognitive/           # Reflection and evolution tracking
-│   └── Belief-Evolution-Logs/
-├── AI Extracted Notes/          # AI-extracted insights from YOUR content
-├── Document Insights/           # Insights from external documents
+├── 05-System/                   # Operational and meta
+│   ├── Changelogs/              # Session changelogs
+│   ├── Dashboards/              # Portfolio/investment dashboards
+│   ├── Templates/               # Note templates
+│   └── Projects/                # Project trackers
+├── 06-Tasks/                    # Task management
 ├── CHANGELOG.md                 # Master changelog
 └── README.md                    # Vault overview
 

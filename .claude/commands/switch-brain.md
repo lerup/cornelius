@@ -18,12 +18,12 @@ $ARGUMENTS
    - If the path looks invalid or incomplete, ask the user to provide the full path
 
 2. **Update `.claude/settings.md`:**
-   - Read the file at `/Users/eugene/Dropbox/Coding/project_cornelius/.claude/settings.md`
+   - Read the file at `.claude/settings.md` (relative to project root)
    - Replace the `VAULT_BASE_PATH=` value with: `VAULT_BASE_PATH=$ARGUMENTS`
    - Use the Edit tool to make this change
 
 3. **Update `.mcp.json`:**
-   - Read the file at `/Users/eugene/Dropbox/Coding/project_cornelius/.mcp.json`
+   - Read the file at `.mcp.json` (relative to project root)
    - Find all vault path references in both the `obsidian-mcp` and `smart-connections` server configurations
    - Replace all old vault paths with: `$ARGUMENTS`
    - Use the Edit tool to update all occurrences (there should be 3 total):
